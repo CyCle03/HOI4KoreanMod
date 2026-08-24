@@ -53,6 +53,10 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
 3. **CHO 태그는 게임 규칙으로 켜고 끕니다.** 기본값은 `GOVERNORATE` 입니다 — 반도 2개
    주가 CHO로 넘어가 일본의 통합 괴뢰국이 되고, 시작 화면에서 한반도를 클릭해 바로
    플레이할 수 있습니다. 설계서의 본래 의도이자 §태그 설계의 핵심 결정입니다.
+   소유권 자체는 `history/states/525`, `527` 에서 선언합니다 — 국가 선택 화면은
+   history 파일만 읽으므로, on_startup 에서 옮기면 선택 화면에서는 반도가 일본령이다가
+   시작하는 순간 갈라져 나오고 CHO를 고를 수도 없습니다. startup 에 남은 것은 종속
+   관계뿐이라 다시 그릴 지도가 없습니다.
    대신 설계서가 `가장 큰 위험`으로 꼽은 일본 AI 문제가 이 경로에 있습니다 —
    `LIBERATION` 으로 바꾸면 1936년 지도를 전혀 건드리지 않고 조선은 해방 가능
    국가로만 남습니다 (일본 AI 무영향, 대신 시작 선택 불가).
@@ -108,7 +112,7 @@ KoreaMod/
 │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  └─ military_industrial_organization/organizations/
 ├─ events/              KOR_triggers · KOR_politics · KOR_industry
-├─ history/             countries/CHO · units/KOR_1936 · units/CHO_1936
+├─ history/             countries/CHO · states/525·527 · units/KOR_1936 · units/CHO_1936
 └─ localisation/        korean/ · english/  (각 3파일)
 ```
 

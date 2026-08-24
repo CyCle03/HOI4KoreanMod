@@ -10,21 +10,21 @@ on_actions = {
 			KOR = { KOR_common_setup = yes }
 			CHO = { KOR_common_setup = yes }
 
-			# --- Governorate mode: the peninsula becomes CHO, an integrated
-			# --- puppet. This is the one change that touches Japan.
+			# --- Governorate mode. The peninsula already belongs to CHO -
+			# --- that is declared in history/states/525 and 527, not here,
+			# --- because the country selection screen reads history and
+			# --- nothing else. Doing it in on_startup meant Korea was
+			# --- Japanese while you were choosing and then broke away the
+			# --- instant the game began, and CHO was not selectable at all.
+			# --- What is left for startup is the diplomacy, which has no
+			# --- map to redraw.
 			if = {
 				limit = { has_game_rule = { rule = KOR_start_mode option = GOVERNORATE } }
 
 				CHO = {
-					transfer_state = 525
-					transfer_state = 527
-					set_capital = { state = 525 }
 					add_ideas = KOR_governorate_police
 					set_cosmetic_tag = KOR_jap
 				}
-
-				525 = { add_core_of = CHO }
-				527 = { add_core_of = CHO }
 
 				JAP = {
 					set_autonomy = { target = CHO autonomy_state = autonomy_integrated_puppet }
@@ -35,6 +35,20 @@ on_actions = {
 				}
 
 				set_global_flag = KOR_governorate_active
+			}
+
+			# --- Releasable-only mode. Hand the peninsula back and leave the
+			# --- 1936 map exactly as the base game draws it. Japan's AI then
+			# --- sees nothing different, which is the whole point of this
+			# --- option; the cost is that Korea cannot be picked at start.
+			else = {
+				JAP = {
+					transfer_state = 525
+					transfer_state = 527
+				}
+				525 = { remove_core_of = CHO }
+				527 = { remove_core_of = CHO }
+				CHO = { set_capital = { state = 525 } }
 			}
 		}
 	}
