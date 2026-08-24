@@ -1,10 +1,18 @@
-# 조선 — 국가가 되는 법 / Chosŏn — How to Become a Nation
+# 조선 — 국가가 되는 법
 
-`korea-focus-tree.html`, `korea-research-tree.html`, `korea-mod-spec.html` 세 설계 문서를
-Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
+*[English](README.md) · 한국어*
 
-설치: `Documents/Paradox Interactive/Hearts of Iron IV/mod/korea_chosen_mod.mod` 가
-이 폴더를 가리키도록 이미 생성되어 있습니다. 런처의 Mods 탭에서 켜면 됩니다.
+`docs/korea-focus-tree.html`, `docs/korea-research-tree.html`, `docs/korea-mod-spec.html`
+세 설계 문서를 Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
+브라우저로 그냥 열면 됩니다 — 중점 트리 107 노드, 장비 명명표, 태그 설계가 전부
+그 안에 있고, 구현이 설계와 갈라진 자리는 아래 “설계서와 달라진 점”에 적어 뒀습니다.
+
+## 설치
+
+`Documents/Paradox Interactive/Hearts of Iron IV/mod/korea_chosen_mod.mod` 가
+저장소의 `KoreaMod/` 폴더를 가리키게 하고 런처의 Mods 탭에서 켜면 됩니다.
+`KoreaMod.zip` 은 같은 폴더를 그대로 압축한 것으로, 저장소를 클론하지 않고
+설치할 때 씁니다 — 소스를 고쳤으면 이 zip도 다시 말아야 합니다.
 
 ## 무엇이 들어 있나
 
@@ -41,7 +49,7 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
   쓰지 않으므로 DLC 의존이 없습니다.
 - **승인 게이지** — `KOR_recognition`, 기본 상한 60. `KOR_lift_recognition_cap` 은
   ‘독수리 작전’ 후 국내 진공에 성공했을 때만 호출됩니다.
-- **난이도 3택 / 시작 모드** — `common/game_rules/KOR_game_rules.txt`.
+- **난이도 3택 / 시작 모드** — `KoreaMod/common/game_rules/KOR_game_rules.txt`.
 
 ## 설계서와 달라진 점
 
@@ -60,7 +68,7 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
 3. **CHO 태그는 게임 규칙으로 켜고 끕니다.** 기본값은 `GOVERNORATE` 입니다 — 반도 2개
    주가 CHO로 넘어가 일본의 통합 괴뢰국이 되고, 시작 화면에서 한반도를 클릭해 바로
    플레이할 수 있습니다. 설계서의 본래 의도이자 §태그 설계의 핵심 결정입니다.
-   소유권 자체는 `history/states/525`, `527` 에서 선언합니다 — 국가 선택 화면은
+   소유권 자체는 `KoreaMod/history/states/525`, `527` 에서 선언합니다 — 국가 선택 화면은
    history 파일만 읽으므로, on_startup 에서 옮기면 선택 화면에서는 반도가 일본령이다가
    시작하는 순간 갈라져 나오고 CHO를 고를 수도 없습니다. startup 에 남은 것은 종속
    관계뿐이라 다시 그릴 지도가 없습니다.
@@ -117,19 +125,23 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
 ## 파일 구조
 
 ```
-KoreaMod/
-├─ common/
-│  ├─ national_focus/   KOR_political(60) · KOR_industry(15) · KOR_military(19) · KOR_late(11)
-│  ├─ ideas/            KOR_ideas · KOR_focus_ideas · KOR_event_ideas
-│  ├─ decisions/        requisition · bandits · endgame · balance + categories
-│  ├─ scripted_triggers/ · scripted_effects/
-│  ├─ characters/ · country_leader/ · opinion_modifiers/
-│  ├─ dynamic_modifiers/ · game_rules/ · on_actions/
-│  ├─ country_tags/ · countries/ · units/names_divisions/
-│  └─ military_industrial_organization/organizations/
-├─ events/              KOR_triggers · KOR_politics · KOR_industry
-├─ history/             countries/CHO · states/ (반도 6개 주) · units/KOR_1936 · units/CHO_1936
-└─ localisation/        korean/ · english/  (각 3파일)
+├─ KoreaMod/            모드 본체 (런처가 읽는 폴더)
+│  ├─ common/
+│  │  ├─ national_focus/   KOR_political(60) · KOR_industry(15) · KOR_military(19) · KOR_late(11)
+│  │  ├─ ideas/            KOR_ideas · KOR_focus_ideas · KOR_event_ideas
+│  │  ├─ decisions/        requisition · bandits · endgame · balance + categories
+│  │  ├─ scripted_triggers/ · scripted_effects/
+│  │  ├─ characters/ · country_leader/ · opinion_modifiers/
+│  │  ├─ dynamic_modifiers/ · game_rules/ · on_actions/
+│  │  ├─ country_tags/ · countries/ · units/names_divisions/
+│  │  └─ military_industrial_organization/organizations/
+│  ├─ events/              KOR_triggers · KOR_politics · KOR_industry
+│  ├─ history/             countries/CHO · states/ (반도 6개 주) · units/KOR_1936 · units/CHO_1936
+│  └─ localisation/        korean/ · english/  (각 3파일)
+├─ docs/                설계 문서 3부 (게임이 읽지 않습니다)
+├─ KoreaMod.zip         KoreaMod/ 를 그대로 압축한 배포본
+├─ README.md            영어
+└─ README.ko.md         한국어 (이 파일)
 ```
 
 정치 계열만 `focus_tree` 블록 안에 있고 산업·군사·후반은 `shared_focus` 입니다.
