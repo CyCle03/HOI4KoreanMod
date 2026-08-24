@@ -12,8 +12,8 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
 |---|---|---|
 | 중점 | 107개 (은닉 1) | **105개 중점 + 2개 이벤트** — 설계서의 107 노드 중 둘은 중점이 아니라 이벤트였습니다 |
 | 국민정신 | 7 | 66 (시작 7 + 중점·결정으로 얻는 59) |
-| 코스메틱 태그 | 5 | 6 (`KOR_jap` `KOR_chi` `KOR_usa` `KOR_csr` `KOR_sov` `KOR_ger`) |
-| 장비 명명 | 76행 × 5계열 | **326개 항목** (연구 문서의 표를 그대로 이식) |
+| 코스메틱 태그 | 5 | 11 — 명명 6 (`KOR_jap` `KOR_chi` `KOR_usa` `KOR_csr` `KOR_sov` `KOR_ger`) + 국명 5 (`KOR_peoples_republic` `KOR_dominion` `KOR_empire` `KOR_dominion_ger` `KOR_empire_ger`) |
+| 장비 명명 | 76행 × 5계열 | **678개 항목** — 연구 문서의 표 326개 + 국명 태그 5개분 사본 |
 | MIO | 8 | 8 |
 | 인물 | 14 | 바닐라 8인 재사용 + 신규 6인 |
 | 결정 | 청구·비적·종전 7 | 15 |
@@ -74,6 +74,15 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
 4. **장비 명명 키는 접미사가 아니라 접두사입니다.** 설계서 예시는
    `infantry_equipment_1_KOR_usa` 였으나 실제 형식은 `KOR_usa_infantry_equipment_1`
    입니다 (바닐라 `GER_infantry_equipment_1` 로 확인). 접두사로 구현했습니다.
+
+   **코스메틱 태그 슬롯은 나라당 하나뿐입니다.** 그래서 국명을 바꾸는 태그와 장비를
+   명명하는 태그가 공존할 수 없고, 나중에 실행된 쪽이 앞의 것을 지웁니다. 설계서가
+   국명 교체를 요구하는 두 자리 — 인민공화국과 이왕가의 재건국 — 는 국명 태그가 장비
+   명명표를 함께 들고 있습니다. `KOR_peoples_republic` 은 `KOR_jap` 의 사본(노획
+   일본제)이고, 이왕가는 독일 군사고문단 전후로 두 벌입니다: `KOR_dominion` ·
+   `KOR_empire` 가 일본제, `KOR_dominion_ger` · `KOR_empire_ger` 가 독일제입니다.
+   `KOR_name_equipment_german` 이 `YIH_yi_un_chosen` · `YIH_empire_proclaimed`
+   플래그를 읽어 국명을 유지한 채 병기고만 갈아끼웁니다.
 5. **사단 편제 제한은 우회할 필요가 없었습니다.** 1.19에 `set_division_template_cap`
    효과가 있어 그대로 씁니다 (시작 3 → 신흥무관학교 8 → 사관학교 해제, 인민공화국 12).
    다만 ‘조선군사령부 거부권’ 쪽은 설계서대로 극단적 페널티로 구현했습니다 — 사단 편성

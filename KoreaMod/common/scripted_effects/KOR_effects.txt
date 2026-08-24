@@ -83,13 +83,36 @@ KOR_officer_stage_3 = {
 # ---------------------------------------------------------------------------
 # Equipment naming. A cosmetic tag is the only way to re-name equipment
 # inside one country, so each sponsor swap is a tag swap.
+#
+# There is only one cosmetic tag slot, so a country that has also re-named
+# itself cannot hold a separate naming tag: whichever effect runs last wins
+# and the other one's names are lost. Where the two collide - the People's
+# Republic and the restored Yi state - the naming tag and the country name
+# live on the same tag, and its equipment list is a copy of the sponsor's
+# in localisation/*/KOR_equipment_l_*.yml.
 # ---------------------------------------------------------------------------
 KOR_name_equipment_japanese = { set_cosmetic_tag = KOR_jap }
 KOR_name_equipment_china    = { set_cosmetic_tag = KOR_chi }
 KOR_name_equipment_usa      = { set_cosmetic_tag = KOR_usa }
 KOR_name_equipment_prc      = { set_cosmetic_tag = KOR_csr }
 KOR_name_equipment_soviet   = { set_cosmetic_tag = KOR_sov }
-KOR_name_equipment_german   = { set_cosmetic_tag = KOR_ger }
+
+# The German mission is only reachable from YIH_reproclaim_empire, so the
+# state has already been re-named by korea_politics.6 when this runs. Keep
+# that name and change only the arsenal.
+KOR_name_equipment_german = {
+	if = {
+		limit = { has_country_flag = YIH_yi_un_chosen }
+		set_cosmetic_tag = KOR_dominion_ger
+	}
+	else_if = {
+		limit = { has_country_flag = YIH_empire_proclaimed }
+		set_cosmetic_tag = KOR_empire_ger
+	}
+	else = {
+		set_cosmetic_tag = KOR_ger
+	}
+}
 
 # ---------------------------------------------------------------------------
 # Left/right balance. Sum is always 100.
