@@ -1,0 +1,114 @@
+add_namespace = korea_politics
+
+# ---------------------------------------------------------------------------
+# korea_politics.3 - the left-right talks. Which way the armed exiles go.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_politics.3
+	title = korea_politics.3.t
+	desc = korea_politics.3.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = {
+		name = korea_politics.3.a
+		ai_chance = { factor = 50 }
+		add_political_power = 25
+		custom_effect_tooltip = KOR_fork_tt
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_politics.4 - Rhee's Liberal Party, or Kim Ku's line.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_politics.4
+	title = korea_politics.4.t
+	desc = korea_politics.4.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = { # keep Rhee
+		name = korea_politics.4.a
+		ai_chance = { factor = 50 }
+		add_political_power = 50
+		set_variable = { KOR_recognition_delta = 5 }
+		KOR_add_recognition = yes
+		set_country_flag = KOR_rhee_leads
+	}
+
+	option = { # Kim Ku instead
+		name = korea_politics.4.b
+		ai_chance = { factor = 50 }
+		add_stability = 0.10
+		set_country_flag = KOR_kimku_leads
+		if = {
+			limit = { has_character = KOR_kim_ku }
+			promote_character = KOR_kim_ku
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_politics.5 - which prince comes home. This is the ideology fork.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_politics.5
+	title = korea_politics.5.t
+	desc = korea_politics.5.d
+	picture = GFX_report_event_generic_rally
+
+	is_triggered_only = yes
+
+	option = { # Yi Un - lieutenant general, Imperial Japanese Army
+		name = korea_politics.5.a
+		ai_chance = { factor = 70 }
+		add_popularity = { ideology = fascism popularity = 0.20 }
+		set_country_flag = YIH_yi_un_chosen
+		add_war_support = 0.10
+		if = {
+			limit = { has_character = KOR_yi_un }
+			promote_character = KOR_yi_un
+		}
+		custom_effect_tooltip = YIH_dominion_tt
+	}
+
+	option = { # Yi Kang - the other one
+		name = korea_politics.5.b
+		ai_chance = { factor = 30 }
+		add_popularity = { ideology = neutrality popularity = 0.20 }
+		set_country_flag = YIH_yi_kang_chosen
+		if = {
+			limit = { has_character = KOR_yi_kang }
+			promote_character = KOR_yi_kang
+		}
+		custom_effect_tooltip = YIH_succession_tt
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_politics.6 - the Empire re-proclaimed.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_politics.6
+	title = korea_politics.6.t
+	desc = korea_politics.6.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+
+	option = {
+		name = korea_politics.6.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { has_country_flag = YIH_yi_un_chosen }
+			set_cosmetic_tag = KOR_dominion
+		}
+		else = {
+			set_cosmetic_tag = KOR_empire
+		}
+		add_stability = 0.05
+	}
+}

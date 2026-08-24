@@ -1,0 +1,114 @@
+KOR_requisition_category = {
+
+	# The Philippines asking Washington for rifles, transplanted. Loyalty
+	# raises the odds; three refusals in a row cost you autonomy.
+	KOR_requisition_infantry = {
+		icon = generic_operation
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		available = { is_subject = yes }
+		visible = { is_subject = yes }
+		cost = 25
+		days_re_enable = 90
+		fire_only_once = no
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			random_list = {
+				55 = {
+					modifier = { factor = 1.5 has_country_flag = KOR_naisen_ittai_committed }
+					modifier = { factor = 1.3 has_completed_focus = CHO_conscription_act }
+					add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2500 producer = JAP }
+					clr_country_flag = KOR_requisition_refused_1
+					clr_country_flag = KOR_requisition_refused_2
+				}
+				45 = {
+					custom_effect_tooltip = KOR_requisition_refused_tt
+					if = {
+						limit = { has_country_flag = KOR_requisition_refused_2 }
+						add_autonomy_ratio = { value = -0.05 }
+						clr_country_flag = KOR_requisition_refused_1
+						clr_country_flag = KOR_requisition_refused_2
+					}
+					else_if = {
+						limit = { has_country_flag = KOR_requisition_refused_1 }
+						set_country_flag = KOR_requisition_refused_2
+					}
+					else = { set_country_flag = KOR_requisition_refused_1 }
+				}
+			}
+		}
+	}
+
+	KOR_requisition_artillery = {
+		icon = generic_operation
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		available = { is_subject = yes }
+		visible = { is_subject = yes }
+		cost = 35
+		days_re_enable = 90
+
+		ai_will_do = { factor = 8 }
+
+		complete_effect = {
+			random_list = {
+				45 = {
+					modifier = { factor = 1.5 has_country_flag = KOR_naisen_ittai_committed }
+					add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 120 producer = JAP }
+					clr_country_flag = KOR_requisition_refused_1
+					clr_country_flag = KOR_requisition_refused_2
+				}
+				55 = {
+					custom_effect_tooltip = KOR_requisition_refused_tt
+					if = {
+						limit = { has_country_flag = KOR_requisition_refused_2 }
+						add_autonomy_ratio = { value = -0.05 }
+						clr_country_flag = KOR_requisition_refused_1
+						clr_country_flag = KOR_requisition_refused_2
+					}
+					else_if = {
+						limit = { has_country_flag = KOR_requisition_refused_1 }
+						set_country_flag = KOR_requisition_refused_2
+					}
+					else = { set_country_flag = KOR_requisition_refused_1 }
+				}
+			}
+		}
+	}
+
+	KOR_requisition_aircraft = {
+		icon = generic_operation
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		available = { is_subject = yes }
+		visible = { is_subject = yes }
+		cost = 50
+		days_re_enable = 90
+
+		ai_will_do = { factor = 5 }
+
+		complete_effect = {
+			random_list = {
+				35 = {
+					modifier = { factor = 1.6 has_country_flag = KOR_naisen_ittai_committed }
+					add_equipment_to_stockpile = { type = fighter_equipment_1 amount = 30 producer = JAP }
+					clr_country_flag = KOR_requisition_refused_1
+					clr_country_flag = KOR_requisition_refused_2
+				}
+				65 = {
+					custom_effect_tooltip = KOR_requisition_refused_tt
+					if = {
+						limit = { has_country_flag = KOR_requisition_refused_2 }
+						add_autonomy_ratio = { value = -0.05 }
+						clr_country_flag = KOR_requisition_refused_1
+						clr_country_flag = KOR_requisition_refused_2
+					}
+					else_if = {
+						limit = { has_country_flag = KOR_requisition_refused_1 }
+						set_country_flag = KOR_requisition_refused_2
+					}
+					else = { set_country_flag = KOR_requisition_refused_1 }
+				}
+			}
+		}
+	}
+}

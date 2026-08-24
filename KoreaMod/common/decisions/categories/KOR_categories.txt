@@ -1,0 +1,35 @@
+KOR_requisition_category = {
+	icon = generic_arms_trade
+	priority = 100
+	allowed = { OR = { original_tag = KOR original_tag = CHO } }
+	visible = {
+		is_subject = yes
+	}
+}
+
+KOR_bandit_category = {
+	icon = generic_crisis
+	priority = 95
+	allowed = { OR = { original_tag = KOR original_tag = CHO } }
+	visible = {
+		OR = { owns_state = 527 controls_state = 527 }
+	}
+}
+
+KOR_endgame_category = {
+	icon = generic_political_actions
+	priority = 110
+	allowed = { OR = { original_tag = KOR original_tag = CHO } }
+	visible = {
+		has_country_flag = KOR_underground_built
+	}
+}
+
+KOR_balance_category = {
+	icon = generic_political_actions
+	priority = 90
+	allowed = { OR = { original_tag = KOR original_tag = CHO } }
+	visible = {
+		NOT = { has_country_flag = KOR_naisen_ittai_committed }
+	}
+}

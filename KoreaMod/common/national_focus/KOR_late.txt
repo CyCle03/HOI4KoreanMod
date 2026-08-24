@@ -1,0 +1,219 @@
+### search_filters = {FOCUS_FILTER_POLITICAL}
+#
+# Three branches that only exist under conditions. The third one is hidden:
+# allow_branch is false until you have done two things that are supposed to
+# be mutually exclusive, so the branch is simply not drawn until then.
+
+##############################################################################
+# THE OPENING - Japan has lost its grip
+##############################################################################
+
+shared_focus = {
+	id = KOR_seize_the_moment
+	icon = GFX_goal_generic_territory_or_war
+	x = 58
+	y = 0
+	cost = 5
+	allow_branch = { KOR_japan_is_collapsing = yes }
+	available = { KOR_japan_is_collapsing = yes }
+	ai_will_do = { factor = 20 }
+	completion_reward = {
+		add_political_power = 200
+		add_war_support = 0.20
+		set_country_flag = KOR_moment_seized
+		# The ideological fork opens again - even from the loyalist line.
+		clr_country_flag = KOR_naisen_ittai_committed
+		set_country_flag = KOR_resistance_path_taken
+		custom_effect_tooltip = KOR_reopen_branches_tt
+	}
+}
+
+shared_focus = {
+	id = KOR_disarm_governorate
+	icon = GFX_goal_generic_small_arms
+	x = 0
+	y = 1
+	relative_position_id = KOR_seize_the_moment
+	cost = 5
+	prerequisite = { focus = KOR_seize_the_moment }
+	completion_reward = {
+		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 5000 producer = JAP }
+		capital_scope = {
+			create_unit = {
+				division = "name = \"Constabulary Division\" division_template = \"Chiandae\" start_experience_factor = 0.2 start_equipment_factor = 0.8"
+				owner = ROOT
+				count = 4
+			}
+		}
+		set_country_flag = KOR_governorate_disarmed
+		custom_effect_tooltip = KOR_asset_race_halved_tt
+	}
+}
+
+shared_focus = {
+	id = KOR_assume_administration
+	icon = GFX_goal_generic_political_pressure
+	x = 0
+	y = 1
+	relative_position_id = KOR_disarm_governorate
+	cost = 5
+	prerequisite = { focus = KOR_disarm_governorate }
+	completion_reward = {
+		add_stability = 0.10
+		add_ideas = KOR_administrative_takeover
+		set_country_flag = KOR_administration_ready
+	}
+}
+
+shared_focus = {
+	id = KOR_declare_government
+	icon = GFX_goal_generic_national_unity
+	x = 0
+	y = 1
+	relative_position_id = KOR_assume_administration
+	cost = 10
+	prerequisite = { focus = KOR_assume_administration }
+	completion_reward = {
+		KOR_restore_sovereignty = yes
+		set_variable = { KOR_recognition_delta = 20 }
+		KOR_add_recognition = yes
+		add_stability = 0.10
+	}
+}
+
+##############################################################################
+# OCCUPATION RESISTANCE - a great power has landed, and it is not Japan
+##############################################################################
+
+shared_focus = {
+	id = KOR_self_defense_corps
+	icon = GFX_goal_generic_defence
+	x = 62
+	y = 0
+	cost = 5
+	allow_branch = { KOR_foreign_army_on_peninsula = yes }
+	available = { KOR_foreign_army_on_peninsula = yes }
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		add_manpower = -20000
+		capital_scope = {
+			create_unit = {
+				division = "name = \"Self-Defence Corps\" division_template = \"Chiandae\" start_experience_factor = 0 start_equipment_factor = 0.25"
+				owner = ROOT
+				count = 6
+			}
+		}
+		add_ideas = KOR_hasty_levies
+	}
+}
+
+shared_focus = {
+	id = KOR_committee_autonomy
+	icon = GFX_goal_generic_propaganda
+	x = 0
+	y = 1
+	relative_position_id = KOR_self_defense_corps
+	cost = 10
+	prerequisite = { focus = KOR_self_defense_corps }
+	completion_reward = {
+		add_stability = 0.05
+		add_ideas = KOR_committee_autonomy_idea
+	}
+}
+
+shared_focus = {
+	id = KOR_anti_trusteeship_movement
+	icon = GFX_goal_generic_demand_territory
+	x = 0
+	y = 1
+	relative_position_id = KOR_committee_autonomy
+	cost = 10
+	prerequisite = { focus = KOR_committee_autonomy }
+	completion_reward = {
+		add_war_support = 0.15
+		add_named_threat = { threat = 3 name = KOR_anti_trusteeship_threat }
+		add_ideas = KOR_anti_trusteeship_idea
+	}
+}
+
+shared_focus = {
+	id = KOR_separate_government
+	icon = GFX_goal_generic_forceful_treaty
+	x = 0
+	y = 1
+	relative_position_id = KOR_anti_trusteeship_movement
+	cost = 15
+	prerequisite = { focus = KOR_anti_trusteeship_movement }
+	completion_reward = {
+		KOR_restore_sovereignty = yes
+		add_stability = -0.20
+		set_country_flag = KOR_divided_state
+		custom_effect_tooltip = KOR_separate_government_tt
+	}
+}
+
+##############################################################################
+# THE KEIJO PLAN - hidden. Requires both halves of a split that is supposed
+# to be exclusive, which only the Yi House line can hold at once.
+##############################################################################
+
+shared_focus = {
+	id = KOR_infiltrate_hq
+	icon = GFX_goal_generic_intelligence_exchange
+	x = 66
+	y = 0
+	cost = 5
+	allow_branch = {
+		has_country_flag = KOR_uiyeoldan_done
+		has_country_flag = KOR_hq_accord_signed
+	}
+	available = {
+		has_country_flag = KOR_uiyeoldan_done
+		has_country_flag = KOR_hq_accord_signed
+	}
+	ai_will_do = { factor = 2 }
+	completion_reward = {
+		add_political_power = -100
+		add_ideas = KOR_hq_infiltration
+		set_country_flag = KOR_keijo_plan_started
+	}
+}
+
+shared_focus = {
+	id = KOR_prepare_arsenals
+	icon = GFX_goal_generic_small_arms
+	x = 0
+	y = 1
+	relative_position_id = KOR_infiltrate_hq
+	cost = 10
+	prerequisite = { focus = KOR_infiltrate_hq }
+	completion_reward = {
+		set_variable = { KOR_cached_infantry = 5000 }
+		set_variable = { KOR_cached_artillery = 300 }
+		set_country_flag = KOR_arsenals_prepared
+		custom_effect_tooltip = KOR_cache_at_risk_tt
+	}
+}
+
+shared_focus = {
+	id = KOR_keijo_uprising
+	icon = GFX_goal_generic_occupy_start_war
+	x = 0
+	y = 1
+	relative_position_id = KOR_prepare_arsenals
+	cost = 15
+	prerequisite = { focus = KOR_prepare_arsenals }
+	completion_reward = {
+		add_war_support = 0.30
+		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 5000 producer = JAP }
+		add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 300 producer = JAP }
+		if = { limit = { has_idea = KOR_army_hq_veto } remove_ideas = KOR_army_hq_veto }
+		if = {
+			limit = { country_exists = JAP NOT = { has_war_with = JAP } }
+			declare_war_on = { target = JAP type = annex_everything }
+		}
+		if = { limit = { NOT = { controls_state = 525 } } 525 = { set_state_controller = ROOT } }
+		if = { limit = { NOT = { controls_state = 527 } } 527 = { set_state_controller = ROOT } }
+		KOR_restore_sovereignty = yes
+	}
+}

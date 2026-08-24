@@ -1,0 +1,311 @@
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+#
+# Industry runs beside politics, not under it. The nine tier-one focuses have
+# no prerequisites between them - the gate only counts how many are done, so
+# what you skip is the actual decision.
+#
+# Every tier focus calls KOR_recover_leakage, which claws five percentage
+# points back from the overlord's cut.
+
+##############################################################################
+# TIER 1 - nine parallel roots
+##############################################################################
+
+shared_focus = {
+	id = KOR_ind_rice_plan
+	icon = GFX_goal_generic_soviet_construction
+	x = 30
+	y = 0
+	cost = 5
+	ai_will_do = { factor = 8 }
+	completion_reward = {
+		add_manpower = 20000
+		add_stability = 0.05
+		add_ideas = KOR_rice_production_plan
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_cotton_sheep
+	icon = GFX_goal_generic_positive_trade_relations
+	x = 32
+	y = 0
+	cost = 5
+	ai_will_do = { factor = 8 }
+	completion_reward = {
+		525 = { add_resource = { type = rubber amount = 2 } }
+		525 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+		add_ideas = KOR_cotton_and_wool
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_hungnam_nitrogen
+	icon = GFX_goal_generic_oil_refinery
+	x = 34
+	y = 0
+	cost = 10
+	ai_will_do = { factor = 9 }
+	completion_reward = {
+		527 = {
+			add_extra_state_shared_building_slots = 3
+			add_building_construction = { type = industrial_complex level = 3 instant_build = yes }
+		}
+		add_tech_bonus = { bonus = 1.0 uses = 2 category = synth_resources }
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_supung_dam
+	icon = GFX_goal_generic_construction2
+	x = 36
+	y = 0
+	cost = 15
+	ai_will_do = { factor = 7 }
+	completion_reward = {
+		527 = {
+			add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+		}
+		add_ideas = KOR_supung_power
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_musan_iron
+	icon = GFX_goal_generic_construct_mil_factory
+	x = 38
+	y = 0
+	cost = 10
+	ai_will_do = { factor = 8 }
+	completion_reward = {
+		527 = { add_resource = { type = steel amount = 12 } }
+		add_tech_bonus = { bonus = 1.0 uses = 1 category = excavation_tech }
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_kyomipo_steel
+	icon = GFX_goal_generic_construct_mil_factory
+	x = 31
+	y = 1
+	cost = 10
+	ai_will_do = { factor = 8 }
+	completion_reward = {
+		527 = {
+			add_resource = { type = steel amount = 8 }
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+		}
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_aoji_synthetic
+	icon = GFX_goal_generic_oil_refinery
+	x = 33
+	y = 1
+	cost = 15
+	ai_will_do = { factor = 7 }
+	completion_reward = {
+		527 = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = { type = synthetic_refinery level = 1 instant_build = yes }
+		}
+		add_tech_bonus = { bonus = 1.0 uses = 2 category = cat_synth_oil }
+		add_ideas = KOR_aoji_fuel
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_heavy_industries
+	icon = GFX_goal_generic_construct_naval_dockyard
+	x = 35
+	y = 1
+	cost = 10
+	ai_will_do = { factor = 7 }
+	completion_reward = {
+		525 = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = dockyard level = 2 instant_build = yes }
+		}
+		add_ideas = KOR_chosen_heavy_industries
+		add_tech_bonus = { bonus = 0.5 uses = 1 category = dd_tech }
+		KOR_count_industry_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_kyungsung_textile
+	icon = GFX_goal_generic_production
+	x = 37
+	y = 1
+	cost = 5
+	ai_will_do = { factor = 8 }
+	completion_reward = {
+		add_political_power = -50
+		525 = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+		}
+		add_ideas = KOR_national_capital
+		KOR_count_industry_focus = yes
+	}
+}
+
+##############################################################################
+# GATE - five of nine
+##############################################################################
+
+shared_focus = {
+	id = KOR_ind_regional_specialization
+	icon = GFX_goal_generic_construction
+	x = 34
+	y = 3
+	cost = 10
+	prerequisite = {
+		focus = KOR_ind_rice_plan
+		focus = KOR_ind_cotton_sheep
+		focus = KOR_ind_hungnam_nitrogen
+		focus = KOR_ind_supung_dam
+		focus = KOR_ind_musan_iron
+		focus = KOR_ind_kyomipo_steel
+		focus = KOR_ind_aoji_synthetic
+		focus = KOR_ind_heavy_industries
+		focus = KOR_ind_kyungsung_textile
+	}
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = KOR_ind_gate_tt
+			KOR_industry_tier1_gate = yes
+		}
+	}
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		add_ideas = KOR_regional_specialization
+		KOR_recover_leakage = yes
+	}
+}
+
+##############################################################################
+# TIER 2
+##############################################################################
+
+shared_focus = {
+	id = KOR_ind_five_year_plan
+	icon = GFX_goal_generic_construct_civ_factory
+	x = -3
+	y = 1
+	relative_position_id = KOR_ind_regional_specialization
+	cost = 10
+	prerequisite = { focus = KOR_ind_regional_specialization }
+	ai_will_do = { factor = 9 }
+	completion_reward = {
+		country_event = { id = korea_industry.1 hours = 6 }
+		KOR_count_industry_focus_t2 = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_gyeongin_belt
+	icon = GFX_goal_generic_construct_civilian
+	x = -1
+	y = 1
+	relative_position_id = KOR_ind_regional_specialization
+	cost = 10
+	prerequisite = { focus = KOR_ind_regional_specialization }
+	ai_will_do = { factor = 9 }
+	completion_reward = {
+		525 = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+			add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+		}
+		KOR_count_industry_focus_t2 = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_railway_double
+	icon = GFX_goal_generic_construct_infrastructure
+	x = 1
+	y = 1
+	relative_position_id = KOR_ind_regional_specialization
+	cost = 15
+	prerequisite = { focus = KOR_ind_regional_specialization }
+	ai_will_do = { factor = 8 }
+	completion_reward = {
+		525 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+		527 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+		add_ideas = KOR_double_tracked_railway
+		add_tech_bonus = { bonus = 0.5 uses = 1 category = train_tech }
+		KOR_count_industry_focus_t2 = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_ind_keijo_university
+	icon = GFX_goal_generic_scientific_exchange
+	x = 3
+	y = 1
+	relative_position_id = KOR_ind_regional_specialization
+	cost = 10
+	prerequisite = { focus = KOR_ind_regional_specialization }
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		add_research_slot = 1
+		if = {
+			limit = { has_idea = KOR_colonial_education }
+			swap_ideas = { remove_idea = KOR_colonial_education add_idea = KOR_colonial_education_eased }
+		}
+		KOR_count_industry_focus_t2 = yes
+	}
+}
+
+##############################################################################
+# FINAL GATE - nine of thirteen
+##############################################################################
+
+shared_focus = {
+	id = KOR_ind_korea_in_world
+	icon = GFX_goal_generic_positive_trade_relations
+	x = 0
+	y = 3
+	relative_position_id = KOR_ind_regional_specialization
+	cost = 15
+	prerequisite = {
+		focus = KOR_ind_five_year_plan
+		focus = KOR_ind_gyeongin_belt
+		focus = KOR_ind_railway_double
+		focus = KOR_ind_keijo_university
+	}
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = KOR_ind_final_gate_tt
+			KOR_industry_final_gate = yes
+		}
+	}
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		capital_scope = {
+			add_extra_state_shared_building_slots = 3
+			add_building_construction = { type = industrial_complex level = 3 instant_build = yes }
+		}
+		KOR_recover_leakage = yes
+		KOR_recover_leakage = yes
+		set_variable = { KOR_leak_floor = -0.10 }
+		clamp_variable = { var = KOR_leak min = -1 max = KOR_leak_floor }
+		set_variable = { KOR_leak_display = KOR_leak }
+		multiply_variable = { KOR_leak_display = -100 }
+		add_ideas = KOR_world_trade
+		custom_effect_tooltip = KOR_leak_final_tt
+	}
+}

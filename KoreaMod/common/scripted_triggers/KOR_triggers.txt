@@ -1,0 +1,67 @@
+# Chosŏn mod - scripted triggers
+# Kept in one place because the same gates are asked for by focuses, decisions and events.
+
+# The axis that splits the army branch is NOT ideology - it is whether you
+# currently hold the machinery of a state.
+KOR_has_government_apparatus = {
+	OR = {
+		has_country_flag = KOR_loyalist_path_taken
+		has_completed_focus = YIH_dissolve_office
+		has_country_flag = KOR_sovereignty_restored
+		AND = {
+			is_subject = no
+			has_capitulated = no
+			NOT = { has_country_flag = KOR_guerrilla_only }
+		}
+	}
+}
+
+KOR_lacks_government_apparatus = {
+	NOT = { KOR_has_government_apparatus = yes }
+}
+
+# Loyalist / resistance gates set by the 1936 flag-defacement event.
+KOR_on_loyalist_path = { has_country_flag = KOR_loyalist_path_taken }
+KOR_on_resistance_path = { has_country_flag = KOR_resistance_path_taken }
+
+# Japan is losing its grip: measured against the states it controlled at its peak.
+KOR_japan_is_collapsing = {
+	OR = {
+		JAP = { surrender_progress > 0.3 }
+		JAP = { has_war_with = USA has_war_with = SOV }
+		AND = {
+			JAP = { has_war = yes }
+			NOT = { controls_state = 525 controls_state = 527 }
+		}
+		has_global_flag = KOR_japan_collapsing
+	}
+}
+
+# A great power has landed on the peninsula and is not us.
+KOR_foreign_army_on_peninsula = {
+	OR = {
+		AND = { 525 = { NOT = { CONTROLLER = { OR = { tag = ROOT tag = JAP } } } } }
+		AND = { 527 = { NOT = { CONTROLLER = { OR = { tag = ROOT tag = JAP } } } } }
+		has_country_flag = KOR_trusteeship_declared
+	}
+}
+
+# Industry gate helpers.
+KOR_industry_tier1_gate = {
+	check_variable = { KOR_ind_tier1 > 4 }
+}
+
+KOR_industry_final_gate = {
+	check_variable = { KOR_ind_total > 8 }
+}
+
+KOR_army_academy_gate = {
+	check_variable = { KOR_army_focuses > 3 }
+}
+
+# Difficulty rules, read from the game rule.
+KOR_difficulty_historical = { has_game_rule = { rule = KOR_difficulty option = HISTORICAL } }
+KOR_difficulty_balanced   = { has_game_rule = { rule = KOR_difficulty option = BALANCED } }
+KOR_difficulty_empowered  = { has_game_rule = { rule = KOR_difficulty option = EMPOWERED } }
+
+KOR_governorate_mode = { has_game_rule = { rule = KOR_start_mode option = GOVERNORATE } }

@@ -1,0 +1,77 @@
+### Division templates ###
+# Kept infantry-only on purpose: at 1918 technology there is nothing else to
+# put in them, and the branches differ by size and quality, not by equipment.
+
+division_template = {
+	name = "Daehanminguk Yuk-gun"
+	division_names_group = KOR_INF_01
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		infantry = { x = 2 y = 0 }
+		infantry = { x = 2 y = 1 }
+	}
+}
+
+# The Restoration Army never reached establishment. Three battalions, not six.
+division_template = {
+	name = "Gwangbokgun Jidae"
+	division_names_group = KOR_INF_01
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 1 y = 0 }
+	}
+}
+
+division_template = {
+	name = "Yugyeokdae"
+	division_names_group = KOR_INF_01
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 1 y = 0 }
+	}
+}
+
+division_template = {
+	name = "Chiandae"
+	division_names_group = KOR_INF_01
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+	}
+}
+
+division_template = {
+	name = "Hwangsil Geunwidae"
+	division_names_group = KOR_INF_01
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		infantry = { x = 2 y = 0 }
+		infantry = { x = 2 y = 1 }
+	}
+}
+
+### OOB ###
+units = {
+	# Releasable only - see history/countries/KOR - Korea.txt
+}
+
+### STARTING PRODUCTION ###
+instant_effect = {
+	add_equipment_production = {
+		equipment = {
+			type = infantry_equipment_0
+			creator = "KOR"
+		}
+		requested_factories = 1
+		progress = 0.79
+		efficiency = 100
+	}
+}

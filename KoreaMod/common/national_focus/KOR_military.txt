@@ -1,0 +1,342 @@
+### search_filters = {FOCUS_FILTER_MILITARY}
+#
+# The army branch is not split by ideology. It is split by whether you are
+# holding the machinery of a state at the moment you get there. Naisen Ittai
+# and the Yi House hold it from the start; the other four start as partisans
+# and cross over the day they take the administration.
+
+shared_focus = {
+	id = KOR_officer_census
+	icon = GFX_goal_generic_army_doctrines
+	x = 45
+	y = 0
+	cost = 5
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		add_political_power = 50
+		add_command_power = 25
+		custom_effect_tooltip = KOR_officer_census_tt
+	}
+}
+
+##############################################################################
+# REGULARS - available while you hold a state apparatus
+##############################################################################
+
+shared_focus = {
+	id = KOR_army_hq_accord
+	icon = GFX_goal_generic_military_deal
+	x = -2
+	y = 1
+	relative_position_id = KOR_officer_census
+	cost = 5
+	prerequisite = { focus = KOR_officer_census }
+	allow_branch = { KOR_has_government_apparatus = yes }
+	available = { KOR_has_government_apparatus = yes }
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		if = { limit = { has_idea = KOR_army_hq_veto } remove_ideas = KOR_army_hq_veto }
+		add_tech_bonus = { bonus = 0.5 uses = 2 category = land_doctrine }
+		if = { limit = { country_exists = JAP } add_opinion_modifier = { target = JAP modifier = KOR_loyal_service } }
+		set_country_flag = KOR_hq_accord_signed
+		KOR_count_army_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_japanese_trained_officers
+	icon = GFX_goal_generic_army_artillery
+	x = 0
+	y = 1
+	relative_position_id = KOR_army_hq_accord
+	cost = 5
+	prerequisite = { focus = KOR_army_hq_accord }
+	completion_reward = {
+		add_command_power = 50
+		army_experience = 40
+		add_war_support = -0.05
+		KOR_officer_stage_2 = yes
+		KOR_count_army_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_standing_divisions
+	icon = GFX_goal_generic_allies_build_infantry
+	x = 0
+	y = 1
+	relative_position_id = KOR_japanese_trained_officers
+	cost = 10
+	prerequisite = { focus = KOR_japanese_trained_officers }
+	completion_reward = {
+		add_ideas = KOR_standing_army
+		capital_scope = {
+			create_unit = {
+				division = "name = \"Chosen Line Division\" division_template = \"Daehanminguk Yuk-gun\" start_experience_factor = 0.3 start_equipment_factor = 0.7"
+				owner = ROOT
+				count = 4
+			}
+		}
+		KOR_count_army_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_artillery_logistics
+	icon = GFX_goal_generic_army_artillery2
+	x = 0
+	y = 1
+	relative_position_id = KOR_standing_divisions
+	cost = 10
+	prerequisite = { focus = KOR_standing_divisions }
+	completion_reward = {
+		add_ideas = KOR_artillery_and_supply
+		add_tech_bonus = { bonus = 0.5 uses = 2 category = artillery }
+		add_tech_bonus = { bonus = 0.5 uses = 2 category = support_tech }
+		KOR_count_army_focus = yes
+	}
+}
+
+##############################################################################
+# PARTISANS - available while you do not
+##############################################################################
+
+shared_focus = {
+	id = KOR_sinheung_academy
+	icon = GFX_goal_generic_special_forces
+	x = 2
+	y = 1
+	relative_position_id = KOR_officer_census
+	cost = 5
+	prerequisite = { focus = KOR_officer_census }
+	allow_branch = { KOR_lacks_government_apparatus = yes }
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		army_experience = 50
+		KOR_officer_stage_2 = yes
+		KOR_count_army_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_guerrilla_doctrine
+	icon = GFX_goal_generic_army_doctrines
+	x = 0
+	y = 1
+	relative_position_id = KOR_sinheung_academy
+	cost = 10
+	prerequisite = { focus = KOR_sinheung_academy }
+	completion_reward = {
+		add_ideas = KOR_guerrilla_doctrine_idea
+		add_tech_bonus = { bonus = 1.0 uses = 1 category = cat_mass_assault }
+		KOR_count_army_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_uiyeoldan_legacy
+	icon = GFX_goal_generic_intelligence_exchange
+	x = 0
+	y = 1
+	relative_position_id = KOR_guerrilla_doctrine
+	cost = 10
+	prerequisite = { focus = KOR_guerrilla_doctrine }
+	completion_reward = {
+		add_tech_bonus = { bonus = 1.0 uses = 2 category = special_forces_doctrine }
+		add_ideas = KOR_uiyeoldan_idea
+		set_country_flag = KOR_uiyeoldan_done
+		KOR_count_army_focus = yes
+	}
+}
+
+shared_focus = {
+	id = KOR_manchurian_bases
+	icon = GFX_goal_generic_fortify_city
+	x = 0
+	y = 1
+	relative_position_id = KOR_uiyeoldan_legacy
+	cost = 15
+	prerequisite = { focus = KOR_uiyeoldan_legacy }
+	completion_reward = {
+		add_ideas = KOR_manchurian_bases_idea
+		capital_scope = {
+			create_unit = {
+				division = "name = \"Border Partisan Detachment\" division_template = \"Yugyeokdae\" start_experience_factor = 0.5 start_equipment_factor = 0.4"
+				owner = ROOT
+				count = 3
+			}
+		}
+		KOR_count_army_focus = yes
+	}
+}
+
+##############################################################################
+# MERGE - four of the eight above, and a state to put them in
+##############################################################################
+
+shared_focus = {
+	id = KOR_military_academy
+	icon = GFX_goal_generic_army_doctrines
+	x = 0
+	y = 5
+	relative_position_id = KOR_officer_census
+	cost = 15
+	prerequisite = { focus = KOR_artillery_logistics focus = KOR_manchurian_bases }
+	available = {
+		KOR_has_government_apparatus = yes
+		custom_trigger_tooltip = {
+			tooltip = KOR_academy_gate_tt
+			KOR_army_academy_gate = yes
+		}
+	}
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		army_experience = 75
+		KOR_officer_stage_3 = yes
+		add_ideas = KOR_military_academy_idea
+		custom_effect_tooltip = KOR_officer_never_gone_tt
+	}
+}
+
+##############################################################################
+# NAVY - a peninsula that cannot build a fleet
+##############################################################################
+
+shared_focus = {
+	id = KOR_navy_ports
+	icon = GFX_goal_generic_construct_naval_dockyard
+	x = 50
+	y = 0
+	cost = 5
+	ai_will_do = { factor = 5 }
+	completion_reward = {
+		add_ideas = KOR_port_repair
+		527 = { add_building_construction = { type = naval_base level = 2 province = 1003 instant_build = yes } }
+	}
+}
+
+shared_focus = {
+	id = KOR_navy_shipyard
+	icon = GFX_goal_generic_construct_naval_dockyard
+	x = 0
+	y = 1
+	relative_position_id = KOR_navy_ports
+	cost = 10
+	prerequisite = { focus = KOR_navy_ports }
+	completion_reward = {
+		525 = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = dockyard level = 2 instant_build = yes }
+		}
+		add_tech_bonus = { bonus = 0.5 uses = 1 category = naval_equipment }
+	}
+}
+
+shared_focus = {
+	id = KOR_coastal_flotilla
+	icon = GFX_goal_generic_navy_cruiser
+	x = 0
+	y = 1
+	relative_position_id = KOR_navy_shipyard
+	cost = 10
+	prerequisite = { focus = KOR_navy_shipyard }
+	completion_reward = {
+		add_tech_bonus = { bonus = 1.0 uses = 1 category = dd_tech }
+		add_ideas = KOR_coastal_defence_idea
+	}
+}
+
+shared_focus = {
+	id = KOR_submarine_priority
+	icon = GFX_goal_generic_navy_submarine
+	x = 0
+	y = 1
+	relative_position_id = KOR_coastal_flotilla
+	cost = 15
+	prerequisite = { focus = KOR_coastal_flotilla }
+	completion_reward = {
+		add_tech_bonus = { bonus = 1.0 uses = 1 category = ss_tech }
+		add_tech_bonus = { bonus = 0.5 uses = 1 category = trade_interdiction_tree }
+		add_ideas = KOR_wolfpack_idea
+	}
+}
+
+shared_focus = {
+	id = KOR_abandon_capitals
+	icon = GFX_goal_generic_navy_battleship
+	x = 0
+	y = 1
+	relative_position_id = KOR_submarine_priority
+	cost = 5
+	prerequisite = { focus = KOR_submarine_priority }
+	completion_reward = {
+		add_ideas = KOR_coastal_navy
+		capital_scope = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+		}
+		set_country_flag = KOR_no_capital_ships
+		custom_effect_tooltip = KOR_no_capital_ships_tt
+	}
+}
+
+##############################################################################
+# AIR - a few dozen aircraft over the heads of the infantry
+##############################################################################
+
+shared_focus = {
+	id = KOR_air_no_baek_rin
+	icon = GFX_goal_generic_air_fighter
+	x = 54
+	y = 0
+	cost = 5
+	ai_will_do = { factor = 5 }
+	completion_reward = {
+		air_experience = 25
+		add_ideas = KOR_aviation_legacy
+	}
+}
+
+shared_focus = {
+	id = KOR_air_kwon_ki_ok
+	icon = GFX_goal_generic_air_fighter2
+	x = 0
+	y = 1
+	relative_position_id = KOR_air_no_baek_rin
+	cost = 10
+	prerequisite = { focus = KOR_air_no_baek_rin }
+	completion_reward = {
+		air_experience = 40
+		add_equipment_to_stockpile = { type = fighter_equipment_1 amount = 20 producer = CHI }
+		if = { limit = { country_exists = CHI } add_opinion_modifier = { target = CHI modifier = KOR_diplomatic_contact } }
+	}
+}
+
+shared_focus = {
+	id = KOR_air_volunteers
+	icon = GFX_goal_generic_air_doctrine
+	x = 0
+	y = 1
+	relative_position_id = KOR_air_kwon_ki_ok
+	cost = 10
+	prerequisite = { focus = KOR_air_kwon_ki_ok }
+	completion_reward = {
+		air_experience = 50
+		add_tech_bonus = { bonus = 0.5 uses = 1 category = battlefield_support_tree }
+		add_ideas = KOR_foreign_pilots
+	}
+}
+
+shared_focus = {
+	id = KOR_air_pyongyang_field
+	icon = GFX_goal_generic_build_airforce
+	x = 0
+	y = 1
+	relative_position_id = KOR_air_volunteers
+	cost = 5
+	prerequisite = { focus = KOR_air_volunteers }
+	completion_reward = {
+		527 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
+		add_ideas = KOR_airfield_expansion
+	}
+}

@@ -1,0 +1,77 @@
+add_namespace = korea_triggers
+
+# ---------------------------------------------------------------------------
+# korea_triggers.1 - the erased sun. August 1936, a newspaper prints a photo
+# of a marathon gold medallist with the flag on his chest painted out.
+# The choice here decides which half of the tree you can even see.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_triggers.1
+	title = korea_triggers.1.t
+	desc = korea_triggers.1.d
+	picture = GFX_report_event_generic_rally
+
+	is_triggered_only = yes
+
+	option = { # side with the Governor-General
+		name = korea_triggers.1.a
+		ai_chance = { factor = 20 }
+		set_country_flag = KOR_loyalist_path_taken
+		set_country_flag = KOR_loyalist_path
+		add_stability = 0.15
+		hidden_effect = { clr_country_flag = KOR_resistance_path_taken }
+	}
+
+	option = { # defend the paper
+		name = korea_triggers.1.b
+		ai_chance = { factor = 60 }
+		set_country_flag = KOR_resistance_path_taken
+		add_political_power = -100
+		add_war_support = 0.10
+		if = {
+			limit = { any_owned_state = { is_core_of = ROOT } }
+			every_owned_state = { add_resistance = 25 }
+		}
+	}
+
+	option = { # say nothing
+		name = korea_triggers.1.c
+		ai_chance = { factor = 20 }
+		set_country_flag = KOR_loyalist_path_taken
+		set_country_flag = KOR_resistance_path_taken
+		add_timed_idea = { idea = KOR_silence_cost days = 365 }
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_triggers.2 - Cairo, December 1943. "In due course." No date was given.
+# The Philippines had 1946 written down. Korea got an adverb.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_triggers.2
+	title = korea_triggers.2.t
+	desc = korea_triggers.2.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+
+	option = {
+		name = korea_triggers.2.a
+		trigger = { NOT = { has_country_flag = KOR_naisen_ittai_committed } }
+		ai_chance = { factor = 100 }
+		set_variable = { KOR_recognition_delta = 15 }
+		KOR_add_recognition = yes
+		add_war_support = 0.20
+		set_country_flag = KOR_cairo_promise
+		custom_effect_tooltip = KOR_in_due_course_tt
+	}
+
+	option = {
+		name = korea_triggers.2.b
+		trigger = { has_country_flag = KOR_naisen_ittai_committed }
+		ai_chance = { factor = 100 }
+		add_stability = -0.15
+		add_war_support = 0.05
+		set_country_flag = KOR_cairo_promise
+	}
+}

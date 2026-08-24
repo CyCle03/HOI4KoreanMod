@@ -1,0 +1,93 @@
+KOR_balance_category = {
+
+	# Two numbers that always sum to 100. Not the Balance of Power UI, which
+	# needs By Blood Alone - this is Siam's two-spirit swap instead, so the
+	# branch works without the DLC.
+
+	KOR_tilt_right = {
+		icon = generic_political_actions
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = { NOT = { has_country_flag = KOR_scale_locked } }
+		available = { check_variable = { KOR_scale_right < 80 } }
+		cost = 30
+		days_re_enable = 45
+
+		ai_will_do = {
+			factor = 5
+			modifier = { factor = 3 has_country_flag = KOR_kpg_path }
+		}
+
+		complete_effect = {
+			set_variable = { KOR_scale_delta = 10 }
+			KOR_shift_right = yes
+			add_popularity = { ideology = democratic popularity = 0.03 }
+			custom_effect_tooltip = KOR_scale_tt
+		}
+	}
+
+	KOR_tilt_left = {
+		icon = generic_political_actions
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = { NOT = { has_country_flag = KOR_scale_locked } }
+		available = { check_variable = { KOR_scale_right > 20 } }
+		cost = 30
+		days_re_enable = 45
+
+		ai_will_do = {
+			factor = 5
+			modifier = { factor = 3 has_country_flag = KOR_kil_path }
+		}
+
+		complete_effect = {
+			set_variable = { KOR_scale_delta = 10 }
+			KOR_shift_left = yes
+			add_popularity = { ideology = communism popularity = 0.03 }
+			custom_effect_tooltip = KOR_scale_tt
+		}
+	}
+
+	# Past eighty in either direction the other camp walks out.
+	KOR_scale_breakdown = {
+		icon = generic_army_support
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = {
+			OR = {
+				check_variable = { KOR_scale_right > 79 }
+				check_variable = { KOR_scale_right < 21 }
+			}
+		}
+		available = { always = no }
+		activation = {
+			OR = {
+				check_variable = { KOR_scale_right > 79 }
+				check_variable = { KOR_scale_right < 21 }
+			}
+		}
+		days_mission_timeout = 90
+		is_good = no
+
+		timeout_effect = {
+			add_stability = -0.15
+			set_country_flag = KOR_civil_war_risk
+			custom_effect_tooltip = KOR_scale_breakdown_tt
+		}
+	}
+
+	# Contact abroad - opened by the underground network.
+	KOR_foreign_contact = {
+		icon = generic_political_actions
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = { has_country_flag = KOR_underground_built }
+		cost = 40
+		days_re_enable = 120
+
+		ai_will_do = { factor = 8 }
+
+		complete_effect = {
+			set_variable = { KOR_recognition_delta = 5 }
+			KOR_add_recognition = yes
+			add_political_power = -20
+			custom_effect_tooltip = KOR_recognition_tt
+		}
+	}
+}

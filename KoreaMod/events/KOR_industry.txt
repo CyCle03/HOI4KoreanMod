@@ -1,0 +1,41 @@
+add_namespace = korea_industry
+
+# ---------------------------------------------------------------------------
+# korea_industry.1 - the five-year plan, three ways. Borrowed wholesale from
+# Manchukuo's version of the same decision.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_industry.1
+	title = korea_industry.1.t
+	desc = korea_industry.1.d
+	picture = GFX_report_event_generic_factory
+
+	is_triggered_only = yes
+
+	option = { # A - heavy chemical
+		name = korea_industry.1.a
+		ai_chance = { factor = 40 }
+		capital_scope = {
+			add_extra_state_shared_building_slots = 3
+			add_building_construction = { type = industrial_complex level = 3 instant_build = yes }
+		}
+		add_ideas = KOR_plan_chemical
+	}
+
+	option = { # B - munitions
+		name = korea_industry.1.b
+		ai_chance = { factor = 40 }
+		capital_scope = {
+			add_extra_state_shared_building_slots = 3
+			add_building_construction = { type = arms_factory level = 3 instant_build = yes }
+		}
+		add_ideas = KOR_plan_munitions
+	}
+
+	option = { # C - aviation
+		name = korea_industry.1.c
+		ai_chance = { factor = 20 }
+		527 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
+		add_ideas = KOR_plan_aviation
+	}
+}

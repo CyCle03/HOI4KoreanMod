@@ -1,0 +1,18 @@
+opinion_modifiers = {
+	KOR_loyal_service = {
+		value = 20
+		decay = 0.5
+	}
+	KOR_diplomatic_contact = {
+		value = 15
+		decay = 0.5
+	}
+	KOR_sponsor_ties = {
+		value = 30
+		decay = 0.2
+	}
+	KOR_trusteeship_resentment = {
+		value = -30
+		decay = 0.5
+	}
+}

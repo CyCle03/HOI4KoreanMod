@@ -1,0 +1,141 @@
+characters = {
+
+	### Leaders the base game does not already carry ###
+
+	# Kim Ku. Mutually exclusive with Rhee - the KPG branch can swap.
+	KOR_kim_ku = {
+		name = KOR_kim_ku
+		portraits = {
+			civilian = { large = GFX_portrait_Yi_Kang }
+		}
+		country_leader = {
+			ideology = liberalism
+			traits = { KOR_baekbeom }
+			expire = "1965.1.1.1"
+			id = -1
+		}
+	}
+
+	# Kim Tu-bong, if the Yan'an faction gets there first.
+	KOR_kim_tu_bong = {
+		name = KOR_kim_tu_bong
+		portraits = {
+			civilian = { large = GFX_portrait_KOR_kim_il_sung }
+		}
+		country_leader = {
+			ideology = marxism
+			traits = { KOR_yeonan }
+			expire = "1965.1.1.1"
+			id = -1
+		}
+	}
+
+	### Commanders ###
+
+	KOR_ji_cheong_cheon = {
+		name = KOR_ji_cheong_cheon
+		portraits = {
+			army = {
+				large = GFX_portrait_se_asia_generic_land_1
+				small = GFX_portrait_se_asia_generic_land_1_small
+			}
+		}
+		field_marshal = {
+			traits = { trait_engineer trickster }
+			skill = 3
+			attack_skill = 2
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 2
+			legacy_id = -1
+		}
+	}
+
+	KOR_yi_beom_seok = {
+		name = KOR_yi_beom_seok
+		portraits = {
+			army = {
+				large = GFX_portrait_se_asia_generic_land_2
+				small = GFX_portrait_se_asia_generic_land_2_small
+			}
+		}
+		corps_commander = {
+			traits = { trait_cautious ambusher }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 1
+			legacy_id = -1
+		}
+	}
+
+	KOR_kim_won_bong = {
+		name = KOR_kim_won_bong
+		portraits = {
+			army = {
+				large = GFX_portrait_se_asia_generic_land_3
+				small = GFX_portrait_se_asia_generic_land_3_small
+			}
+		}
+		corps_commander = {
+			traits = { commando trait_mountaineer }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+			legacy_id = -1
+		}
+	}
+
+	KOR_mu_jeong = {
+		name = KOR_mu_jeong
+		portraits = {
+			army = {
+				large = GFX_portrait_se_asia_generic_land_1
+				small = GFX_portrait_se_asia_generic_land_1_small
+			}
+		}
+		corps_commander = {
+			traits = { trait_reckless ambusher }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+			legacy_id = -1
+		}
+	}
+
+	### Advisors ###
+
+	KOR_pak_heung_sik = {
+		name = KOR_pak_heung_sik
+		portraits = {
+			civilian = { small = GFX_idea_generic_captain_of_industry_asian_2d }
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = KOR_pak_heung_sik
+			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			traits = { captain_of_industry }
+			cost = 100
+		}
+	}
+
+	KOR_minami_jiro_advisor = {
+		name = KOR_jiro_minami
+		portraits = {
+			civilian = { small = GFX_idea_generic_political_advisor_asian_2d }
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = KOR_minami_jiro_advisor
+			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			available = { has_country_flag = KOR_naisen_ittai_committed }
+			traits = { KOR_governor_general }
+			cost = 150
+		}
+	}
+}

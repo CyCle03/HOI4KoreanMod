@@ -1,0 +1,73 @@
+KOR_bandit_category = {
+
+	# The same raids across the Manchurian border are a nuisance to one branch
+	# and a recruiting pool to another. One event, two meanings.
+
+	KOR_bandit_suppression = {
+		icon = generic_army_support
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = {
+			controls_state = 527
+			OR = {
+				has_country_flag = KOR_naisen_ittai_committed
+				has_country_flag = KOR_yi_house_path
+			}
+		}
+		available = { command_power > 9 }
+		cost = 20
+		custom_cost_trigger = { command_power > 9 }
+		custom_cost_text = KOR_bandit_cost_tt
+		days_re_enable = 60
+
+		ai_will_do = { factor = 15 }
+
+		complete_effect = {
+			add_command_power = -10
+			527 = { add_resistance = -15 }
+			add_stability = 0.02
+			add_manpower = -1500
+			clr_country_flag = KOR_bandits_unchecked
+		}
+	}
+
+	KOR_bandit_recruit = {
+		icon = generic_army_support
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = {
+			has_country_flag = KOR_resistance_path_taken
+			NOT = { has_country_flag = KOR_naisen_ittai_committed }
+		}
+		cost = 15
+		days_re_enable = 60
+
+		ai_will_do = { factor = 12 }
+
+		complete_effect = {
+			add_war_support = 0.02
+			add_manpower = 3000
+			army_experience = 5
+			if = {
+				limit = { country_exists = JAP NOT = { tag = JAP } }
+				JAP = { add_opinion_modifier = { target = ROOT modifier = KOR_trusteeship_resentment } }
+			}
+		}
+	}
+
+	# If nobody deals with them, the damage accumulates.
+	KOR_bandit_neglect = {
+		icon = generic_army_support
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		visible = { controls_state = 527 }
+		available = { always = no }
+		fire_only_once = no
+		days_mission_timeout = 120
+		activation = { controls_state = 527 }
+		is_good = no
+
+		timeout_effect = {
+			527 = { damage_building = { type = infrastructure damage = 1 } }
+			add_political_power = -15
+			set_country_flag = KOR_bandits_unchecked
+		}
+	}
+}

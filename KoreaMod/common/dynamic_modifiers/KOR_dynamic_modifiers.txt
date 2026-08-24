@@ -1,0 +1,10 @@
+# The overlord's cut of everything the peninsula produces. The number is a
+# variable so that industry focuses can claw it back five points at a time.
+KOR_supply_base_leak = {
+	icon = GFX_idea_generic_supply_depot
+	enable = { has_idea = KOR_colonial_supply_base }
+	remove_trigger = { NOT = { has_idea = KOR_colonial_supply_base } }
+
+	industrial_capacity_factory = KOR_leak
+	industrial_capacity_dockyard = KOR_leak
+}

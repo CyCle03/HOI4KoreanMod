@@ -1,0 +1,150 @@
+on_actions = {
+
+	on_startup = {
+		effect = {
+			# --- Korea's starting condition, applied whether or not the tag
+			# --- is on the map yet. Releasing it later keeps all of this.
+			KOR = {
+				KOR_setup_leakage = yes
+				set_variable = { KOR_recognition = 0 }
+				set_variable = { KOR_recognition_delta = 0 }
+				set_variable = { KOR_ind_tier1 = 0 }
+				set_variable = { KOR_ind_total = 0 }
+				set_variable = { KOR_army_focuses = 0 }
+				set_variable = { KOR_scale_right = 50 }
+				set_variable = { KOR_scale_left = 50 }
+				set_variable = { KOR_scale_delta = 0 }
+
+				add_ideas = {
+					KOR_manpower_extraction
+					KOR_divided_movement
+					KOR_army_hq_veto
+					KOR_officer_shortage_1
+					KOR_colonial_education
+				}
+				set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 3 }
+
+				# Difficulty. The tree never changes; the numbers do.
+				if = {
+					limit = { KOR_difficulty_balanced = yes }
+					swap_ideas = { remove_idea = KOR_officer_shortage_1 add_idea = KOR_officer_shortage_2 }
+					set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 8 }
+					add_offsite_building = { type = industrial_complex level = 3 }
+				}
+				if = {
+					limit = { KOR_difficulty_empowered = yes }
+					remove_ideas = KOR_officer_shortage_1
+					remove_ideas = KOR_manpower_extraction
+					set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 999 }
+					add_offsite_building = { type = industrial_complex level = 8 }
+					add_offsite_building = { type = arms_factory level = 4 }
+				}
+			}
+
+			# --- Governorate mode: the peninsula becomes CHO, an integrated
+			# --- puppet. This is the one change that touches Japan, so it is
+			# --- behind a game rule and off by default.
+			if = {
+				limit = { has_game_rule = { rule = KOR_start_mode option = GOVERNORATE } }
+
+				CHO = {
+					transfer_state = 525
+					transfer_state = 527
+					set_capital = { state = 525 }
+					KOR_setup_leakage = yes
+					set_variable = { KOR_recognition = 0 }
+					set_variable = { KOR_ind_tier1 = 0 }
+					set_variable = { KOR_ind_total = 0 }
+					set_variable = { KOR_army_focuses = 0 }
+					add_ideas = {
+						KOR_manpower_extraction
+						KOR_governorate_police
+						KOR_army_hq_veto
+						KOR_officer_shortage_1
+						KOR_colonial_education
+						KOR_divided_movement
+					}
+					set_cosmetic_tag = KOR_jap
+				}
+
+				525 = { add_core_of = CHO }
+				527 = { add_core_of = CHO }
+
+				JAP = {
+					set_autonomy = { target = CHO autonomy_state = autonomy_integrated_puppet }
+					# The metropole loses direct use of Korean manpower and
+					# industry; the integrated-puppet share plus this spirit
+					# is what puts it back.
+					add_ideas = JAP_korean_integration
+				}
+
+				set_global_flag = KOR_governorate_active
+			}
+		}
+	}
+
+	# The flag-defacement incident, and Cairo, are fired from here so that
+	# they work whichever tag the player is holding.
+	on_daily_KOR = {
+		effect = {
+			if = {
+				limit = {
+					date > "1936.8.24"
+					NOT = { has_country_flag = KOR_trigger_event_fired }
+					OR = { is_subject = yes owns_state = 525 has_country_flag = KOR_underground_built }
+				}
+				set_country_flag = KOR_trigger_event_fired
+				country_event = { id = korea_triggers.1 days = 1 }
+			}
+			if = {
+				limit = {
+					date > "1943.11.30"
+					NOT = { has_country_flag = KOR_cairo_fired }
+				}
+				set_country_flag = KOR_cairo_fired
+				country_event = { id = korea_triggers.2 days = 1 }
+			}
+			# Recognition decays slowly if nothing is done about it.
+			if = {
+				limit = { check_variable = { KOR_recognition > 0 } }
+				subtract_from_variable = { KOR_recognition = 0.02 }
+			}
+		}
+	}
+
+	on_daily_CHO = {
+		effect = {
+			if = {
+				limit = {
+					date > "1936.8.24"
+					NOT = { has_country_flag = KOR_trigger_event_fired }
+				}
+				set_country_flag = KOR_trigger_event_fired
+				country_event = { id = korea_triggers.1 days = 1 }
+			}
+			if = {
+				limit = {
+					date > "1943.11.30"
+					NOT = { has_country_flag = KOR_cairo_fired }
+				}
+				set_country_flag = KOR_cairo_fired
+				country_event = { id = korea_triggers.2 days = 1 }
+			}
+		}
+	}
+
+	# ROOT = nation being released, FROM = overlord.
+	# When Korea is released by anyone, hand over both core states explicitly.
+	# The peace conference has been known to hand over only one of them.
+	on_release_as_puppet = {
+		effect = {
+			if = {
+				limit = { tag = KOR }
+				every_state = {
+					limit = { is_core_of = ROOT }
+					transfer_state_to = ROOT
+				}
+			}
+		}
+	}
+}

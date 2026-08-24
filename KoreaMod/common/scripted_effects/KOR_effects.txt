@@ -1,0 +1,135 @@
+# Chosŏn mod - scripted effects
+
+# ---------------------------------------------------------------------------
+# Colonial supply base: 50% of output is siphoned to the overlord. Every
+# industry focus claws back 5 percentage points, down to a floor of 20%.
+# The number lives in a variable that a dynamic modifier reads every day.
+# ---------------------------------------------------------------------------
+KOR_setup_leakage = {
+	set_variable = { KOR_leak = -0.50 }
+	if = { limit = { KOR_difficulty_balanced = yes } set_variable = { KOR_leak = -0.35 } }
+	if = { limit = { KOR_difficulty_empowered = yes } set_variable = { KOR_leak = 0 } }
+	set_variable = { KOR_leak_floor = -0.20 }
+	if = { limit = { KOR_difficulty_empowered = yes } set_variable = { KOR_leak_floor = 0 } }
+	set_variable = { KOR_leak_display = KOR_leak }
+	multiply_variable = { KOR_leak_display = -100 }
+}
+
+KOR_recover_leakage = {
+	add_to_variable = { KOR_leak = 0.05 }
+	clamp_variable = { var = KOR_leak min = -1 max = KOR_leak_floor }
+	set_variable = { KOR_leak_display = KOR_leak }
+	multiply_variable = { KOR_leak_display = -100 }
+}
+
+# Every tier-1 industry focus calls this. The gate focus only reads the counter.
+KOR_count_industry_focus = {
+	add_to_variable = { KOR_ind_tier1 = 1 }
+	add_to_variable = { KOR_ind_total = 1 }
+	KOR_recover_leakage = yes
+}
+
+KOR_count_industry_focus_t2 = {
+	add_to_variable = { KOR_ind_total = 1 }
+	KOR_recover_leakage = yes
+}
+
+KOR_count_army_focus = {
+	add_to_variable = { KOR_army_focuses = 1 }
+}
+
+# ---------------------------------------------------------------------------
+# Allied recognition gauge. Range 0-100, capped at 60 until the cap is broken
+# by actually putting men on Korean soil.
+# ---------------------------------------------------------------------------
+KOR_add_recognition = {
+	add_to_variable = { KOR_recognition = var:KOR_recognition_delta }
+	if = {
+		limit = { NOT = { has_country_flag = KOR_recognition_cap_lifted } }
+		clamp_variable = { var = KOR_recognition min = 0 max = 60 }
+	}
+	else = {
+		clamp_variable = { var = KOR_recognition min = 0 max = 100 }
+	}
+}
+
+KOR_lift_recognition_cap = {
+	set_country_flag = KOR_recognition_cap_lifted
+}
+
+# ---------------------------------------------------------------------------
+# Officer corps: three steps down, never gone.
+# ---------------------------------------------------------------------------
+KOR_officer_stage_2 = {
+	if = {
+		limit = { has_idea = KOR_officer_shortage_1 }
+		swap_ideas = { remove_idea = KOR_officer_shortage_1 add_idea = KOR_officer_shortage_2 }
+		set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 8 }
+	}
+}
+
+KOR_officer_stage_3 = {
+	if = {
+		limit = { has_idea = KOR_officer_shortage_2 }
+		swap_ideas = { remove_idea = KOR_officer_shortage_2 add_idea = KOR_officer_shortage_3 }
+	}
+	else_if = {
+		limit = { has_idea = KOR_officer_shortage_1 }
+		swap_ideas = { remove_idea = KOR_officer_shortage_1 add_idea = KOR_officer_shortage_3 }
+	}
+	set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 999 }
+}
+
+# ---------------------------------------------------------------------------
+# Equipment naming. A cosmetic tag is the only way to re-name equipment
+# inside one country, so each sponsor swap is a tag swap.
+# ---------------------------------------------------------------------------
+KOR_name_equipment_japanese = { set_cosmetic_tag = KOR_jap }
+KOR_name_equipment_china    = { set_cosmetic_tag = KOR_chi }
+KOR_name_equipment_usa      = { set_cosmetic_tag = KOR_usa }
+KOR_name_equipment_prc      = { set_cosmetic_tag = KOR_csr }
+KOR_name_equipment_soviet   = { set_cosmetic_tag = KOR_sov }
+KOR_name_equipment_german   = { set_cosmetic_tag = KOR_ger }
+
+# ---------------------------------------------------------------------------
+# Left/right balance. Sum is always 100.
+# ---------------------------------------------------------------------------
+KOR_shift_right = {
+	add_to_variable = { KOR_scale_right = var:KOR_scale_delta }
+	clamp_variable = { var = KOR_scale_right min = 0 max = 100 }
+	set_variable = { KOR_scale_left = 100 }
+	subtract_from_variable = { KOR_scale_left = KOR_scale_right }
+}
+
+KOR_shift_left = {
+	subtract_from_variable = { KOR_scale_right = var:KOR_scale_delta }
+	clamp_variable = { var = KOR_scale_right min = 0 max = 100 }
+	set_variable = { KOR_scale_left = 100 }
+	subtract_from_variable = { KOR_scale_left = KOR_scale_right }
+}
+
+# ---------------------------------------------------------------------------
+# Sovereignty. Called by every branch that actually ends up running a state.
+# ---------------------------------------------------------------------------
+KOR_restore_sovereignty = {
+	set_country_flag = KOR_sovereignty_restored
+	if = { limit = { is_subject = yes } OVERLORD = { end_puppet = ROOT } }
+	if = {
+		limit = { has_idea = KOR_governorate_police }
+		remove_ideas = KOR_governorate_police
+	}
+	if = {
+		limit = { has_idea = KOR_army_hq_veto }
+		remove_ideas = KOR_army_hq_veto
+	}
+	if = {
+		limit = { has_idea = KOR_manpower_extraction }
+		remove_ideas = KOR_manpower_extraction
+	}
+	# The peace conference has a bad habit of handing over half a peninsula.
+	# Hand it over explicitly instead.
+	every_state = {
+		limit = { is_core_of = ROOT }
+		transfer_state_to = ROOT
+	}
+}

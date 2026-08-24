@@ -1,0 +1,106 @@
+# Every one of these existed on the peninsula between 1936 and 1945.
+# Under the governorate line they are available from the start; a resistance
+# branch has to take them over first, which is what the flag check is for.
+
+KOR_chosen_nitrogen_organization = {
+	include = generic_infantry_equipment_organization
+	icon = GFX_idea_generic_improved_industries
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	available = {
+		OR = {
+			has_country_flag = KOR_naisen_ittai_committed
+			has_completed_focus = KOR_ind_hungnam_nitrogen
+		}
+	}
+}
+
+KOR_kyomipo_steel_organization = {
+	include = generic_artillery_organization
+	icon = GFX_idea_generic_production_bonus
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	available = {
+		has_completed_focus = KOR_ind_kyomipo_steel
+	}
+}
+
+KOR_incheon_arsenal_organization = {
+	include = generic_infantry_equipment_organization
+	icon = GFX_idea_generic_infantry_bonus
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	available = {
+		date > "1941.1.1"
+		controls_state = 525
+	}
+}
+
+KOR_chosen_aircraft_organization = {
+	include = generic_light_aircraft_organization
+	icon = GFX_idea_generic_air_bonus
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	# 1944. It only ever assembled airframes, so it arrives late and thin.
+	available = {
+		date > "1944.1.1"
+		controls_state = 525
+	}
+}
+
+KOR_chosen_heavy_industries_organization = {
+	include = generic_escort_ship_organization
+	icon = GFX_idea_generic_navy_bonus
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	available = {
+		has_completed_focus = KOR_ind_heavy_industries
+	}
+}
+
+KOR_kyungsung_spinning_organization = {
+	include = generic_support_equipment_organization
+	icon = GFX_idea_generic_goods_red_bonus
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	# Korean-owned capital, so the resistance branches can reach it too.
+	available = {
+		has_completed_focus = KOR_ind_kyungsung_textile
+	}
+}
+
+KOR_keijo_university_organization = {
+	include = generic_motorized_mechanized_organization
+	icon = GFX_idea_generic_research_bonus
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	available = {
+		has_completed_focus = KOR_ind_keijo_university
+	}
+}
+
+KOR_yalu_hydro_organization = {
+	include = generic_train_organization
+	icon = GFX_idea_generic_build_infrastructure
+	allowed = {
+		OR = { original_tag = KOR original_tag = CHO }
+		has_dlc = "Arms Against Tyranny"
+	}
+	available = {
+		has_completed_focus = KOR_ind_supung_dam
+	}
+}
