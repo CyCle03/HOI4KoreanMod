@@ -69,12 +69,7 @@ on_actions = {
 				country_event = { id = korea_triggers.2 days = 1 }
 			}
 			KOR_wartime_events = yes
-
-			# Recognition decays slowly if nothing is done about it.
-			if = {
-				limit = { check_variable = { KOR_recognition > 0 } }
-				subtract_from_variable = { KOR_recognition = 0.02 }
-			}
+			KOR_refresh_gauges = yes
 		}
 	}
 
@@ -98,6 +93,7 @@ on_actions = {
 			}
 
 			KOR_wartime_events = yes
+			KOR_refresh_gauges = yes
 		}
 	}
 

@@ -24,6 +24,11 @@ ideas = {
 			}
 		}
 
+		# What holds the line against the two drifts above, and the only thing
+		# that does. It is worth exactly as much as both of them together, so
+		# the peninsula sits still while it is policed and starts moving the
+		# day the police state goes - which is when KOR_restore_sovereignty
+		# removes this spirit.
 		KOR_governorate_police = {
 			picture = generic_secret_police
 			allowed = { always = no }
@@ -32,9 +37,15 @@ ideas = {
 				political_power_factor = -0.50
 				resistance_target_on_our_occupied_states = -0.25
 				war_support_factor = -0.20
+				neutrality_drift = 0.04
 			}
 		}
 
+		# The movement is divided, not absent. Chongqing and Yan'an are both
+		# recruiting on the peninsula every day of the game, which is what the
+		# two drifts are: the fork in the political tree is a pressure that
+		# builds, not a switch that gets thrown. It stops when the factions
+		# finally combine and this spirit is removed.
 		KOR_divided_movement = {
 			picture = generic_disjointed_gov
 			allowed = { always = no }
@@ -43,6 +54,8 @@ ideas = {
 				stability_factor = -0.20
 				political_advisor_cost_factor = 0.50
 				drift_defence_factor = -0.50
+				democratic_drift = 0.02
+				communism_drift = 0.02
 			}
 		}
 

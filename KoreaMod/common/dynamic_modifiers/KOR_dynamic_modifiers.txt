@@ -8,3 +8,26 @@ KOR_supply_base_leak = {
 	industrial_capacity_factory = KOR_leak
 	industrial_capacity_dockyard = KOR_leak
 }
+
+# What the Allies think Korea is, expressed as something the player feels every
+# day rather than a number checked once at the peace table. Scales with
+# KOR_recognition: nothing at 0, +15% political power at the default cap of 60.
+KOR_allied_standing = {
+	icon = GFX_idea_generic_political_pressure
+	enable = { check_variable = { KOR_recognition > 0 } }
+
+	political_power_factor = KOR_recog_weight
+	war_support_factor = KOR_recog_support
+}
+
+# The cost of leaning. The scale starts at 50/50 and does nothing there; the
+# further it is pushed either way, the more the movement it excludes stops
+# holding, and the harder the half that remains pulls. Zero when the scale is
+# locked, which is what happens once the branch has committed.
+KOR_united_front_strain = {
+	icon = GFX_idea_generic_disjointed_gov
+	enable = { NOT = { has_country_flag = KOR_scale_locked } }
+
+	stability_factor = KOR_front_cohesion
+	war_support_factor = KOR_front_zeal
+}

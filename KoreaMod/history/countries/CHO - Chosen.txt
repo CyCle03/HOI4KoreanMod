@@ -24,11 +24,15 @@ set_politics = {
 	elections_allowed = no
 }
 
+# Not 100/0/0/0. The exile movements are small and illegal, not imaginary,
+# and KOR_divided_movement pushes both of these upward every day the police
+# state is not holding them down. Starting them at zero made the political
+# tree's five branches grow out of nothing.
 set_popularities = {
-	democratic = 0
+	democratic = 5
 	fascism = 0
-	communism = 0
-	neutrality = 100
+	communism = 5
+	neutrality = 90
 }
 
 recruit_character = KOR_jiro_minami

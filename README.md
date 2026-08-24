@@ -66,6 +66,38 @@ called from both the KOR and CHO daily on_actions.
   Operation Eagle.
 - **Three difficulties / start modes** — `KoreaMod/common/game_rules/KOR_game_rules.txt`.
 
+## How the gauges press on the game
+
+A number the player can move is not a system unless something reads it while the game
+is running. The leak rate was built that way from the start — the `KOR_supply_base_leak`
+dynamic modifier reads `KOR_leak` every day — and the other two were not. Recognition
+and the left-right scale were read when a decision window opened and at no other time.
+All three now work the same way.
+
+| Gauge | Read daily by | Effect |
+|---|---|---|
+| `KOR_leak` | `KOR_supply_base_leak` | factory and dockyard output |
+| `KOR_recognition` | `KOR_allied_standing` | political power and war support (nothing at 0, +15% political power at the default cap of 60) |
+| `KOR_scale_right` | `KOR_united_front_strain` | the further from 50, the lower the stability and the higher the zeal of the half that remains |
+
+The derived variables are computed once a day by `KOR_refresh_gauges`, called from both
+the KOR and CHO daily on_actions. Recognition's natural decay moved in there too, so both
+tags follow the same rule, and `KOR_scale_left` — written in five places and read in none —
+is refreshed there as well.
+
+**Ideology accumulates as pressure.** Starting popularity is not 100/0/0/0 but 90
+non-aligned, 5 democratic, 5 communist. `KOR_divided_movement` pushes 0.02 a day into each
+of those two, and `KOR_governorate_police` pushes exactly their sum (0.04) back into
+non-aligned. While the police state holds, the peninsula stands still; from the day
+`KOR_restore_sovereignty` removes it, it starts moving. That is what turns the political
+tree's fork from a switch into a pressure that builds.
+
+**The supply base is attached from 1 January 1936.** It used to arrive with the
+`KOR_logistics_base` focus, which meant `KOR_setup_leakage` spent the intervening years
+computing a leak rate nothing read, and the industry focuses spent their 5-point recoveries
+on a modifier that was not attached yet. It moved to startup, and the focus now goes
+through `KOR_ensure_supply_base` so nothing is granted twice.
+
 ## Where this differs from the design
 
 1. **The Japanese surrender-gauge problem is already gone.** In 1.19 the base game's
