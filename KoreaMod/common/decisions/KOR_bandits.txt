@@ -2,19 +2,20 @@ KOR_bandit_category = {
 
 	# The same raids across the Manchurian border are a nuisance to one branch
 	# and a recruiting pool to another. One event, two meanings.
+	#
+	# Both answers are open from January 1936, because the raids start then
+	# and the flag-defacement incident that assigns you a branch does not
+	# happen until August. Gating the responses behind branch flags left the
+	# first eight months with nothing to do but absorb the damage.
 
 	KOR_bandit_suppression = {
 		icon = generic_army_support
 		allowed = { OR = { original_tag = KOR original_tag = CHO } }
 		visible = {
 			controls_state = 527
-			OR = {
-				has_country_flag = KOR_naisen_ittai_committed
-				has_country_flag = KOR_yi_house_path
-			}
+			NOT = { has_country_flag = KOR_kil_path }
 		}
-		available = { command_power > 9 }
-		cost = 20
+		cost = 0
 		custom_cost_trigger = { command_power > 9 }
 		custom_cost_text = KOR_bandit_cost_tt
 		days_re_enable = 60
@@ -34,7 +35,6 @@ KOR_bandit_category = {
 		icon = generic_army_support
 		allowed = { OR = { original_tag = KOR original_tag = CHO } }
 		visible = {
-			has_country_flag = KOR_resistance_path_taken
 			NOT = { has_country_flag = KOR_naisen_ittai_committed }
 		}
 		cost = 15

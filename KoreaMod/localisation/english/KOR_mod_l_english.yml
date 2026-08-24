@@ -213,9 +213,9 @@
  RULE_KOR_DIFFICULTY_EMPOWERED_DESC: "No leak, no officer penalty, a lot more industry. Poland-sized - for multiplayer or a first game."
  RULE_KOR_START_MODE: "The Peninsula at Game Start"
  RULE_KOR_START_MODE_DESC: "Whether the 1936 map is touched at all. This is the only setting that affects Japan."
- RULE_KOR_START_MODE_LIBERATION: "Releasable Only (default)"
+ RULE_KOR_START_MODE_LIBERATION: "Releasable Only (safe)"
  RULE_KOR_START_MODE_LIBERATION_DESC: "The map is left alone. The peninsula stays Japanese, Korea stays a releasable nation, and the focus tree runs once Korea exists. Japan's AI is untouched."
- RULE_KOR_START_MODE_GOVERNORATE: "Government-General (experimental)"
+ RULE_KOR_START_MODE_GOVERNORATE: "Government-General (default)"
  RULE_KOR_START_MODE_GOVERNORATE_DESC: "The design's original intent. Both Korean states are split off to the CHO tag as an integrated puppet of Japan. Japan is compensated with a national spirit, but its conduct of the war in China may suffer."
 
  ### decisions ###
@@ -336,3 +336,10 @@
  KOR_military_academy_idea_desc: "There is somewhere to make officers now. Late, but there."
  KOR_failed_entry: "Scattered Units"
  KOR_failed_entry_desc: "The entry into the homeland failed. The men who went in did not come back."
+
+ ### dynamic modifiers ###
+ KOR_supply_base_leak: "Siphoned to the Overlord"
+ KOR_supply_base_leak_desc: "The share of output that leaves for the home islands. Every completed industry focus cuts it by five percentage points."
+
+ KOR_show_scale: "The Left-Right Scale"
+ KOR_show_scale_desc: "Right §Y[?KOR_scale_right|0]§! - left §Y[?KOR_scale_left|0]§!. They always sum to 100.\n\nIf either side passes 80 the other camp walks out and a civil war check begins. The unification talks only open between 40 and 60."

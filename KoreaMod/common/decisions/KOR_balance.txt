@@ -2,7 +2,17 @@ KOR_balance_category = {
 
 	# Two numbers that always sum to 100. Not the Balance of Power UI, which
 	# needs By Blood Alone - this is Siam's two-spirit swap instead, so the
-	# branch works without the DLC.
+	# branch works without the DLC. Since there is no UI bar to look at, the
+	# current reading gets its own always-visible entry.
+
+	KOR_show_scale = {
+		icon = generic_political_actions
+		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		available = { always = no }
+		visible = { always = yes }
+		fire_only_once = no
+		cost = 0
+	}
 
 	KOR_tilt_right = {
 		icon = generic_political_actions

@@ -29,22 +29,22 @@ KOR_difficulty = {
 # Whether the peninsula is split off from Japan at game start. LIBERATION
 # leaves the 1936 map untouched: Korea is a releasable nation with a tree.
 # GOVERNORATE moves states 525 and 527 to CHO as an integrated puppet, which
-# is the design's intent but also the thing most likely to upset Japan's AI.
+# is the design's intent and the default here, but it is also the thing most
+# likely to upset Japan's AI - see README.
 KOR_start_mode = {
 	name = "RULE_KOR_START_MODE"
 	group = "RULE_GROUP_KOR"
 	desc = "RULE_KOR_START_MODE_DESC"
 	icon = "GFX_guarantee_independence"
 
-	default = {
+	option = {
 		name = "LIBERATION"
 		text = "RULE_KOR_START_MODE_LIBERATION"
 		desc = "RULE_KOR_START_MODE_LIBERATION_DESC"
 	}
-	option = {
+	default = {
 		name = "GOVERNORATE"
 		text = "RULE_KOR_START_MODE_GOVERNORATE"
 		desc = "RULE_KOR_START_MODE_GOVERNORATE_DESC"
-		allow_achievements = no
 	}
 }

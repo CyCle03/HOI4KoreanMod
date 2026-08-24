@@ -2,48 +2,16 @@ on_actions = {
 
 	on_startup = {
 		effect = {
-			# --- Korea's starting condition, applied whether or not the tag
-			# --- is on the map yet. Releasing it later keeps all of this.
-			KOR = {
-				KOR_setup_leakage = yes
-				set_variable = { KOR_recognition = 0 }
-				set_variable = { KOR_recognition_delta = 0 }
-				set_variable = { KOR_ind_tier1 = 0 }
-				set_variable = { KOR_ind_total = 0 }
-				set_variable = { KOR_army_focuses = 0 }
-				set_variable = { KOR_scale_right = 50 }
-				set_variable = { KOR_scale_left = 50 }
-				set_variable = { KOR_scale_delta = 0 }
-
-				add_ideas = {
-					KOR_manpower_extraction
-					KOR_divided_movement
-					KOR_army_hq_veto
-					KOR_officer_shortage_1
-					KOR_colonial_education
-				}
-				set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 3 }
-
-				# Difficulty. The tree never changes; the numbers do.
-				if = {
-					limit = { KOR_difficulty_balanced = yes }
-					swap_ideas = { remove_idea = KOR_officer_shortage_1 add_idea = KOR_officer_shortage_2 }
-					set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 8 }
-					add_offsite_building = { type = industrial_complex level = 3 }
-				}
-				if = {
-					limit = { KOR_difficulty_empowered = yes }
-					remove_ideas = KOR_officer_shortage_1
-					remove_ideas = KOR_manpower_extraction
-					set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 999 }
-					add_offsite_building = { type = industrial_complex level = 8 }
-					add_offsite_building = { type = arms_factory level = 4 }
-				}
-			}
+			# --- Korea's starting condition. Applied to both tags, because
+			# --- either one can be the tag the player is holding: KOR when
+			# --- the peninsula is only releasable, CHO when it is split off.
+			# --- Everything the tree and the decisions read has to exist on
+			# --- whichever one you are actually playing.
+			KOR = { KOR_common_setup = yes }
+			CHO = { KOR_common_setup = yes }
 
 			# --- Governorate mode: the peninsula becomes CHO, an integrated
-			# --- puppet. This is the one change that touches Japan, so it is
-			# --- behind a game rule and off by default.
+			# --- puppet. This is the one change that touches Japan.
 			if = {
 				limit = { has_game_rule = { rule = KOR_start_mode option = GOVERNORATE } }
 
@@ -51,19 +19,7 @@ on_actions = {
 					transfer_state = 525
 					transfer_state = 527
 					set_capital = { state = 525 }
-					KOR_setup_leakage = yes
-					set_variable = { KOR_recognition = 0 }
-					set_variable = { KOR_ind_tier1 = 0 }
-					set_variable = { KOR_ind_total = 0 }
-					set_variable = { KOR_army_focuses = 0 }
-					add_ideas = {
-						KOR_manpower_extraction
-						KOR_governorate_police
-						KOR_army_hq_veto
-						KOR_officer_shortage_1
-						KOR_colonial_education
-						KOR_divided_movement
-					}
+					add_ideas = KOR_governorate_police
 					set_cosmetic_tag = KOR_jap
 				}
 

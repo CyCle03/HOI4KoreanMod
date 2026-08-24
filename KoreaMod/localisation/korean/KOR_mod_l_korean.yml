@@ -213,9 +213,9 @@
  RULE_KOR_DIFFICULTY_EMPOWERED_DESC: "유출 없음, 장교단 페널티 없음, 공장 대폭 증가. 폴란드급 중견국 — 멀티 또는 첫 플레이용."
  RULE_KOR_START_MODE: "반도의 시작 상태"
  RULE_KOR_START_MODE_DESC: "1936년 지도를 건드릴지 여부. 이 설정만이 일본에 영향을 준다."
- RULE_KOR_START_MODE_LIBERATION: "해방국 전용 (기본)"
+ RULE_KOR_START_MODE_LIBERATION: "해방국 전용 (안전)"
  RULE_KOR_START_MODE_LIBERATION_DESC: "지도를 그대로 둔다. 반도는 일본령이고 조선은 해방 가능 국가로 남으며, 중점 트리는 해방된 뒤부터 돌아간다. 일본의 AI는 전혀 영향받지 않는다."
- RULE_KOR_START_MODE_GOVERNORATE: "조선총독부 (실험적)"
+ RULE_KOR_START_MODE_GOVERNORATE: "조선총독부 (기본)"
  RULE_KOR_START_MODE_GOVERNORATE_DESC: "설계서의 본래 의도. 반도 2개 주를 CHO 태그로 떼어 일본의 통합 괴뢰국으로 만든다. 일본은 보정 국민정신을 받지만, 중일전쟁 수행이 흔들릴 수 있다."
 
  ### 결정 ###
@@ -336,3 +336,10 @@
  KOR_military_academy_idea_desc: "장교를 만드는 곳이 생겼다. 늦었지만 생기기는 했다."
  KOR_failed_entry: "흩어진 부대"
  KOR_failed_entry_desc: "국내 진공이 실패했다. 들어간 사람들이 돌아오지 않았다."
+
+ ### 다이나믹 모디파이어 ###
+ KOR_supply_base_leak: "종주국으로의 유출"
+ KOR_supply_base_leak_desc: "생산량 중 본토로 빠져나가는 몫. 산업 중점을 완료할 때마다 5%p씩 줄어든다."
+
+ KOR_show_scale: "좌우 영향력 저울"
+ KOR_show_scale_desc: "우 §Y[?KOR_scale_right|0]§! · 좌 §Y[?KOR_scale_left|0]§! — 합은 항상 100.\n\n어느 한쪽이 80을 넘으면 반대 진영이 이탈해 내전 판정이 시작됩니다. 남북 통합 정부 협상은 40–60 구간에서만 열립니다."
