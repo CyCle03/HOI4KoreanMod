@@ -1,0 +1,34 @@
+# core.autocrlf is on for this machine, which would hand out CRLF working
+# copies of files the repository stores as LF. The game parses either, but
+# the churn shows up as whole-file diffs whenever someone clones on a
+# different platform. Pin the working copy to LF so the bytes on disk match
+# the bytes in the repository everywhere.
+#
+# The UTF-8 BOM that Hearts of Iron IV requires on localisation files is not
+# a line ending, so none of these rules touch it.
+
+* text=auto eol=lf
+
+# Paradox script, spelled out so a stray core.autocrlf cannot undo the above.
+*.txt   text eol=lf
+*.mod   text eol=lf
+*.gfx   text eol=lf
+*.gui   text eol=lf
+*.yml   text eol=lf
+
+# Documents that live alongside the mod.
+*.html  text eol=lf
+*.md    text eol=lf
+*.json  text eol=lf
+
+# Art and other assets a mod picks up later - never convert these.
+*.dds   binary
+*.tga   binary
+*.png   binary
+*.jpg   binary
+*.bmp   binary
+*.mesh  binary
+*.anim  binary
+*.wav   binary
+*.ogg   binary
+*.zip   binary
