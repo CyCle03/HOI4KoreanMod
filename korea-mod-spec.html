@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>조선 모드 이식 설계서 — Hearts of Iron IV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F2328; --ink2:#4A5158; --ink3:#828A91;
+  --paper:#E6E8E1; --card:#F3F4EF; --rule:#C6CAC0; --rule2:#AEB4A8;
+  --nok:#5F7A63; --hwang:#A9781F; --cheong:#2C5A85; --dan:#AE3B26; --ja:#5F4574;
+  --gang:#4A5A64; --meok:#2E3439; --min:#2F6B67;
+  --serif:'Song Myung',serif; --sans:'IBM Plex Sans KR',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+nav{border-bottom:1px solid var(--rule);padding:12px 0;display:flex;flex-wrap:wrap;gap:0 20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+nav a{color:var(--ink3);text-decoration:none}
+nav a.on{color:var(--dan)}
+.mast{border-bottom:1px solid var(--rule2);padding:44px 0 22px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin:0 0 18px}
+.mast h1{font-family:var(--serif);font-weight:400;font-size:clamp(36px,6.5vw,64px);line-height:1;margin:0;letter-spacing:.04em}
+.mast h1 .han{color:var(--dan);margin-left:.26em;font-size:.5em;vertical-align:.42em;letter-spacing:.1em}
+.lede{max-width:60ch;margin:18px 0 0;font-size:15px;color:var(--ink2)}
+.lede strong{font-weight:500}
+.facts{display:flex;flex-wrap:wrap;margin:24px 0 0;border-top:1px solid var(--rule)}
+.fact{padding:11px 20px 11px 0;margin-right:20px;border-right:1px solid var(--rule)}
+.fact:last-child{border-right:0}
+.fact dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:0}
+.fact dd{margin:3px 0 0;font-size:15px;font-weight:400}
+.sec{padding:44px 0 0;scroll-margin-top:12px}
+.sechd{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--rule2);padding-bottom:9px;margin-bottom:20px}
+.sechd h2{font-family:var(--serif);font-weight:400;font-size:25px;margin:0;letter-spacing:.03em}
+.sechd h2::before{content:attr(data-n);font-family:var(--mono);font-size:11px;color:var(--dan);margin-right:10px;vertical-align:.3em}
+.sechd span{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.1em}
+.intro{margin:-4px 0 20px;font-size:14px;color:var(--ink2);max-width:66ch}
+.intro strong{font-weight:500}
+p.body{font-size:14px;color:var(--ink2);max-width:66ch}
+.mwrap{overflow-x:auto;border:1px solid var(--rule2);margin-bottom:20px}
+table{border-collapse:collapse;width:100%;min-width:640px;background:var(--card)}
+th,td{text-align:left;padding:9px 13px;font-size:13px;border-bottom:1px solid var(--rule);vertical-align:top;font-weight:400;color:var(--ink2)}
+thead th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#F3F4EF;border-bottom:0;background:var(--meok)}
+tbody th{color:var(--ink);width:150px;border-right:1px solid var(--rule)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+td.mono,th.mono{font-family:var(--mono);font-size:11.5px}
+td.no{color:var(--dan)}
+td.ok{color:var(--nok)}
+pre{background:var(--meok);color:#D9DBD3;font-family:var(--mono);font-size:11.5px;line-height:1.65;padding:15px 17px;overflow-x:auto;margin:0 0 20px}
+pre .c{color:#8C948F}
+pre .k{color:#EDB86A}
+pre .s{color:#9FC59A}
+code{font-family:var(--mono);font-size:12px;background:rgba(0,0,0,.05);padding:1px 4px}
+.decks{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:14px;margin-bottom:20px}
+.deck{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--dk,var(--rule2));padding:15px 16px 17px}
+.deck h3{font-family:var(--serif);font-weight:400;font-size:18px;margin:0 0 5px;letter-spacing:.02em}
+.deck .cond{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink3);margin:0 0 10px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.deck ul{margin:0;padding-left:15px;font-size:12.5px;color:var(--ink2);line-height:1.65}
+.steps{counter-reset:s;list-style:none;margin:0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:0 0 16px 44px;border-left:1px solid var(--rule2);margin-left:12px}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:-13px;top:0;width:26px;height:26px;border-radius:50%;background:var(--meok);color:#F3F4EF;font-family:var(--mono);font-size:10px;display:grid;place-items:center}
+.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+.steps b{display:block;font-family:var(--serif);font-weight:400;font-size:17px;margin-bottom:3px}
+.steps p{margin:0;font-size:13.5px;color:var(--ink2)}
+footer{border-top:1px solid var(--rule2);padding:20px 0 56px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink3)}
+@media (max-width:620px){ tbody th{width:auto} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <a href="korea-focus-tree.html">중점 트리</a>
+  <a href="korea-research-tree.html">연구 트리</a>
+  <a class="on" href="#">모드 이식</a>
+</nav>
+
+<header class="mast">
+  <p class="eyebrow">Hearts of Iron IV · 모드 이식 설계서 · 1.19 기준</p>
+  <h1>조선 · 이식<span class="han">移植</span></h1>
+  <p class="lede">앞의 두 문서가 <strong>무엇을 만들 것인가</strong>였다면 이 문서는 <strong>어떻게 게임에 넣을 것인가</strong>다. 가장 큰 문제는 스크립트가 아니라 태그 설계다 — 조선에 반도를 주는 순간 일본이 흔들리기 때문이다.</p>
+  <dl class="facts">
+    <div class="fact"><dt>대상 버전</dt><dd>1.19 · Thunder at our Gates</dd></div>
+    <div class="fact"><dt>태그</dt><dd>2개 (CHO · KOR)</dd></div>
+    <div class="fact"><dt>중점</dt><dd>107</dd></div>
+    <div class="fact"><dt>코스메틱 태그</dt><dd>5</dd></div>
+  </dl>
+</header>
+
+<section class="sec" id="prior">
+  <div class="sechd"><h2 data-n="01">선례 조사</h2><span>기존 모드들이 택한 넷</span></div>
+  <p class="intro">같은 문제를 앞서 푼 모드가 여럿 있다. 넷으로 갈리며, 갈리는 기준은 언제나 <strong>일본을 얼마나 건드릴 것인가</strong>다.</p>
+  <div class="mwrap">
+    <table>
+      <thead><tr><th>방식</th><th>대표 모드</th><th>조선의 지위</th><th>일본 영향</th><th>평가</th></tr></thead>
+      <tbody>
+        <tr><th>해방국 전용</th><td>Road to 56</td><td>일본 영토. 일본이 민주 노선을 타면 독립</td><td class="ok">없음</td><td>안전하나 1936년 콘텐츠가 전무</td></tr>
+        <tr><th>겉모습만 연결</th><td>RT56 일본 서브모드</td><td>자율도·핵심화 UI만 표시, 실제 종속 관계는 없음</td><td class="ok">없음</td><td>제작자 스스로 “cosmetic”이라 명시</td></tr>
+        <tr><th>태그 분리</th><td>Project Korea</td><td>한국=일본 괴뢰 / 조선총독부=별개 국가. 총독부와 전쟁해 독립</td><td class="ok">적음</td><td>반도에서 실제 전쟁이 벌어짐</td></tr>
+        <tr><th>총독부 직접 플레이</th><td>New Korea Mod · Tensions on the Korean Peninsula</td><td>총독부가 시작 태그. 독립 시 중점 트리 교체</td><td class="no">큼</td><td>고증은 최상, 밸런스 조정 필수</td></tr>
+        <tr><th>대체역사 독립국</th><td>Hearts of Korea</td><td>1936년에 이미 독립국. 게임 규칙으로 국력 조절</td><td class="ok">없음</td><td>멀티 친화. 고증은 포기</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body">참고로 카이저라이히는 조선을 플레이 가능하게 만들지 않는 대신 인물과 이벤트를 두툼하게 넣었다. 조소앙·신익희·장면·이승엽·안창호·이은 등이 인물로 등록돼 있고, 일본 트리와 청나라 트리에 조선 관련 이벤트가 붙는다. <strong>조선을 주변국의 서사로 다루는</strong> 방식이다.</p>
+</section>
+
+<section class="sec" id="tag">
+  <div class="sechd"><h2 data-n="02">태그 설계</h2><span>이 설계서의 핵심 결정</span></div>
+  <p class="intro">Project Korea의 태그 분리와 총독부 직접 플레이를 합친다. 두 태그를 쓰고, 촉발 이벤트에서 갈아탄다.</p>
+  <div class="decks">
+    <div class="deck" style="--dk:var(--hwang)"><h3>CHO · 조선총독부</h3><p class="cond">시작 태그 · 일본의 통합 괴뢰국</p><ul><li>한반도 전 주를 소유하고 <em>핵심주로 보유</em></li><li>일본은 반도에 핵심주를 갖지 않는다</li><li>자율도 최하 — 통합 괴뢰국</li><li>내선일체 계열이 이 태그의 진행 방향</li><li>국호 표기는 “조선”, 이념 수치 없음</li></ul></div>
+    <div class="deck" style="--dk:var(--cheong)"><h3>KOR · 조선 / 대한민국</h3><p class="cond">전환 태그 · 저항 4계열</p><ul><li>촉발 이벤트에서 저항을 택하면 태그 교체</li><li>바닐라 KOR의 정당·지도자를 그대로 사용</li><li>이념에 따라 국호가 넷으로 갈림</li><li>임정 · 독립동맹 · 이왕가 · 인민공화국이 여기서 열림</li></ul></div>
+    <div class="deck" style="--dk:var(--gang)"><h3>일본 보정</h3><p class="cond">밸런스 처리</p><ul><li>통합 괴뢰국은 인력·공장 지분이 종주국으로 흐른다</li><li>그 비율을 맞추면 시작 국력 체감이 크지 않다</li><li>부족분은 일본에 시작 modifier로 보전</li><li>만주국이 이미 같은 구조라 전례가 있다</li></ul></div>
+    <div class="deck" style="--dk:var(--dan)"><h3>핵심주를 옮기는 이유</h3><p class="cond">항복 게이지 문제</p><ul><li>바닐라에서 반도는 일본의 핵심주다</li><li>그대로 두면 조선 독립이 일본 항복에 직결된다</li><li>게임 초반에 일본이 즉사하면 판이 성립하지 않는다</li><li>핵심주를 CHO로 옮기면 이 연쇄가 끊긴다</li></ul></div>
+  </div>
+  <p class="body">부작용이 하나 있다. 반도가 일본 핵심주가 아니게 되면 일본이 조선 인력을 직접 못 쓴다. 이건 <code>autonomy_integrated_puppet</code>의 인력 지분으로 대체하고, 내선일체 계열의 <em>육군특별지원병령</em>·<em>징병제 실시</em>가 그 지분을 올리는 중점이 되게 묶는다. 결과적으로 <strong>플레이어가 충성할수록 일본이 강해지는</strong> 구조가 되어 서사와도 맞는다.</p>
+</section>
+
+<section class="sec" id="files">
+  <div class="sechd"><h2 data-n="03">파일 구조</h2><span>디렉터리</span></div>
+<pre>KoreaMod/
+├─ descriptor.mod
+├─ common/
+│  ├─ national_focus/
+│  │  ├─ CHO_governorate.txt      <span class="c"># 내선일체 11</span>
+│  │  ├─ KOR_political.txt        <span class="c"># 저항 4계열 + 공유 3</span>
+│  │  ├─ KOR_industry.txt         <span class="c"># 산업 15 (공유 트리)</span>
+│  │  ├─ KOR_military.txt         <span class="c"># 군사 18 (공유 트리)</span>
+│  │  └─ KOR_late.txt             <span class="c"># 후반 전환 11 · 은닉 1</span>
+│  ├─ ideas/KOR.txt               <span class="c"># 국민정신 7</span>
+│  ├─ decisions/
+│  │  ├─ KOR_requisition.txt      <span class="c"># 종주국 장비 청구</span>
+│  │  ├─ KOR_bandits.txt          <span class="c"># 국경 비적 토벌</span>
+│  │  ├─ KOR_endgame.txt          <span class="c"># 종전 처리 7</span>
+│  │  └─ categories/
+│  ├─ scripted_triggers/KOR.txt   <span class="c"># 관문 조건</span>
+│  ├─ scripted_effects/KOR.txt    <span class="c"># 태그 전환 · 코스메틱</span>
+│  ├─ characters/KOR.txt          <span class="c"># 인물 14</span>
+│  ├─ countries/cosmetic_tags/    <span class="c"># 장비 명명 5</span>
+│  ├─ military_industrial_organization/  <span class="c"># MIO 8</span>
+│  ├─ game_rules/KOR.txt          <span class="c"># 난이도 3택</span>
+│  └─ on_actions/KOR.txt
+├─ events/
+│  ├─ KOR_triggers.txt            <span class="c"># 일장기 말소 · 카이로</span>
+│  └─ KOR_liberation.txt
+├─ history/
+│  ├─ countries/CHO - Chosen.txt
+│  ├─ countries/KOR - Korea.txt
+│  └─ states/                     <span class="c"># 반도 주 소유·핵심 재지정</span>
+├─ localisation/korean/ · english/
+└─ gfx/interface/goals/</pre>
+  <p class="body">중점 파일을 다섯으로 쪼갠 이유는 산업·군사·후반 전환이 <code>shared_focus</code>이기 때문이다. 두 태그가 같은 파일을 참조해야 하므로 정치 계열과 분리해 두는 편이 관리가 쉽다.</p>
+</section>
+
+<section class="sec" id="focus">
+  <div class="sechd"><h2 data-n="04">중점 변환</h2><span>HTML → 스크립트</span></div>
+  <p class="intro">소요일이 운 좋게 맞아떨어진다. HOI4의 <code>cost</code>는 1당 7일이라 설계서의 값이 정수로 떨어진다.</p>
+  <div class="mwrap">
+    <table style="min-width:420px">
+      <thead><tr><th>설계서 표기</th><th>cost</th><th>개수</th></tr></thead>
+      <tbody>
+        <tr><th>35일</th><td class="mono">5</td><td>35</td></tr>
+        <tr><th>70일</th><td class="mono">10</td><td>38</td></tr>
+        <tr><th>105일</th><td class="mono">15</td><td>17</td></tr>
+        <tr><th>140일</th><td class="mono">20</td><td>4</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body">분기 문법도 설계 단계에서 이미 맞춰뒀다. 배타선은 <code>mutually_exclusive</code>, Y자 갈라짐은 한 <code>prerequisite</code> 블록 안의 복수 항목(OR), 합류는 <code>prerequisite</code> 블록을 여러 개 나열(AND), 은닉 분기와 조건부 해금은 <code>allow_branch</code>다. 조건이 거짓이면 트리에 아예 표시되지 않는다.</p>
+<pre><span class="k">focus</span> = {
+    id = CHO_naisen_ittai
+    icon = GFX_goal_generic_political_pressure
+    x = 1  y = 3
+    cost = <span class="s">5</span>
+    <span class="c"># 촉발 이벤트에서 총독부 편을 들었을 때만 이 계열이 보인다</span>
+    allow_branch = { has_country_flag = KOR_loyalist_path }
+    prerequisite = { focus = KOR_underground_network }
+    mutually_exclusive = { focus = KOR_kpg_unify focus = KOR_yi_house focus = KOR_pr_committee }
+    completion_reward = {
+        add_stability = <span class="s">0.10</span>
+        add_political_power = <span class="s">50</span>
+        add_dynamic_modifier = { modifier = CHO_mobilization }
+    }
+    ai_will_do = { factor = 10 }
+}</pre>
+  <p class="body">합류 지점은 블록을 나눈다. <em>사관학교 설립</em>이 제도군과 유격 양쪽을 요구하는 것이 이 문법이다.</p>
+<pre><span class="k">focus</span> = {
+    id = KOR_military_academy
+    <span class="c"># 블록이 둘이면 AND — 두 조건을 모두 만족해야 한다</span>
+    prerequisite = { focus = KOR_regular_army_1 focus = KOR_regular_army_2 }
+    prerequisite = { focus = KOR_guerrilla_1 focus = KOR_guerrilla_2 }
+    available = { is_subject = no }
+    ...
+}</pre>
+</section>
+
+<section class="sec" id="gate">
+  <div class="sechd"><h2 data-n="05">관문과 변수</h2><span>“아홉 중 다섯”</span></div>
+  <p class="intro">개수 조건은 <code>prerequisite</code>로 표현할 수 없다. 산업 1티어 아홉 개는 서로 선행이 없으므로, 완료 수를 변수로 세고 관문에서 검사한다.</p>
+<pre><span class="c"># 1티어 각 중점의 completion_reward에 공통으로</span>
+add_to_variable = { KOR_ind_tier1 = 1 }
+
+<span class="c"># 관문 중점</span>
+<span class="k">focus</span> = {
+    id = KOR_regional_specialization
+    available = {
+        <span class="k">custom_trigger_tooltip</span> = {
+            tooltip = KOR_ind_gate_tt
+            check_variable = { KOR_ind_tier1 &gt; 4 }
+        }
+    }
+    ...
+}</pre>
+  <p class="body">최종 관문 <em>세계 속의 조선</em>은 1·2티어를 합산한다. 위에 13개가 있고 조건이 9이므로 넷은 건너뛸 수 있다. 툴팁에 현재 수치를 노출해야 플레이어가 몇 개 더 필요한지 알 수 있으니 <code>custom_trigger_tooltip</code>은 필수다.</p>
+</section>
+
+<section class="sec" id="equip">
+  <div class="sechd"><h2 data-n="06">장비 명명 이식</h2><span>코스메틱 태그 5개</span></div>
+  <p class="intro">장비 이름은 태그 단위 로컬라이제이션이다. 한 나라 안에서 분기마다 바꾸려면 코스메틱 태그를 갈아끼우는 수밖에 없다.</p>
+  <div class="mwrap">
+    <table>
+      <thead><tr><th>분기</th><th>코스메틱 태그</th><th>명명 출처</th><th>전환 조건</th></tr></thead>
+      <tbody>
+        <tr><th>내선일체</th><td class="mono">CHO_jap</td><td>일본</td><td>시작 시</td></tr>
+        <tr><th>임시정부</th><td class="mono">KOR_chi → KOR_usa</td><td>국민정부 중국 → 미국</td><td>연합국 승인 획득 완료</td></tr>
+        <tr><th>연안파</th><td class="mono">KOR_csr</td><td>중화소비에트</td><td>조선독립동맹 창립</td></tr>
+        <tr><th>빨치산파</th><td class="mono">KOR_sov</td><td>소련</td><td>동북항일연군 참가</td></tr>
+        <tr><th>이왕가</th><td class="mono">KOR_ger</td><td>독일</td><td>독일 군사고문단 초빙</td></tr>
+        <tr><th>인민공화국</th><td class="mono">CHO_jap 유지</td><td>노획 일본제</td><td>별도 열 없음 · 보급 페널티</td></tr>
+      </tbody>
+    </table>
+  </div>
+<pre><span class="c"># scripted_effects</span>
+KOR_switch_to_lend_lease = {
+    set_cosmetic_tag = KOR_usa
+    <span class="c"># 로컬 키가 태그 접미사로 해석된다</span>
+}
+
+<span class="c"># localisation/korean/KOR_equipment_l_korean.yml</span>
+infantry_equipment_1_KOR_usa:0 <span class="s">"M2 카빈"</span>
+artillery_equipment_2_KOR_usa:0 <span class="s">"155mm 유탄포 M1"</span>
+fighter_equipment_3_KOR_usa:0 <span class="s">"P-51 머스탱"</span></pre>
+  <p class="body">고유 이름을 정의하지 않은 칸은 자동으로 범용 명칭이 뜬다. 임정과 연안파의 지원 장비·대공포·로켓 포병이 그 경우이며, <code>Support Equipment</code> · <code>Towed Anti-Air</code> · <code>Towed Rocket Artillery</code>가 그대로 노출된다. 필리핀도 고유 트리를 받고 장비 명칭은 하나도 못 받았으니 선례가 있다.</p>
+</section>
+
+<section class="sec" id="limits">
+  <div class="sechd"><h2 data-n="07">바닐라 한계</h2><span>대응 modifier가 없는 것들</span></div>
+  <p class="intro">설계서의 일부 효과는 바닐라에 대응하는 modifier가 존재하지 않는다. 우회책을 정해두지 않으면 구현 단계에서 막힌다.</p>
+  <div class="mwrap">
+    <table>
+      <thead><tr><th>설계 의도</th><th>바닐라 대응</th><th>우회책</th></tr></thead>
+      <tbody>
+        <tr><th>사단 편제 개수 제한</th><td class="no">없음</td><td>지휘력과 훈련 속도를 극단적으로 깎아 사실상 제한. 초과 시 결정으로 해체 유도</td></tr>
+        <tr><th>생산량 50% 종주국 유출</th><td class="no">직접 대응 없음</td><td><code>industrial_capacity_factory</code> 감소 + 자원 수출 강제. 인도네시아의 수출 제한 국민정신 방식</td></tr>
+        <tr><th>좌우 영향력 저울</th><td>세력 균형 UI (BBA)</td><td>DLC 의존을 피하려면 샴처럼 두 국민정신을 결정으로 맞바꾸는 방식</td></tr>
+        <tr><th>기갑 사단 편성 불가</th><td class="no">없음</td><td>기갑 기술 자체를 <code>set_technology</code>로 잠금. 되돌리기 어려우니 경고 필요</td></tr>
+        <tr><th>조선군사령부 거부권</th><td>만주국 관동군 거부권</td><td>그 구조를 그대로 복제. 국민정신 + 해제 중점</td></tr>
+        <tr><th>해방 시 전 주 즉시 통제</th><td>순응도 시스템</td><td><code>set_compliance</code>를 반도 전 주에 일괄 적용</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec" id="rules">
+  <div class="sechd"><h2 data-n="08">게임 규칙</h2><span>고증과 재미를 플레이어에게 넘기기</span></div>
+  <p class="intro">Hearts of Korea가 쓰는 방법이다. 고증 대 재미 논쟁을 설계자가 결정하지 않고 시작 화면에서 고르게 한다.</p>
+  <div class="decks">
+    <div class="deck" style="--dk:var(--meok)"><h3>고증</h3><p class="cond">KOR_difficulty = historical</p><ul><li>공장 유출 50%, 장교단 페널티 최대</li><li>승인 게이지 상한 60 고정</li><li>광복군 사단 정원 60%</li><li>기본값. 종전까지 살아남는 것이 목표</li></ul></div>
+    <div class="deck" style="--dk:var(--meok)"><h3>균형</h3><p class="cond">KOR_difficulty = balanced</p><ul><li>유출 35%, 페널티 절반</li><li>상한 해제 조건 완화</li><li>시작 민수공장 +3</li><li>동유럽 마이너 수준</li></ul></div>
+    <div class="deck" style="--dk:var(--meok)"><h3>강화</h3><p class="cond">KOR_difficulty = empowered</p><ul><li>유출 없음, 장교단 페널티 없음</li><li>시작 사단 12개 · 공장 대폭 증가</li><li>폴란드급 중견국</li><li>멀티 또는 첫 플레이용</li></ul></div>
+  </div>
+  <p class="body">난이도별로 중점 트리를 바꾸지는 않는다. 바뀌는 것은 시작 국민정신의 수치와 초기 자산뿐이다. 그래야 트리 하나로 세 난이도를 모두 감당할 수 있다.</p>
+</section>
+
+<section class="sec" id="order">
+  <div class="sechd"><h2 data-n="09">작업 순서</h2><span>돌아가는 것부터</span></div>
+  <ol class="steps">
+    <li><b>해방국 전용으로 먼저 띄운다</b><p>일본과 주 설정은 손대지 않고, 바닐라 KOR에 저항 4계열 + 산업 + 군사만 붙인다. 콘솔로 조선을 해방시켜 트리가 뜨는지부터 확인한다. 여기까지가 하루치 작업이다.</p></li>
+    <li><b>아이콘은 전부 재활용</b><p><code>GFX_goal_generic_*</code>로 107개를 채운다. 고유 아이콘 제작은 마지막이다. 아이콘 없이도 트리는 돈다.</p></li>
+    <li><b>관문 변수와 코스메틱 태그</b><p>산업 티어가 실제로 잠기는지, 계열마다 장비 이름이 바뀌는지 확인한다. 이 둘이 이 설계의 특징이므로 먼저 검증한다.</p></li>
+    <li><b>결정과 이벤트</b><p>일장기 말소·카이로 선언 두 이벤트, 청구·비적 토벌 반복 결정, 종전 처리 7종. 승인 게이지 변수도 여기서 붙는다.</p></li>
+    <li><b>CHO 태그와 주 재지정</b><p>여기서 처음으로 일본을 건드린다. 반도 주의 소유·핵심을 CHO로 옮기고 통합 괴뢰국으로 묶은 뒤, 1936–41년을 관전 모드로 돌려 일본의 중일전쟁 진행이 무너지지 않는지 본다.</p></li>
+    <li><b>일본 보정과 게임 규칙</b><p>일본 시작 국력을 맞추고, 난이도 3택을 붙인다. 여기까지 오면 사실상 완성이다.</p></li>
+    <li><b>로컬라이제이션과 아이콘</b><p>한국어·영어 두 벌. 중점 설명문은 설계서의 효과 문구를 그대로 옮기면 된다.</p></li>
+  </ol>
+</section>
+
+<section class="sec" id="risk">
+  <div class="sechd"><h2 data-n="10">알려진 위험</h2><span>미리 적어두는 것</span></div>
+  <div class="decks">
+    <div class="deck" style="--dk:var(--dan)"><h3>일본 AI 붕괴</h3><p class="cond">가장 큰 위험</p><ul><li>반도를 종속국으로 떼면 일본의 중일전쟁 수행이 흔들릴 수 있다</li><li>관전 모드 10회 이상 돌려 통계를 봐야 한다</li><li>안 되면 5단계를 포기하고 해방국 전용으로 되돌린다</li></ul></div>
+    <div class="deck" style="--dk:var(--dan)"><h3>평화 회의 사고</h3><p class="cond">전례가 있음</p><ul><li>조선이 독립할 때 일부 주만 가져가는 버그가 바닐라에 보고된 적 있다</li><li>해방 이벤트에서 <code>transfer_state</code>로 명시적으로 넘겨야 한다</li></ul></div>
+    <div class="deck" style="--dk:var(--dan)"><h3>1.19 호환</h3><p class="cond">최근 변경</p><ul><li>군사 HQ와 특수전 교리가 새로 들어왔다</li><li>유격 계열은 특수전 교리에 의존하므로 이 시스템 변경을 추적해야 한다</li></ul></div>
+    <div class="deck" style="--dk:var(--dan)"><h3>주 구성 확인</h3><p class="cond">착수 전 필수</p><ul><li>이 문서는 반도 주 개수를 특정하지 않았다</li><li>설치된 버전의 <code>history/states/</code>를 직접 확인할 것</li><li>일부 모드는 반도를 여러 주로 쪼개고 통제 관련 modifier를 붙인다</li></ul></div>
+  </div>
+</section>
+
+<footer>가상 설계안 · 실제 게임 콘텐츠 아님 · 중점 트리 · 연구 트리 문서와 함께 보도록 만들었습니다</footer>
+</div>
+</body>
+</html>

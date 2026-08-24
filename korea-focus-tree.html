@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>조선 국가 중점 트리 — Hearts of Iron IV 가상 설계안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F2328; --ink2:#4A5158; --ink3:#828A91;
+  --paper:#E6E8E1; --card:#F3F4EF; --rule:#C6CAC0; --rule2:#AEB4A8;
+  --nok:#5F7A63; --gang:#4A5A64; --meok:#2E3439; --min:#2F6B67; --hwang:#A9781F; --cheong:#2C5A85; --dan:#AE3B26; --ja:#5F4574;
+  --serif:'Song Myung',serif; --sans:'IBM Plex Sans KR',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+/* masthead */
+.mast{border-bottom:1px solid var(--rule2);padding:48px 0 22px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin:0 0 20px}
+.mast h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,76px);line-height:1;margin:0;letter-spacing:.04em}
+.mast h1 .han{color:var(--dan);margin-left:.28em;font-size:.52em;vertical-align:.42em;letter-spacing:.1em}
+.lede{max-width:56ch;margin:20px 0 0;font-size:15px;color:var(--ink2)}
+.facts{display:flex;flex-wrap:wrap;gap:0;margin:26px 0 0;border-top:1px solid var(--rule)}
+.fact{padding:12px 22px 12px 0;margin-right:22px;border-right:1px solid var(--rule)}
+.fact:last-child{border-right:0}
+.fact dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:0}
+.fact dd{margin:3px 0 0;font-size:15px;font-weight:400}
+
+/* section heads */
+.sec{padding:44px 0 0;scroll-margin-top:12px}
+.sechd{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule2);padding-bottom:10px;margin-bottom:26px}
+.sechd h2{font-family:var(--serif);font-weight:400;font-size:26px;margin:0;letter-spacing:.03em}
+.sechd span{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.1em}
+
+/* spirits */
+.spirits{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule)}
+.spirit{background:var(--card);padding:16px 16px 18px}
+.spirit h3{font-family:var(--serif);font-weight:400;font-size:17px;margin:0 0 6px;letter-spacing:.02em}
+.spirit p{margin:0;font-size:13px;color:var(--ink2);line-height:1.65}
+.spirit .neg{color:var(--dan)}
+
+/* layout */
+.board{display:grid;grid-template-columns:1fr 228px;gap:18px;align-items:start;padding-top:16px}
+
+/* root */
+.rootrow{display:grid;grid-template-columns:repeat(5,150px);gap:8px;justify-content:center;margin:0 auto}
+.bus{height:30px;position:relative}
+.bus::before{content:'';position:absolute;left:50%;top:0;width:1px;height:15px;background:var(--rule2)}
+.bus::after{content:'';position:absolute;left:9%;right:9%;top:15px;height:1px;background:var(--rule2)}
+
+/* columns */
+.cols{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.col{display:flex;flex-direction:column;gap:11px;position:relative}
+.colhd{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:0}
+.seal{width:22px;height:22px;display:grid;place-items:center;font-family:var(--serif);font-size:15px;color:#F3F4EF;line-height:1}
+.colhd b{font-family:var(--serif);font-weight:400;font-size:14px;letter-spacing:.04em}
+
+/* node */
+.node{position:relative;display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--rule);border-left:2px solid var(--bc,var(--rule2));padding:5px 6px 4px;font-family:var(--sans);font-weight:400;font-size:12px;line-height:1.28;color:var(--ink);cursor:pointer;transition:border-color .14s,background .14s}
+.node:hover{border-color:var(--rule2);background:#FFF}
+.node:focus-visible{outline:2px solid var(--cheong);outline-offset:2px}
+.node[aria-pressed="true"]{background:#FFF;border-color:var(--bc);box-shadow:inset 0 0 0 1px var(--bc)}
+.node .d{display:block;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:1px;letter-spacing:.04em}
+.col .node::before{content:'';position:absolute;left:50%;top:-11px;width:1px;height:11px;background:var(--rule2)}
+.col .node:first-of-type::before{top:-15px;height:15px}
+
+/* panel */
+.panel{position:sticky;top:20px;background:var(--card);border:1px solid var(--rule2)}
+.panel .strip{height:5px;background:var(--pc,var(--rule2))}
+.panel .body{padding:14px 15px 18px}
+.docket{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--rule);padding-bottom:9px}
+.panel h3{font-family:var(--serif);font-weight:400;font-size:20px;margin:14px 0 4px;line-height:1.25;letter-spacing:.02em}
+.panel .sub{font-size:12px;color:var(--ink2);margin:0 0 16px;font-family:var(--mono);letter-spacing:.04em}
+.efx{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.efx li{display:flex;gap:9px;padding:7px 0;border-bottom:1px solid var(--rule);font-size:12.5px;color:var(--ink2);line-height:1.55}
+.efx b{font-family:var(--serif);font-weight:400;color:var(--pc,var(--ink3));flex:none;width:14px;font-size:14px}
+.hint{font-size:12px;color:var(--ink3);margin:14px 0 0;font-style:italic}
+
+/* exclusivity */
+.exwrap{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:0 0 14px}
+.exline{grid-column:1 / -1;position:relative;height:1px;border-top:1px dashed var(--dan)}
+.exchip{position:absolute;left:0;top:-9px;background:var(--paper);padding:0 11px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dan)}
+.exline i{position:absolute;top:-7px;font-style:normal;font-size:11px;color:var(--dan);transform:translateX(-50%)}
+.ex{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--dan);border:1px solid var(--dan);padding:1px 5px;line-height:1.5}
+.fork{position:absolute;right:5px;top:5px;font-family:var(--serif);font-size:12px;color:var(--dan);line-height:1}
+td.yr{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.mwrap table th,.mwrap table td{text-align:left;padding:9px 13px;font-size:13px;border-bottom:1px solid var(--rule);font-weight:400;color:var(--ink2)}
+.mwrap table tbody th{color:var(--ink)}
+.excl{margin:13px 0 0;font-size:12px;color:var(--dan);border-left:2px solid var(--dan);padding-left:10px;line-height:1.55}
+
+/* people */
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:1px;background:var(--rule)}
+.person{background:var(--card);padding:14px 15px 16px}
+.person .role{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.person h3{font-family:var(--serif);font-weight:400;font-size:18px;margin:4px 0 7px;letter-spacing:.02em}
+.person h3 em{font-style:normal;font-family:var(--mono);font-size:9px;letter-spacing:.1em;padding:1px 5px;border:1px solid currentColor;margin-left:7px;vertical-align:.22em}
+.person p{margin:0;font-size:12.5px;color:var(--ink2);line-height:1.6}
+
+/* decisions */
+.decks{display:grid;grid-template-columns:repeat(auto-fit,minmax(276px,1fr));gap:16px}
+.deck{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--dk,var(--rule2));padding:16px 17px 18px}
+.deck h3{font-family:var(--serif);font-weight:400;font-size:19px;margin:0 0 6px;letter-spacing:.02em}
+.deck .cond{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink3);margin:0 0 11px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.deck ul{margin:0;padding-left:15px;font-size:13px;color:var(--ink2);line-height:1.7}
+
+.pair{grid-column:span 3;display:flex;flex-direction:column}
+.shared{width:74%;margin:0 auto}
+.ysplit{height:22px;position:relative;margin-top:11px}
+.ysplit::before{content:'';position:absolute;left:50%;top:0;width:1px;height:11px;background:var(--rule2)}
+.ysplit::after{content:'';position:absolute;left:25%;right:25%;top:11px;height:1px;background:var(--rule2)}
+.ysplit.wide::after{left:16.6%;right:33.3%}
+.ymerge{height:22px;position:relative;margin-top:11px}
+.ymerge::before{content:'';position:absolute;left:25%;right:25%;top:11px;height:1px;background:var(--rule2)}
+.ymerge::after{content:'';position:absolute;left:50%;top:11px;width:1px;height:11px;background:var(--rule2)}
+.ymerge i{position:absolute;top:0;width:1px;height:11px;background:var(--rule2)}
+.faction{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.faction .colhd{margin-bottom:0}
+.col.merged > .node:first-of-type::before{display:none}
+.ysplit i{position:absolute;top:11px;width:1px;height:11px;background:var(--rule2)}
+.forkrow{display:grid;grid-template-columns:1fr 2fr;gap:7px;position:relative}
+.forkrow::before{content:'';position:absolute;left:16.6%;right:33.3%;top:50%;height:2px;background:var(--dan)}
+.forkrow::after{content:'✕';position:absolute;left:41.6%;top:50%;transform:translate(-50%,-50%);color:var(--dan);background:var(--paper);font-size:12px;line-height:1;padding:2px 6px}
+.forkrow > .node{position:relative;z-index:1}
+.forkrow > .node::before{display:none}
+.subcols{display:grid;grid-template-columns:1fr 2fr;gap:7px;margin-top:11px}
+.subcols > .col > .node:first-of-type::before{top:-11px;height:11px}
+.mk{position:absolute;right:4px;top:4px;width:15px;height:15px;display:grid;place-items:center;font-family:var(--serif);font-size:10px;color:#F3F4EF;line-height:1}
+.node.head{padding-right:24px}
+
+
+.cols3{display:grid;grid-template-columns:340px 158px 158px;gap:16px;justify-content:center}
+.indwrap{padding-top:6px}
+.indgrid{display:grid;grid-template-columns:repeat(auto-fill,158px);gap:9px;justify-content:center}
+.indgrid4{display:grid;grid-template-columns:repeat(auto-fill,158px);gap:9px;justify-content:center}
+.gatebar{position:relative;height:1px;border-top:1px dashed var(--rule2);margin:24px auto 0;max-width:1000px}
+.gatechip{position:absolute;left:50%;top:-9px;transform:translateX(-50%);background:var(--paper);padding:0 12px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--nok)}
+.indgate{display:flex;justify-content:center;margin-top:20px;position:relative}
+.indgate::before{content:'';position:absolute;left:50%;top:-20px;width:1px;height:20px;background:var(--rule2)}
+.indgate > .node{max-width:200px;border-style:dashed;border-left-style:solid}
+
+
+.tier{display:flex;flex-direction:column;gap:10px}
+.tier > .node::before{display:none!important}
+.tierlab{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--ink3);text-align:center;margin:0 0 1px;text-transform:uppercase}
+.gate{position:relative;margin-top:24px}
+.gate::before{content:'';position:absolute;left:50%;top:-24px;width:1px;height:24px;background:var(--rule2)}
+.gate > .node::before{display:none!important}
+.gate > .node{border-style:dashed;border-left-style:solid}
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.board > div{min-width:0}
+.cols,.exwrap,.rootrow{min-width:0}
+.col{min-width:0}
+.scrollhint{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink3);text-align:center;margin:0 0 8px}
+.milpair{display:flex;flex-direction:column}
+.milsub{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.milsub .col > .node:first-of-type::before{top:-11px;height:11px}
+@media (max-width:760px){ .milsub{grid-template-columns:1fr} }
+.cols2{display:grid;grid-template-columns:repeat(3,190px);gap:18px;justify-content:center}
+.cols2 .col > .node:first-of-type::before{display:none}
+.cond2{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--dan);text-align:center;margin:-2px 0 2px}
+
+.cols3 .col > .node:first-of-type::before{display:none}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink3);margin:0 0 4px}
+.legend b{color:var(--dan);font-weight:400;margin-right:5px}
+
+
+/* notes */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px;padding-bottom:70px}
+.note h3{font-family:var(--serif);font-weight:400;font-size:19px;margin:0 0 8px;letter-spacing:.02em}
+.note h3::before{content:attr(data-n);font-family:var(--mono);font-size:11px;color:var(--dan);margin-right:9px;vertical-align:.22em}
+.note p{margin:0;font-size:13.5px;color:var(--ink2)}
+footer{border-top:1px solid var(--rule2);padding:22px 0 60px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink3)}
+
+@media (max-width:900px){
+  .board{grid-template-columns:1fr;gap:22px}
+  .panel{position:sticky;top:0;z-index:5;order:-1}
+  .panel .body{padding:14px 16px 18px}
+  .panel h3{font-size:20px;margin:10px 0 3px}
+  .efx li{padding:7px 0;font-size:13px}
+}
+@media (max-width:900px){
+  .scrollx{padding-bottom:10px}
+  .scrollx .rootrow{grid-template-columns:repeat(5,132px);width:700px}
+  .scrollx .exwrap,.scrollx .cols{grid-template-columns:repeat(6,132px);gap:7px;width:846px}
+  .scrollx .pair{grid-column:span 3}
+  .scrollhint{display:block}
+  .cols3{grid-template-columns:300px 140px 140px;gap:12px}
+  .cols2{grid-template-columns:repeat(3,170px);gap:12px}
+  .indgrid,.indgrid4{grid-template-columns:repeat(auto-fill,140px)}
+}
+
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="mast">
+  <p class="eyebrow">Hearts of Iron IV · 가상 국가 중점 설계안 · TAG&nbsp;KOR</p>
+  <h1>조선<span class="han">朝鮮</span></h1>
+  <p class="lede">1936년 한반도는 국가가 아니라 행정구역이다. 주권도, 군대도, 재정도 없다. 그래서 이 트리가 묻는 것은 “어떻게 이길 것인가”가 아니라 <strong style="font-weight:500">어떻게 국가가 될 것인가</strong>이다.</p>
+  <dl class="facts">
+    <div class="fact"><dt>시작 상태</dt><dd>일본 종속국 · 자율도 0</dd></div>
+    <div class="fact"><dt>인구</dt><dd>약 2,300만</dd></div>
+    <div class="fact"><dt>중점</dt><dd>107개 · 은닉 1</dd></div>
+    <div class="fact"><dt>주력 병목</dt><dd>장교단 부재</dd></div>
+  </dl>
+</header>
+
+<nav style="border-bottom:1px solid var(--rule);padding:10px 0;display:flex;gap:0 20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase"><a href="#" style="color:var(--dan);text-decoration:none">중점 트리</a><a href="korea-research-tree.html" style="color:var(--ink3);text-decoration:none">연구 트리</a><a href="korea-mod-spec.html" style="color:var(--ink3);text-decoration:none">모드 이식</a></nav>
+<nav style="border-bottom:1px solid var(--rule);padding:12px 0;display:flex;flex-wrap:wrap;gap:0 22px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase"><a href="#tree" style="color:var(--ink3);text-decoration:none">중점 트리</a><a href="#industry" style="color:var(--ink3);text-decoration:none">산업 분기</a><a href="#military" style="color:var(--ink3);text-decoration:none">군사 트리</a><a href="#late" style="color:var(--ink3);text-decoration:none">후반 전환 분기</a><a href="#politics" style="color:var(--ink3);text-decoration:none">정치 지형</a><a href="#spirits" style="color:var(--ink3);text-decoration:none">시작 국민 정신</a><a href="#people" style="color:var(--ink3);text-decoration:none">인물</a><a href="#endgame" style="color:var(--ink3);text-decoration:none">종전 처리</a><a href="#balance" style="color:var(--ink3);text-decoration:none">밸런스 원칙</a><a href="#notes" style="color:var(--ink3);text-decoration:none">설계 노트</a></nav>
+<section class="sec" id="tree" style="padding-top:26px">
+  <div class="sechd"><h2>중점 트리</h2><span>정치 5계열 · 중점을 누르면 우측에 효과가 표시됩니다</span></div>
+  <div class="legend"><span><b>│</b>선행 조건</span><span><b>⌐┐</b>갈라지는 선 = 공유 선행</span><span><b>━✕━</b>붉은 선 = 상호 배타</span><span><b>└┬┘</b>합류 = 양쪽 모두 선행</span><span><b>택일</b>네 갈래 중 하나만</span></div>
+
+  <div class="board">
+    <div>
+      <p class="scrollhint">← 좌우로 밀어서 전체 분기 보기 →</p>
+      <div class="scrollx">
+      <div class="rootrow">
+        <button class="node" style="--bc:var(--rule2)" data-b="공통" data-c="rule2" data-d="35" data-e="정치력 +50|인프라 건설속도 +10%|자원 채굴량 +5%">조선의 자원 조사<span class="d">35일</span></button>
+        <button class="node" style="--bc:var(--rule2)" data-b="공통" data-c="rule2" data-d="35" data-e="민수공장 +2|국민정신 ‘식민지 병참기지’ 획득|생산량의 50%가 종주국으로 유출|이후 산업 중점마다 유출률 5%p 회수">병참기지화<span class="d">35일</span></button>
+        <button class="node" style="--bc:var(--rule2)" data-b="공통" data-c="rule2" data-d="70" data-e="첩보기관 해금|저항도 상승속도 +20%|정치력 +100|‘국외 세력 접촉’ 결정 개방">지하 조직망<span class="d">70일</span></button>
+        <button class="node" style="--bc:var(--dan)" data-b="촉발 사건" data-c="dan" data-d="0" data-x="1936년 8월 25일 자동 발동. 이 이벤트의 선택지가 아래 네 갈래 중 진입 가능한 분기를 결정합니다. 중점이 아니라 스크립트 이벤트입니다." data-e="선택 1 · 총독부 편에 서기 → 내선일체 계열만 개방, 안정도 +15%|선택 2 · 언론을 옹호 → 저항 3계열 개방, 정치력 −100, 저항도 +25%|선택 3 · 침묵 → 양쪽 모두 개방, 결정 지연 페널티 −25% 정치력">일장기 말소 사건<span class="d">이벤트</span></button>
+        <button class="node" style="--bc:var(--dan)" data-b="촉발 사건" data-c="dan" data-d="0" data-x="1943년 12월 1일 자동 발동. 필리핀의 1946년 독립 예정일처럼 명시된 날짜가 아니라 ‘적절한 시기에’라는 문구뿐입니다. 그 모호함 자체가 이 이벤트의 핵심입니다." data-e="승인 게이지 +15|저항 계열 국민 지지도 +20%|내선일체 계열 안정도 −15%|‘적절한 시기에’ — 독립 시점이 명시되지 않아 신탁통치 결정이 예약됨">카이로 선언<span class="d">이벤트</span></button>
+      </div>
+      <div class="bus"></div>
+
+      <div class="exwrap" aria-hidden="true">
+        <div class="exline"><i style="left:16.6%">✕</i><i style="left:66.6%">✕</i><i style="left:83.3%">✕</i><span class="exchip">배타 · 택일</span></div>
+      </div>
+
+      <div class="cols">
+
+        <div class="col" style="--bc:var(--hwang)">
+          <div class="colhd"><span class="seal" style="background:var(--hwang)">內</span><b>내선일체</b><span class="ex">택일</span></div>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="35" data-e="안정도 +10%|저항도 −15%|정치력 +50">국민정신총동원<span class="d">35일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="35" data-e="일본과의 관계 +20|정치력 +75|국민 지지도 −5%">황국신민서사<span class="d">35일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="70" data-e="저항도 −20%|국민 지지도 −10%|국민통합도 −10%">창씨개명<span class="d">70일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="70" data-e="징집 가능 인구 +2%|사단 경험치 +25|보병 사단 3개 지급">육군특별지원병령<span class="d">70일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="105" data-e="징집법 ‘제한적 징병’ 해금|인력 +5%|저항도 +10%">징병제 실시<span class="d">105일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="105" data-e="자율도 +25|정치력 +150|일본으로부터 군수공장 2개 이전">중의원 선거법<span class="d">105일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="140" data-e="자율도 대폭 상승|국민정신 ‘제국 내 자치령’|일본 항복 시 정부 붕괴 이벤트 발동">조선 자치의회<span class="d">140일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="35" data-e="연구속도 +5%|정치력 +50|국민 지지도 −5%">조선교육령 개정<span class="d">35일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="70" data-e="잉여 인력 +5%|안정도 −5%|저항도 +10%">국민징용령<span class="d">70일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="35" data-e="정치력 +75|자율도 +10|안정도 +5%">조선인 관료 등용<span class="d">35일</span></button>
+          <button class="node" data-b="내선일체" data-c="hwang" data-d="70" data-e="해군 경험치 +40|수병 충원|일본 관계 +15">해군 특별지원병<span class="d">70일</span></button>
+        </div>
+
+        <div class="pair">
+          <div class="colhd"><span class="seal" style="background:var(--meok)">合</span><b>국외 무장세력</b><span class="ex" style="color:var(--meok);border-color:var(--meok)">공유</span></div>
+          <div class="col shared">
+          <button class="node" data-b="공유" data-c="meok" data-d="35" data-e="정치력 +75|국민통합도 +5%|좌우 양 계열 중점 개방">조선민족전선연맹<span class="d">35일</span></button>
+          <button class="node" data-b="공유" data-c="meok" data-d="70" data-e="보병 사단 +2|육군 경험치 +25|중국 전선 파병 결정 개방">조선의용대 결성<span class="d">70일</span></button>
+          <button class="node" data-b="공유" data-c="meok" data-d="70" data-e="정치력 +100|국민통합도 +10%|아래 두 중점 중 택일 이벤트 발동">좌우합작 교섭<span class="d">70일</span></button>
+          </div>
+          <div class="ysplit wide"><i style="left:16.6%"></i><i style="left:66.6%"></i></div>
+          <div class="forkrow">
+          <button class="node head" data-b="임시정부" data-c="cheong" data-d="35" data-x="상호 배타 — 한국독립당 통합과 조선독립동맹 창립 중 하나만 진행할 수 있습니다. 위쪽 공유 구간 3개는 어느 쪽을 택하든 진행 가능합니다." data-e="정치력 +100|국민통합도 +5%|민주주의 +0.05/일|임시정부 계열 개방|이승만의 자유당과 통합 여부 이벤트 발동">한국독립당 통합<span class="mk" style="background:var(--cheong)">臨</span><span class="d">35일</span></button>
+          <button class="node head" data-b="독립동맹" data-c="dan" data-d="70" data-x="상호 배타 — 한국독립당 통합과 조선독립동맹 창립 중 하나만 진행할 수 있습니다. 위쪽 공유 구간 3개는 어느 쪽을 택하든 진행 가능합니다." data-e="공산주의 +0.10/일|정치력 +100|국민정신 ‘화북 근거지’|독립동맹 계열 개방">조선독립동맹 창립<span class="mk" style="background:var(--dan)">盟</span><span class="d">70일</span></button>
+          </div>
+          <div class="subcols">
+            <div class="col" style="--bc:var(--cheong)">
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="70" data-e="민주주의 +0.10/일|안정도 +10%|국민정신 ‘삼균주의’">삼균주의 선포<span class="d">70일</span></button>
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="70" data-x="역사적 기본값 — 광복군은 창설 시점 30여 명, 종전까지 수백 명 규모였습니다. 정규 사단은 사관학교를 거쳐야 나옵니다." data-e="특수부대 정원 +30%|보병 사단 +1 (정원 60% 상태)|육군 경험치 +50|유격전 교리 100% 보너스">한국광복군 창설<span class="d">70일</span></button>
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="35" data-e="중국과의 관계 +30|소총·야포 지급|보급 페널티 완화">중국 국민정부 협정<span class="d">35일</span></button>
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="70" data-e="정치력 +150|미국과의 관계 +20|민수공장 +1">미주 한인 동원<span class="d">70일</span></button>
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="70" data-e="영국과의 관계 +20|육군 경험치 +40|정글전 교리 보너스">인면전구공작대<span class="d">70일</span></button>
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="105" data-x="승인 게이지 상한은 기본 60입니다. 60을 넘기려면 ‘독수리 작전’과 ‘국내 진공’을 실제로 성공시켜야 합니다 — 역사에서는 못 했습니다." data-e="연합국 가입 가능|렌드리스 수령 해금|장비 명명 미국제로 전환|승인 게이지 +40, 상한 60 해제 조건 개방">연합국 승인 획득<span class="d">105일</span></button>
+            <button class="node" data-b="임시정부" data-c="cheong" data-d="105" data-e="특수부대 해금|‘국내 진공’ 결정 개방|일본 점령지 저항도 +30%">독수리 작전<span class="d">105일</span></button>
+          <button class="node" data-b="임시정부" data-c="cheong" data-d="35" data-e="미국과의 관계 +15|승인 게이지 +10">구미위원부 설치<span class="d">35일</span></button>
+          <button class="node" data-b="임시정부" data-c="cheong" data-d="35" data-e="정치력 +75|승인 게이지 +10|영국·중국 관계 +10">승인 외교전<span class="d">35일</span></button>
+            </div>
+            <div>
+              <div class="faction">
+                <div class="col" style="--bc:var(--dan)">
+                  <div class="colhd"><span class="seal" style="background:var(--dan)">燕</span><b>연안파</b></div>
+                <button class="node" data-b="연안파" data-c="dan" data-d="35" data-x="먼저 완료한 계열이 후원국을 결정합니다 — 연안파면 중국 공산당, 빨치산파면 소련." data-e="중국 공산당과의 관계 +40|보급 소모 −10%">옌안으로의 이동<span class="d">35일</span></button>
+                <button class="node" data-b="연안파" data-c="dan" data-d="70" data-e="육군 경험치 +40|사단 조직력 +5%|장교 충원 +">화북조선청년학교<span class="d">70일</span></button>
+                <button class="node" data-b="연안파" data-c="dan" data-d="105" data-e="보병 사단 +3|중공으로부터 장비 지원|보병 화력 +5%">조선의용군 편성<span class="d">105일</span></button>
+                <button class="node" data-b="연안파" data-c="dan" data-d="35" data-e="방어 +15%|보급 소모 −10%">태항산 근거지<span class="d">35일</span></button>
+                </div>
+                <div class="col" style="--bc:var(--dan)">
+                  <div class="colhd"><span class="seal" style="background:var(--dan)">遊</span><b>빨치산파</b></div>
+                <button class="node" data-b="빨치산파" data-c="dan" data-d="70" data-x="먼저 완료한 계열이 후원국을 결정합니다 — 연안파면 중국 공산당, 빨치산파면 소련." data-e="소련과의 관계 +20|유격전 교리 100% 보너스|동계전 보너스">동북항일연군 참가<span class="d">70일</span></button>
+                <button class="node" data-b="빨치산파" data-c="dan" data-d="35" data-e="국민 지지도 +10%|일본 점령지 저항도 +20%|세계긴장 +2%">보천보 습격<span class="d">35일</span></button>
+                <button class="node" data-b="빨치산파" data-c="dan" data-d="105" data-e="보병 사단 +3|소련 장비 지원|‘정찰’ 특기 장군 획득">제88독립보병여단<span class="d">105일</span></button>
+                <button class="node" data-b="빨치산파" data-c="dan" data-d="35" data-e="점령 저항도 +15%|육군 경험치 +30">국내 진공 유격대<span class="d">35일</span></button>
+                </div>
+              </div>
+              <div class="ymerge"><i style="left:25%"></i><i style="left:75%"></i></div>
+              <div class="col merged" style="--bc:var(--dan)">
+                <button class="node" data-b="독립동맹" data-c="dan" data-d="105" data-x="합류 지점 — 연안파와 빨치산파 양쪽 계열을 모두 완료해야 열립니다. 둘 중 하나만 탄 상태로는 진행할 수 없습니다." data-e="국민통합도 +10%|정치력 +150|파벌 대립 이벤트 종료|후원국 페널티 제거">양대 파벌 합작<span class="d">105일</span></button>
+                <button class="node" data-b="독립동맹" data-c="dan" data-d="140" data-e="소비재 −10%|안정도 +15%|잉여 인력 +3%|경제법 ‘통제 경제’ 해금">토지개혁<span class="d">140일</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col" style="--bc:var(--ja)">
+          <div class="colhd"><span class="seal" style="background:var(--ja)">帝</span><b>이왕가</b><span class="ex">택일</span></div>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="35" data-e="정치력 +100|비동맹 +0.05/일|국민정신 ‘황실의 그림자’">이왕직 해체<span class="d">35일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="70" data-x="이념 분기점 — 영친왕을 택하면 파시즘(이왕가)으로 확정되고, 의친왕을 택하면 이 계열이 닫히며 중앙인민위원회(비동맹)로 넘어갑니다." data-e="영친왕 이은 → 파시즘 확정, 국명 ‘조선 자치령’, 전쟁지지도 +10%, 징집인구 +2%|의친왕 이강 → 비동맹 전환, 인민공화국 계열로 이관|어느 쪽이든 국민정신 ‘황실의 그림자’ 유지">황실의 귀환<span class="d">70일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="35" data-e="안정도 +10%|비동맹 +0.08/일|국민통합도 +5%">광무 연호 복원<span class="d">35일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="70" data-e="연구속도 +5%|연구 슬롯 +1|정치력 +75">구본신참<span class="d">70일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="105" data-e="국민통합도 +10%|안정도 +10%|정부 형태 ‘전제군주정’ 확정">대한국 국제 재선포<span class="d">105일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="70" data-e="육군 경험치 +50|지휘력 +25%|‘사관학교 설립’ 결정 개방">원수부 재건<span class="d">70일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="140" data-e="방어 +15%|참전 요구 저항 +50%|침공 시 상대에게 명분 페널티 부여">영세중립 선언<span class="d">140일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="35" data-e="정치력 +100|민수공장 +1">이왕직 재산 환수<span class="d">35일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="35" data-e="안정도 +10%|국민통합도 +5%">종묘 제례 복원<span class="d">35일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="70" data-e="육군 경험치 +50|독일과의 관계 +30|장비 명명 독일제로 확정">독일 군사고문단 초빙<span class="d">70일</span></button>
+          <button class="node" data-b="이왕가" data-c="ja" data-d="70" data-e="정예 사단 +2|지휘력 +10%">황실 근위대 창설<span class="d">70일</span></button>
+        </div>
+
+
+        <div class="col" style="--bc:var(--min)">
+          <div class="colhd"><span class="seal" style="background:var(--min)">民</span><b>인민공화국</b><span class="ex">택일</span></div>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="35" data-e="정치력 +100|국민통합도 +10%|비동맹 +0.05/일">조선건국동맹<span class="d">35일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="70" data-e="좌우 영향력 저울 40–60 고정|안정도 +10%|파벌 이탈 위험 −50%">좌우합작 노선<span class="d">70일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="70" data-e="즉시 임시 행정기구 수립|저항도 −20%|정치력 +150|다른 계열보다 90일 먼저 행정 인수 가능">정부 수립 선포<span class="d">70일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="105" data-x="이 계열의 강점은 군대가 아니라 행정입니다. 1945년 8월 시점에 반도를 실제로 장악한 것은 인민위원회였습니다." data-e="전 주 순응도 +50%|저항도 −40%|잉여 인력 +5%|해방 시 반도 전 주 즉시 통제|점령 저항 분기 해금">인민위원회 전국 조직<span class="d">105일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="140" data-x="대가는 군사력입니다. 이 중점 이후 정규 사단 편제 상한이 12개로 고정되고 기갑 사단을 편성할 수 없습니다." data-e="국명 변경|국민통합도 +15%|비동맹 +0.10/일|국민정신 ‘전국 인민위원회 망’|정규 사단 상한 12개로 고정">조선인민공화국 선포<span class="d">140일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="105" data-e="미국·소련 관계 각 +15|어느 진영에도 가입 불가|세계긴장 참전 저항 +40%">미소 등거리 외교<span class="d">105일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="35" data-e="잉여 인력 +3%|안정도 +5%">농민조합 재건<span class="d">35일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="35" data-e="공장 생산량 +5%|소비재 −3%">노동조합 전국평의회<span class="d">35일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="70" data-e="민병 사단 +4|저항도 −15%">치안대 조직<span class="d">70일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="35" data-e="전 주 순응도 +15%|정치력 +50">지방 자치 확대<span class="d">35일</span></button>
+          <button class="node" data-b="인민공화국" data-c="min" data-d="70" data-e="세계긴장 +2%|국민 지지도 +15%|점령군 순응도 −15%">신탁 반대 국민대회<span class="d">70일</span></button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <aside class="panel" id="panel" style="--pc:var(--rule2)" aria-live="polite">
+      <div class="strip"></div>
+      <div class="body">
+        <div class="docket"><span id="p-branch">공통</span><span id="p-days">070日</span></div>
+        <h3 id="p-name">병참기지화</h3>
+        <p class="sub" id="p-meta">EFFECTS · 3</p>
+        <ul class="efx" id="p-efx">
+          <li><b>一</b>민수공장 +2</li>
+          <li><b>二</b>국민정신 ‘식민지 병참기지’ 획득</li>
+          <li><b>三</b>생산량의 20%가 종주국으로 유출</li>
+        </ul>
+        <p class="excl" id="p-excl" hidden></p>
+        <p class="hint">중점을 선택하면 이 칸이 바뀝니다.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+
+<section class="sec" id="industry">
+  <div class="sechd"><h2>산업 분기</h2><span>모든 계열 공통 · 15개 · 관문 2</span></div>
+  <p class="intro">정치 계열과 무관하게 누구나 진행한다. 1티어 아홉 개는 서로 선행 관계가 없어 원하는 순서로 찍을 수 있고, 관문은 그중 몇 개를 완료했는지만 본다. 무엇을 버릴지가 선택이 된다.</p>
+  <div class="indwrap">
+    <p class="tierlab">1티어 · 서로 선행 없음</p>
+    <div class="indgrid">
+      <button class="node" data-b="산업" data-c="nok" data-d="35" data-e="잉여 인력 +2%|소비재 −5%|안정도 +5%">산미증식계획 재개<span class="d">35일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="35" data-e="고무 +2|소비재 −5%|남부 주 인프라 +1">남면북양<span class="d">35일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-e="함흥 민수공장 +3|화학 연구속도 +10%|합성자원 기술 100% 보너스">흥남 질소비료<span class="d">70일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="105" data-e="평북 인프라 +2|전 지역 건설속도 +10%|민수공장 +2">수풍댐 건설<span class="d">105일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-e="함북 철 +12|채굴 기술 연구 보너스">무산 철광 개발<span class="d">70일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-e="황해 강철 +8|군수공장 +2">겸이포 제철소<span class="d">70일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="105" data-e="합성정유소 +1|석탄 액화 기술 100% 보너스|연료 최대치 +15%">아오지 인조석유<span class="d">105일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-e="부산 해군 조선소 +2|해군 연구속도 +5%|호위함 기술 해금">조선중공업 설립<span class="d">70일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="35" data-e="민수공장 +2|정치력 −50|국민정신 ‘민족자본의 협조’">경성방직과 화신<span class="d">35일</span></button>
+    </div>
+    <div class="gatebar"><span class="gatechip">관문 · 아홉 중 다섯</span></div>
+    <div class="indgate">
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-x="관문 — 1티어 9개 중 5개 이상을 완료해야 열립니다. 어느 5개인지는 자유입니다." data-e="건설속도 +10%|자원 산출 +10%|2티어 개방|유출률 5%p 회수">지역 특화<span class="d">70일</span></button>
+    </div>
+    <p class="tierlab" style="margin-top:30px">2티어</p>
+    <div class="indgrid4">
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-x="3택 1 — 하나를 고르면 나머지 둘은 이 5개년 동안 잠깁니다." data-e="선택 A · 중화학 → 민수공장 +3, 건설속도 +10%|선택 B · 군수 → 군수공장 +3, 장비 생산 +10%|선택 C · 항공 → 항공기지 +2, 항공 연구 −10% 비용">조선 산업 5개년 계획<span class="d">70일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-e="경기 민수공장 +2|인프라 +1|건설속도 +5%">경인 공업지대 정비<span class="d">70일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="105" data-e="전 주 인프라 +1|보급 처리량 +20%|철도 건설 비용 −25%">철도 복선화<span class="d">105일</span></button>
+      <button class="node" data-b="산업" data-c="nok" data-d="70" data-e="연구 슬롯 +1|‘식민지 교육 체제’ 페널티 완화|연구속도 +5%">경성제대 이공학부<span class="d">70일</span></button>
+    </div>
+    <div class="gatebar"><span class="gatechip">관문 · 통틀어 아홉</span></div>
+    <div class="indgate">
+      <button class="node" data-b="산업" data-c="nok" data-d="105" data-x="관문 — 1·2티어를 통틀어 9개 이상 완료해야 열립니다. 위에 13개가 있으니 넷은 건너뛸 수 있습니다." data-e="민수공장 +3|무역법 한 단계 개방|유출률 즉시 10%p 회수|국민정신 ‘식민지 병참기지’ 최종 완화">세계 속의 조선<span class="d">105일</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="military">
+  <div class="sechd"><h2>군사 트리</h2><span>정치 분기와 병행 진행 · 18개 · 육군은 계열별로 갈림</span></div>
+  <div class="cols3">
+
+    <div class="milpair">
+      <div class="colhd"><span class="seal" style="background:var(--gang)">陸</span><b>육군</b></div>
+      <div class="col" style="--bc:var(--gang)">
+        <button class="node" data-b="육군" data-c="gang" data-d="35" data-e="정치력 +50|아래 두 계열 개방|보유 장교 수 가시화">장교 인력 조사<span class="d">35일</span></button>
+      </div>
+      <div class="ysplit"><i style="left:25%"></i><i style="left:75%"></i></div>
+      <div class="milsub">
+        <div class="col" style="--bc:var(--hwang)">
+          <div class="colhd"><span class="seal" style="background:var(--hwang)">制</span><b>제도군</b></div>
+          <p class="cond2" style="color:var(--hwang)">국가 기구를 쥐고 있을 때</p>
+          <button class="node" data-b="제도군" data-c="hwang" data-d="35" data-x="조건은 정치 계열이 아니라 국가 기구의 보유 여부입니다. 내선일체·이왕가는 처음부터, 나머지 네 계열은 주권을 회복한 뒤에 열립니다." data-e="국민정신 ‘조선군사령부 거부권’ 제거|육상 교리 연구 50% 보너스|사단 편성 봉인 해제|일본과의 관계 +20">조선군사령부와의 협정<span class="d">35일</span></button>
+          <button class="node" data-b="제도군" data-c="hwang" data-d="35" data-e="지휘력 +20%|사단 경험치 +40|국민 지지도 −5%">일본군 출신 장교 등용<span class="d">35일</span></button>
+          <button class="node" data-b="제도군" data-c="hwang" data-d="70" data-e="사단 편제 제한 +6|보병 사단 +4|훈련 속도 +15%">현역 사단 편성<span class="d">70일</span></button>
+          <button class="node" data-b="제도군" data-c="hwang" data-d="70" data-e="보급 소모 −10%|포병 화력 +10%|지원 중대 해금">포병·병참 정비<span class="d">70일</span></button>
+        </div>
+        <div class="col" style="--bc:var(--dan)">
+          <div class="colhd"><span class="seal" style="background:var(--dan)">遊</span><b>유격</b></div>
+          <p class="cond2">국가 기구가 없을 때</p>
+          <button class="node" data-b="유격" data-c="dan" data-d="35" data-x="국가 기구가 없는 동안 쓰는 길입니다. 저항 네 계열은 여기서 시작하고, 주권을 되찾으면 제도군으로 넘어갑니다. 내선일체·이왕가는 열리지 않습니다." data-e="‘장교단의 부재’ 2단계로 완화 (−30%)|육군 경험치 +50|사단 편제 제한 3→6">신흥무관학교 재건<span class="d">35일</span></button>
+          <button class="node" data-b="유격" data-c="dan" data-d="70" data-e="산악·삼림 이동속도 +15%|은폐 +20%|야간 공격 페널티 −25%">유격전 교리 확립<span class="d">70일</span></button>
+          <button class="node" data-b="유격" data-c="dan" data-d="70" data-e="특수부대 해금|특수부대 정원 +30%|첩보 작전 슬롯 +1">의열단의 유산<span class="d">70일</span></button>
+          <button class="node" data-b="유격" data-c="dan" data-d="105" data-e="보병 사단 +3|보급 소모 −15%|점령지 저항도 진압 +20%">만주 국경 유격 거점<span class="d">105일</span></button>
+        </div>
+      </div>
+      <div class="ymerge"><i style="left:25%"></i><i style="left:75%"></i></div>
+      <div class="col merged" style="--bc:var(--gang)">
+        <button class="node" data-b="육군" data-c="gang" data-d="105" data-x="합류 지점 — 주권을 회복한 뒤, 위 두 계열을 통틀어 4개 이상 완료해야 열립니다. 유격으로 시작한 계열도 여기까지 오면 정규군을 갖습니다." data-e="‘장교단의 부재’ 3단계로 완화 (−10%)|사단 편제 제한 해제|육군 경험치 +75|완전 제거는 불가">사관학교 설립<span class="d">105일</span></button>
+      </div>
+    </div>
+
+    <div class="col" style="--bc:var(--gang)">
+      <div class="colhd"><span class="seal" style="background:var(--gang)">海</span><b>해군</b></div>
+          <button class="node" data-b="해군" data-c="gang" data-d="35" data-e="해군 정비율 +10%|수리 속도 +25%|해군 기지 +2">진남포·원산 항만 정비<span class="d">35일</span></button>
+          <button class="node" data-b="해군" data-c="gang" data-d="70" data-e="부산 해군 조선소 +2|해군 연구속도 +5%">조선중공업 확장<span class="d">70일</span></button>
+          <button class="node" data-b="해군" data-c="gang" data-d="70" data-e="구축함 기술 100% 보너스|구축함 4척 지급|연안 방어 +20%">연안 방어 전대<span class="d">70일</span></button>
+          <button class="node" data-b="해군" data-c="gang" data-d="105" data-e="잠수함 기술 100% 보너스|잠수함 3척 지급|통상파괴 효율 +15%">잠수함 우선주의<span class="d">105일</span></button>
+          <button class="node" data-b="해군" data-c="gang" data-d="35" data-x="주력함 계열 기술이 영구 잠금됩니다. 되돌릴 수 없습니다." data-e="국민정신 ‘연안 해군’ 획득|주력함 건조 영구 불가|민수공장 +2|해군 유지비 −50%">주력함 포기<span class="d">35일</span></button>
+    </div>
+
+    <div class="col" style="--bc:var(--gang)">
+      <div class="colhd"><span class="seal" style="background:var(--gang)">空</span><b>공군</b></div>
+          <button class="node" data-b="공군" data-c="gang" data-d="35" data-e="항공 연구속도 +5%|항공 경험치 +25">노백린의 유산<span class="d">35일</span></button>
+          <button class="node" data-b="공군" data-c="gang" data-d="70" data-e="전투기 20대 지급|조종사 경험치 +40|중국과의 관계 +15">권기옥과 중국 항공대<span class="d">70일</span></button>
+          <button class="node" data-b="공군" data-c="gang" data-d="70" data-e="항공 경험치 +50|외국 조종사 특성 획득|공중전 능력 +10%">국제 의용 비행대<span class="d">70일</span></button>
+          <button class="node" data-b="공군" data-c="gang" data-d="35" data-e="항공기지 +2|출격률 +10%">평양 비행장 확장<span class="d">35일</span></button>
+    </div>
+
+
+  </div>
+  <p class="intro" style="margin:26px 0 14px 0;font-size:14px;color:var(--ink2);max-width:66ch">병력의 <strong style="font-weight:500">출처</strong>는 각 정치 계열이 자기 열에서 따로 마련한다. 위 육군 분기는 그 병력을 어떤 <strong style="font-weight:500">제도</strong>로 굴릴지를 정할 뿐이다. 둘을 섞지 않는 것이 요점이다.</p>
+  <div class="mwrap">
+    <table style="min-width:720px">
+      <thead><tr>
+        <th style="background:var(--meok)">계열</th>
+        <th style="background:var(--meok)">자체 병력 중점</th>
+        <th style="background:var(--meok)">출발</th>
+        <th style="background:var(--meok)">제도군 전환 시점</th>
+      </tr></thead>
+      <tbody>
+        <tr><th>내선일체</th><td>육군특별지원병령 · 징병제 실시 · 해군 특별지원병</td><td>제도군</td><td class="yr">해당 없음</td></tr>
+        <tr><th>이왕가</th><td>황실 근위대 창설 · 독일 군사고문단 초빙</td><td>제도군</td><td class="yr">해당 없음</td></tr>
+        <tr><th>임시정부</th><td>한국광복군 창설</td><td>유격</td><td class="yr">연합국 승인 또는 주권 회복</td></tr>
+        <tr><th>연안파</th><td>조선의용군 편성</td><td>유격</td><td class="yr">주권 회복 후</td></tr>
+        <tr><th>빨치산파</th><td>제88독립보병여단</td><td>유격</td><td class="yr">주권 회복 후</td></tr>
+        <tr><th>인민공화국</th><td>치안대 조직</td><td>유격</td><td class="yr">건국준비위원회 완료 즉시</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec" id="late">
+  <div class="sechd"><h2>후반 전환 분기</h2><span>조건부 해금 · 11개 · 은닉 1</span></div>
+  <div class="cols2">
+
+    <div class="col" style="--bc:var(--meok)">
+      <div class="colhd"><span class="seal" style="background:var(--meok)">機</span><b>해방의 기회</b></div>
+      <p class="cond2">일본 통제 영토 70% 미만일 때 해금</p>
+          <button class="node" data-b="해방의 기회" data-c="meok" data-d="35" data-x="해금 조건 — 일본이 최전성기 영토의 70% 미만을 통제할 때. 내선일체 계열을 탄 상태에서도 여기서 저항 계열로 갈아탈 수 있습니다." data-e="이념 분기 전면 재개방|내선일체 계열에서도 전환 가능|정치력 +200|국민 지지도 +20%">기회를 잡다<span class="d">35일</span></button>
+          <button class="node" data-b="해방의 기회" data-c="meok" data-d="35" data-e="보병 장비 5,000 접수|경찰 병력 흡수|보병 사단 +4">총독부 무장해제<span class="d">35일</span></button>
+          <button class="node" data-b="해방의 기회" data-c="meok" data-d="35" data-e="안정도 +10%|저항도 −20%|관료 인력 확보|소비재 −5%">행정권 접수<span class="d">35일</span></button>
+          <button class="node" data-b="해방의 기회" data-c="meok" data-d="70" data-e="즉시 정부 수립|국민통합도 +10%|승인 게이지 +20">정부 수립 선포<span class="d">70일</span></button>
+    </div>
+
+    <div class="col" style="--bc:var(--gang)">
+      <div class="colhd"><span class="seal" style="background:var(--gang)">抗</span><b>점령 저항</b></div>
+      <p class="cond2">강대국 군대가 반도에 진주했을 때 해금</p>
+          <button class="node" data-b="점령 저항" data-c="gang" data-d="35" data-x="해금 조건 — 강대국 군대가 한반도에 진주했을 때. 일본이 아닌 해방군에 대한 저항입니다." data-e="민병 사단 +6|장비 부족 페널티|인력 −2%">자위대 조직<span class="d">35일</span></button>
+          <button class="node" data-b="점령 저항" data-c="gang" data-d="70" data-e="점령 저항도 +30%|안정도 +5%|지역 행정 장악">인민위원회 자치<span class="d">70일</span></button>
+          <button class="node" data-b="점령 저항" data-c="gang" data-d="70" data-e="점령군 순응도 −25%|세계긴장 +3%|국민 지지도 +15%">신탁통치 반대 운동<span class="d">70일</span></button>
+          <button class="node" data-b="점령 저항" data-c="gang" data-d="105" data-e="반도 절반으로 즉시 독립|국민통합도 −20%|상대 진영에 통일 명분 부여">단독정부 수립<span class="d">105일</span></button>
+    </div>
+
+    <div class="col" style="--bc:var(--dan)">
+      <div class="colhd"><span class="seal" style="background:var(--dan)">隱</span><b>경성 계획</b></div>
+      <p class="cond2">은닉 — 조건을 채우기 전에는 트리에 보이지 않음</p>
+          <button class="node" data-b="경성 계획" data-c="dan" data-d="35" data-x="해금 조건 — ‘의열단의 유산’(유격)과 ‘조선군사령부와의 협정’(제도군)을 모두 완료했을 때 — 두 계열은 원래 배타적이므로, 이 조합은 이왕가 계열에서 저항 인맥을 유지한 경우에만 성립합니다. 그 전까지는 이 분기가 트리에 아예 표시되지 않습니다." data-e="첩보 작전 +2 슬롯|반도 주둔 일본 사단 정보 상시 공개|정치력 −100">사령부 내부 포섭<span class="d">35일</span></button>
+          <button class="node" data-b="경성 계획" data-c="dan" data-d="70" data-e="보병 장비 5,000 예약|야포 300 예약|발각 시 전량 소실">무기고 접수 준비<span class="d">70일</span></button>
+          <button class="node" data-b="경성 계획" data-c="dan" data-d="105" data-e="조선군사령부 즉시 무력화|경성·평양·부산 즉시 점령|일본과 즉시 전쟁|국민 지지도 +30%">경성 봉기<span class="d">105일</span></button>
+    </div>
+
+  </div>
+</section>
+
+<section class="sec" id="politics">
+  <div class="sechd"><h2>정치 지형</h2><span>시작 시점과 해방 이후</span></div>
+  <p style="margin:-6px 0 20px;font-size:14px;color:var(--ink2);max-width:66ch">1936년의 조선에는 정당도 선거도 없다. 정치 지형이라 부를 것이 생기는 시점은 주권을 되찾은 뒤다. 아래 두 표는 그 전과 후다.</p>
+
+  <div class="spirits" style="margin-bottom:26px">
+    <div class="spirit"><h3>국호</h3><p>조선(朝鮮). 일본 제국의 행정구역이며 독립 국가가 아니다.</p></div>
+    <div class="spirit"><h3>정부 형태</h3><p>총독부 직할. 이념 수치 자체가 존재하지 않는다.</p></div>
+    <div class="spirit"><h3>선거</h3><p>없음. 참정권도 없다. 중의원 선거법 개정을 거쳐야 생긴다.</p></div>
+    <div class="spirit"><h3>정당</h3><p>전부 비합법. 지지율 대신 각 계열의 <em>잠재 기반</em>만 존재하며 지하 조직망으로 측정된다.</p></div>
+  </div>
+
+  <p style="margin:0 0 14px;font-size:14px;color:var(--ink2);max-width:66ch">주권을 회복하는 순간 아래 네 정당이 한꺼번에 실체를 갖는다. 표의 지지율은 <strong style="font-weight:500">아무 중점도 타지 않았을 때의 기본값</strong>이며, 어느 분기를 걸었느냐에 따라 크게 달라진다.</p>
+  <div class="mwrap" style="overflow-x:auto;border:1px solid var(--rule2)">
+  <table style="border-collapse:collapse;width:100%;min-width:760px;background:var(--card)">
+    <thead><tr>
+      <th style="background:var(--meok);text-align:left;padding:9px 13px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:#F3F4EF">정당</th>
+      <th style="background:var(--meok);text-align:left;padding:9px 13px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:#F3F4EF">이념</th>
+      <th style="background:var(--meok);text-align:left;padding:9px 13px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:#F3F4EF">기본 지지율</th>
+      <th style="background:var(--meok);text-align:left;padding:9px 13px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:#F3F4EF">당수</th>
+      <th style="background:var(--meok);text-align:left;padding:9px 13px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:#F3F4EF">집권 시 국호</th>
+      <th style="background:var(--meok);text-align:left;padding:9px 13px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:#F3F4EF">대응 분기</th>
+    </tr></thead>
+    <tbody>
+      <tr><th style="border-left:3px solid var(--cheong)">자유당</th><td>민주주의</td><td class="yr">35%</td><td>이승만</td><td>대한민국</td><td>임시정부</td></tr>
+      <tr><th style="border-left:3px solid var(--dan)">조선로동당</th><td>공산주의</td><td class="yr">30%</td><td>김일성</td><td>조선민주주의인민공화국</td><td>독립동맹</td></tr>
+      <tr><th style="border-left:3px solid var(--ja)">이왕가</th><td>파시즘</td><td class="yr">25%</td><td>이은</td><td>조선 자치령</td><td>이왕가</td></tr>
+      <tr><th style="border-left:3px solid var(--min)">중앙인민위원회</th><td>비동맹</td><td class="yr">10%</td><td>여운형</td><td>조선인민공화국</td><td>인민공화국</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="margin:16px 0 0;font-size:13px;color:var(--ink3);max-width:66ch">내선일체 계열에는 대응 정당이 없다. 그 길의 종착지는 독립국이 아니라 제국 내 자치령이고, 조선인은 조선의 정당이 아니라 일본 중의원에 표를 던지게 된다. 선거는 정부 수립 후 4년 주기로 열린다.</p>
+</section>
+
+<section class="sec" id="spirits">
+  <div class="sechd"><h2>시작 국민 정신</h2><span>NATIONAL SPIRITS</span></div>
+  <div class="spirits">
+    <div class="spirit"><h3>식민지 병참기지</h3><p>건설속도 +10%, 자원 채굴 +5%. <span class="neg">공장 생산량의 50%가 종주국으로 유출.</span> 산업 중점마다 5%p씩 회수, 최저 20%까지.</p></div>
+    <div class="spirit"><h3>인적 자원의 공출</h3><p><span class="neg">징집 가능 인구 −40%, 소모율 +15%.</span> 징용으로 청년층이 반도 밖에 있다.</p></div>
+    <div class="spirit"><h3>총독부 치안 체제</h3><p>저항도 억제 −25%. <span class="neg">정치력 획득 −50%, 국민 지지도 성장 봉쇄.</span></p></div>
+    <div class="spirit"><h3>분열된 독립운동</h3><p><span class="neg">국민통합도 −20%, 이념 전환 비용 +50%.</span> 충칭·옌안·하바롭스크·호놀룰루가 서로 다른 말을 한다.</p></div>
+    <div class="spirit"><h3>조선군사령부 거부권</h3><p><span class="neg">사단 편성·장군 임명·교리 선택이 전부 봉인된다.</span> 조선주차군 사령부가 반도의 모든 군사 결정을 쥐고 있다. 협정을 맺거나 몰아내야 풀린다.</p></div>
+    <div class="spirit"><h3>장교단의 부재</h3><p>3단계로 완화된다. <span class="neg">지휘력 −60%, 편제 3개 제한</span>에서 시작해 −30%, −10%로 내려가고 완전히는 사라지지 않는다. 인력은 프랑스급인데 지휘할 사람이 없다.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="people">
+  <div class="sechd"><h2>인물</h2><span>국가 원수 6인 · 지휘관 · 고문</span></div>
+  <div class="people">
+    <div class="person"><p class="role">국가 원수 · 민주주의</p><h3>이승만<em>우남</em></h3><p>저항 목표 −10%, 안정도 −5%, 정치력 획득 +10%. 시작 시점의 집권자.</p></div>
+    <div class="person"><p class="role">국가 원수 · 공산주의</p><h3>김일성<em>수령</em></h3><p>징집 가능 인구 +10%, 전쟁 지지도 +5%, 공산주의 +0.10/일. 빨치산파 계열.</p></div>
+    <div class="person"><p class="role">국가 원수 · 공산주의</p><h3>박헌영<em>조건부</em></h3><p>공산주의 +0.05/일, 정치력 +10%, 전쟁 지지도 +10%. 남조선로동당. 만주국의 ‘비적 두목 포섭’ 또는 일본의 ‘한반도 점화’ 완료 시에만 등장.</p></div>
+    <div class="person"><p class="role">국가 원수 · 파시즘</p><h3>이은<em>창덕궁 이왕</em></h3><p>전쟁 지지도 +10%, 징집 가능 인구 +2%. 이왕가 계열의 수반.</p></div>
+    <div class="person"><p class="role">국가 원수 · 비동맹</p><h3>여운형<em>몽양</em></h3><p>안정도 +10%, 정치력 획득 +5%, 전쟁 지지도 −5%. 중앙인민위원회.</p></div>
+    <div class="person"><p class="role">국가 원수 · 비동맹 후계</p><h3>이강<em>전제주의</em></h3><p>여운형 은퇴 시 승계. ‘황실의 귀환’에서 의친왕을 택했을 때 이 경로가 열린다.</p></div>
+    <div class="person"><p class="role">국가 원수 · 민주주의</p><h3>김구<em>백범</em></h3><p>정치력 획득 +15%, 국민통합도 +10%. 이승만과 배타. 임시정부 계열에서 교체 가능.</p></div>
+    <div class="person"><p class="role">국가 원수 · 공산주의</p><h3>김두봉<em>연안</em></h3><p>공산주의 +0.10/일, 안정도 +5%. 연안파를 먼저 완료했을 때 김일성 대신 옹립 가능.</p></div>
+    <div class="person"><p class="role">야전 원수</p><h3>지청천<em>임정</em></h3><p>유격전 · 참호전 특성. 사단 조직력 +5%.</p></div>
+    <div class="person"><p class="role">장군</p><h3>이범석<em>임정 · 이왕가</em></h3><p>기습 · 야전 개척자. 돌파 +10%.</p></div>
+    <div class="person"><p class="role">특수부대 지휘관</p><h3>김원봉<em>임정 · 동맹</em></h3><p>특수부대 공격 +15%, 첩보 작전 성공률 +20%.</p></div>
+    <div class="person"><p class="role">장군</p><h3>무정<em>연안파</em></h3><p>포병 전문가 · 유격전. 소프트 공격 +10%.</p></div>
+    <div class="person"><p class="role">경제 고문</p><h3>박흥식<em>전 계열</em></h3><p>민수공장 건설속도 +10%, 소비재 −3%.</p></div>
+    <div class="person"><p class="role">총독</p><h3>미나미 지로<em>내선일체</em></h3><p>저항도 −20%, 자율도 획득 +15%. 국민통합도 −15%.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="endgame">
+  <div class="sechd"><h2>종전 처리</h2><span>중점이 아닌 결정 · DECISIONS</span></div>
+  <div class="decks">
+    <div class="deck" style="--dk:var(--cheong)"><h3>연합국 승인 게이지</h3><p class="cond">조건 · 지하 조직망 완료 / 범위 0–100</p><ul><li>중점과 외교 결정으로 상승, 시간 경과로 완만히 하락</li><li>종전 시점의 수치가 아래 세 결정의 분기 기준</li><li>기본 상한 60 — 이 구간이면 신탁통치가 기본 결과</li><li>상한 해제는 ‘독수리 작전’ + ‘국내 진공’ 성공 시에만</li></ul></div>
+    <div class="deck" style="--dk:var(--cheong)"><h3>국내 진공 개시</h3><p class="cond">조건 · 독수리 작전 완료 + 일본 항복 6개월 이내</p><ul><li>한반도 주요 주 즉시 점령</li><li>승인 게이지 +25</li><li>실패 시 광복군 사단 절반 소멸</li></ul></div>
+    <div class="deck" style="--dk:var(--dan)"><h3>38선 획정</h3><p class="cond">조건 · 소련군 만주 진입 + 승인 게이지 60 미만</p><ul><li>북부 산업지대 상실 — 흥남·수풍·무산·청진</li><li>산업 분기로 지은 공장의 절반이 사라짐</li><li>독립동맹 루트라면 반대로 남부를 상실</li></ul></div>
+    <div class="deck" style="--dk:var(--hwang)"><h3>신탁통치 수용 · 거부</h3><p class="cond">조건 · 승인 게이지 40–70</p><ul><li>수용 — 안정도 유지, 자율도 −30, 5년 후 자동 독립</li><li>거부 — 저항도 +30%, 내전 발생 확률 판정</li></ul></div>
+    <div class="deck" style="--dk:var(--hwang)"><h3>종주국 장비 청구</h3><p class="cond">조건 · 내선일체 계열 · 90일마다 반복</p><ul><li>충성도가 높을수록 요청이 통과될 확률이 오른다</li><li>보병 장비·야포·항공기 중 하나를 골라 청구</li><li>거절당하면 정치력만 소모, 세 번 연속 거절 시 자율도 하락</li><li>필리핀이 미국에 장비를 청구하는 그 구조 그대로다</li></ul></div>
+    <div class="deck" style="--dk:var(--gang)"><h3>국경 비적 토벌</h3><p class="cond">조건 · 1936년 1월부터 상시 · 만주 접경 4개 주</p><ul><li>동북항일연군의 월경 습격이 매달 인프라와 산업에 피해</li><li>내선일체 · 이왕가 — 토벌 결정으로 진압, 방치하면 피해 누적</li><li>저항 4계열 — 같은 습격이 국민 지지도와 저항도를 올리는 자원이 됨</li><li>같은 사건이 계열에 따라 위협이자 밑천이 된다</li></ul></div>
+    <div class="deck" style="--dk:var(--meok)"><h3>좌우 영향력 저울</h3><p class="cond">상시 · 두 수치의 합은 항상 100</p><ul><li>중점 하나하나가 우파 또는 좌파 쪽으로 저울을 기울임</li><li>어느 한쪽이 80을 넘으면 반대 진영이 이탈해 내전 판정</li><li>40–60 구간을 유지해야 남북 통합 정부 협상이 열림</li></ul></div>
+    <div class="deck" style="--dk:var(--hwang)"><h3>산업 반출 경쟁</h3><p class="cond">조건 · 일본 항복 6개월 전부터 발동</p><ul><li>총독부가 설비를 본토로 반출하는 카운트다운이 시작</li><li>플레이어가 먼저 접수하면 공장 유지, 늦으면 민수·군수 −30%</li><li>‘총독부 무장해제’를 미리 찍어두면 카운트다운이 절반으로</li></ul></div>
+    <div class="deck" style="--dk:var(--ja)"><h3>남북 통합 정부 협상</h3><p class="cond">조건 · 좌우 저울 40–60 · 임정 또는 인민공화국 존속</p><ul><li>성공 — 통일 정부 수립, 국민통합도 +20%</li><li>실패 — 내전 발생, 양측이 각각 국가로 분리</li><li>여운형의 ‘좌우합작 노선’을 완료했다면 성공 확률 대폭 상승</li></ul></div>
+  </div>
+</section>
+
+<section class="sec" id="balance">
+  <div class="sechd"><h2>밸런스 원칙</h2><span>고증과 재미를 섞는 네 가지 규칙</span></div>
+  <div class="decks">
+    <div class="deck" style="--dk:var(--meok)"><h3>역사는 기본값, 이탈은 성취</h3><p class="cond">적용 · 승인 게이지 · 신탁통치</p><ul><li>아무것도 안 하면 역사대로 흘러간다 — 승인 상한 60, 신탁통치, 분단</li><li>거기서 벗어나는 것은 막혀 있지 않고, 플레이로 뚫어야 한다</li><li>상한을 세우되 열쇠를 함께 준다. 결과를 봉인하지 않는다</li></ul></div>
+    <div class="deck" style="--dk:var(--meok)"><h3>약함은 상한이 아니라 비용</h3><p class="cond">적용 · 장교단 · 광복군</p><ul><li>광복군 사단 3개를 0개로 깎지 않고, 정원 60%짜리 1개로 바꿨다</li><li>장교단 페널티는 즉시 제거 대신 3단계로 내려간다</li><li>결국 도달은 하되 남들보다 오래 걸린다</li></ul></div>
+    <div class="deck" style="--dk:var(--meok)"><h3>강점의 종류를 옮겨 적기</h3><p class="cond">적용 · 인민공화국</p><ul><li>실제 강점이 군사력이 아니면 군사력으로 번역하지 않는다</li><li>건준의 강점은 행정 장악 — 순응도와 즉시 통제로 표현</li><li>대신 정규 사단 상한 12개, 기갑 불가라는 천장을 건다</li></ul></div>
+    <div class="deck" style="--dk:var(--meok)"><h3>모든 페널티에 출구를</h3><p class="cond">적용 · 병참기지 유출률</p><ul><li>유출률을 20%에서 50%로 올려 고증에 맞췄다</li><li>대신 산업 중점마다 5%p씩 회수해 최저 20%까지 내려간다</li><li>불리한 조건은 감내가 아니라 공략 대상이어야 한다</li></ul></div>
+  </div>
+</section>
+
+<section class="sec" id="notes">
+  <div class="sechd"><h2>설계 노트</h2><span>DESIGN NOTES</span></div>
+  <div class="notes">
+    <div class="note"><h3 data-n="01">분기 배타 관계</h3><p>내선일체는 나머지 셋과 완전 배타. 임시정부와 독립동맹은 초반 3칸까지 공유하다가 ‘연합국 승인 획득’과 ‘조선독립동맹 창립’에서 영구히 갈라집니다. 실제로 조선의용대 일부가 광복군에 합류했던 만큼, 초반 공유는 역사적으로도 무리가 없습니다.</p></div>
+    <div class="note"><h3 data-n="02">산업 분기의 함정</h3><p>병참기지화 계열의 효율이 압도적입니다. 다만 흥남·수풍·무산은 전부 38선 이북이죠. 종전 시점에 북부 산업지대 귀속 이벤트를 걸어, 쌓아둔 공장의 절반이 날아가게 만듭니다. 지금 커지는 대가를 나중에 치르는 구조입니다.</p></div>
+    <div class="note"><h3 data-n="03">밸런스 조정</h3><p>독립동맹이 명백히 과합니다. 소련·중공 양쪽 지원에 유격전 보너스까지 겹치니까요. 두 파벌을 모두 완료해야 ‘양대 파벌 합작’이 열리게 하고, 그때까지 국민통합도 −20%를 상시로 걸어 초반을 조입니다. 인민공화국은 방향이 다릅니다. 후원자도 연구 슬롯도 없지만 행정 장악력은 압도적이고, 해방 시점에 반도 전체를 즉시 통제합니다. 대신 정규 사단 상한 12개에 기갑 불가 — 지키기는 쉽고 나가기는 불가능한 나라가 됩니다.</p></div>
+    <div class="note"><h3 data-n="06">이념 배치를 고쳤다</h3><p>황실을 비동맹으로 놓았던 것이 틀렸다. 영친왕 이은은 일본 육군 중장이었고, 그가 세우는 나라는 ‘조선 자치령’이다. 파시즘이 맞다. 대신 비동맹 자리는 여운형의 중앙인민위원회가 가져가고, 의친왕 이강이 그 후계로 들어온다. ‘황실의 귀환’ 선택 이벤트가 이제 이념 분기점 역할을 한다.</p></div>
+    <div class="note"><h3 data-n="13">관문은 그물 위에서만 작동한다</h3><p>산업 분기에 관문을 세워놓고 정작 열은 수직 사슬로 둔 것이 오류였다. 사슬에서는 관문에 도달한 시점에 위를 전부 찍었으므로 조건이 무의미하다. 콩고의 티어가 작동하는 이유는 그 안이 서로 선행 없는 <em>병렬 그물</em>이기 때문이다. 1티어 9개를 선행 없이 풀어놓고 관문을 5개로, 2티어 4개를 더해 최종 관문을 9개로 걸었다. 위에 13개가 있으니 넷은 건너뛸 수 있고, 무엇을 버릴지가 선택이 된다.</p></div>
+    <div class="note"><h3 data-n="12">육군을 가르는 축은 이념이 아니다</h3><p>처음에는 제도군을 복종 계열에, 유격을 저항 계열에 배정했다. 틀린 축이었다. 광복군도 의용군도 결국 국군과 인민군이 됐다 — 갈리는 기준은 이념이 아니라 <em>그 시점에 국가 기구를 쥐고 있느냐</em>다. 내선일체와 이왕가는 처음부터 쥐고 있어 제도군에서 시작하고, 나머지 넷은 유격으로 시작해 주권을 되찾는 순간 넘어간다. 인민공화국이 가장 먼저 넘어가는데, 총을 먼저 든 것이 아니라 행정을 먼저 접수하기 때문이다.</p></div>
+    <div class="note"><h3 data-n="11">필리핀은 트리가 있었다</h3><p>앞서 없다고 적은 건 오답이다. No Compromise, No Surrender에서 받았다. 거기서 셋을 가져왔다. 충성할수록 보상이 커지는 <em>청구</em> 구조는 종주국 장비 청구 결정으로, 특정 선택을 미리 해둬야만 트리에 나타나는 <em>은닉 분기</em>는 경성 계획으로 옮겼다. 경제 분기를 대공황 → 흔들리는 경제 → 회복 → 성장의 5티어로 쌓는 방식은 이미 콩고식 관문으로 반영돼 있다. 덧붙이면 필리핀은 고유 트리를 받고도 고유 장비 명칭은 하나도 못 받았다 — 연구 페이지에서 중국계 두 계열을 범용으로 처리한 것과 같은 선례다.</p></div>
+    <div class="note"><h3 data-n="10">만주국에서 가져온 셋</h3><p>관동군 거부권을 조선군사령부 거부권으로 옮겼다 — 종주국 군대가 반도의 군사 결정을 쥐고 있고, 협정을 맺거나 몰아내야 풀린다. 비적 습격은 만주국에선 순수한 골칫거리지만 여기서는 계열에 따라 위협이자 밑천이 된다. 5개년 계획의 3택 구조도 그대로 빌렸다. 필리핀의 1946년 독립 예정일에 대응하는 것이 카이로 선언인데, 거기엔 날짜가 없었다 — 그 부재가 곧 신탁통치였다.</p></div>
+    <div class="note"><h3 data-n="09">페이스를 콩고에서 배웠다</h3><p>얇고 긴 열은 재미가 없다. 콩고 트리는 좁고 깊은 사슬 대신 짧은 중점을 넓게 깔고, 가운데 관문 중점으로 티어를 나눈다 — 2티어는 1티어 6개 완료, 3티어는 통틀어 14개 완료가 조건이다. 여기서도 소요일을 한 단계씩 줄이고(175→140, 105→70, 70→35), 얇았던 네 계열에 중점을 스무 개 더 깔고, 산업 분기에 관문 두 개를 세웠다.</p></div>
+    <div class="note"><h3 data-n="05">참고한 트리</h3><p>구조는 인도네시아(2026년 Thunder at our Gates)에서 가장 많이 가져왔습니다. 촉발 이벤트가 정치 노선을 가르는 방식, 종주국이 약해지면 중간에 갈아타는 전환 중점, 강대국이 들어왔을 때 열리는 저항 분기, 산업 반출 경쟁이 전부 거기 있는 것들입니다. 좌우 저울은 샴의 문민·군부 균형에서, 이왕가 분기의 형태는 만주국의 복벽 트리에서 빌렸습니다.</p></div>
+    <div class="note"><h3 data-n="04">종전이 진짜 엔딩</h3><p>다른 나라는 전쟁에서 이기면 끝입니다. 이 나라는 일본이 항복하는 시점에 게임이 다시 시작되죠. 그래서 종전 처리를 중점이 아니라 결정 시스템으로 뺐습니다. 승인 게이지 하나가 주권국이 되느냐 군정 아래 놓이느냐를 가릅니다.</p></div>
+  </div>
+</section>
+
+<footer>가상 설계안 · 실제 게임 콘텐츠 아님 · 색채는 단청 안료 계열에서 취함</footer>
+</div>
+
+<script>
+(function(){
+  var num = ['一','二','三','四','五','六','七','八'];
+  var nodes = document.querySelectorAll('.node');
+  var panel = document.getElementById('panel');
+  var elB = document.getElementById('p-branch'), elD = document.getElementById('p-days'),
+      elN = document.getElementById('p-name'), elM = document.getElementById('p-meta'),
+      elE = document.getElementById('p-efx'), elX = document.getElementById('p-excl');
+  var EXCL = {
+    '내선일체':'임시정부 · 독립동맹 · 이왕가 · 인민공화국과 완전 배타.',
+    '임시정부':'내선일체 · 이왕가 · 인민공화국과 완전 배타. ‘한국독립당 통합’을 찍은 시점에 독립동맹 계열이 잠깁니다.',
+    '독립동맹':'내선일체 · 이왕가 · 인민공화국과 완전 배타. ‘조선독립동맹 창립’을 찍은 시점에 임시정부 계열이 잠깁니다.',
+    '연안파':'배타 없음 — 빨치산파와 병행 진행 가능. 먼저 완료한 쪽이 후원국을 결정합니다.',
+    '빨치산파':'배타 없음 — 연안파와 병행 진행 가능. 먼저 완료한 쪽이 후원국을 결정합니다.',
+    '제도군':'배타 아님 — 국가 기구를 쥔 시점에 열립니다. 내선일체·이왕가는 즉시, 나머지는 주권 회복 후.',
+    '유격':'배타 아님 — 국가 기구가 없는 동안 열립니다. 저항 네 계열의 출발점이며, 주권 회복 후에도 이미 찍은 것은 유지됩니다.',
+    '공유':'배타 없음 — 임시정부와 독립동맹 어느 쪽을 택하든 진행할 수 있는 공유 구간입니다.',
+    '이왕가':'내선일체 · 임시정부 · 독립동맹 · 인민공화국과 완전 배타. 파시즘 노선.',
+    '인민공화국':'다른 세 갈래와 완전 배타. 비동맹 노선.'
+  };
+
+  function pick(btn){
+    nodes.forEach(function(n){ n.setAttribute('aria-pressed','false'); });
+    btn.setAttribute('aria-pressed','true');
+    var fx = btn.dataset.e.split('|');
+    panel.style.setProperty('--pc','var(--' + btn.dataset.c + ')');
+    elB.textContent = btn.dataset.b;
+    elD.textContent = ('00' + btn.dataset.d).slice(-3) + '日';
+    elN.textContent = btn.firstChild.textContent.trim();
+    elM.textContent = 'EFFECTS · ' + fx.length;
+    elE.innerHTML = fx.map(function(t,i){ return '<li><b>' + (num[i]||'·') + '</b>' + t + '</li>'; }).join('');
+    var x = btn.dataset.x || EXCL[btn.dataset.b] || '';
+    elX.textContent = x;
+    elX.hidden = !x;
+    if (window.matchMedia('(max-width:1040px)').matches) {
+      panel.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    }
+  }
+
+  nodes.forEach(function(n){
+    n.setAttribute('aria-pressed','false');
+    n.addEventListener('click', function(){ pick(n); });
+  });
+})();
+</script>
+</body>
+</html>
