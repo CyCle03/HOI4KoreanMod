@@ -343,3 +343,5 @@
 
  KOR_show_scale: "좌우 영향력 저울"
  KOR_show_scale_desc: "우 §Y[?KOR_scale_right|0]§! · 좌 §Y[?KOR_scale_left|0]§! — 합은 항상 100.\n\n어느 한쪽이 80을 넘으면 반대 진영이 이탈해 내전 판정이 시작됩니다. 남북 통합 정부 협상은 40–60 구간에서만 열립니다."
+ KOR_awaits_incident_loyalist_tt: "§Y1936년 8월 25일 · 일장기 말소 사건§!에서 총독부 편에 서거나 침묵해야 이 계열이 열립니다."
+ KOR_awaits_incident_resistance_tt: "§Y1936년 8월 25일 · 일장기 말소 사건§!에서 신문을 옹호하거나 침묵해야 이 계열이 열립니다."

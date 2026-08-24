@@ -96,7 +96,12 @@ focus_tree = {
 		x = 2
 		y = 2
 		cost = 5
-		allow_branch = { KOR_on_loyalist_path = yes }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KOR_awaits_incident_loyalist_tt
+				KOR_on_loyalist_path = yes
+			}
+		}
 		prerequisite = { focus = KOR_underground_network }
 		mutually_exclusive = { focus = KOR_national_front_league focus = YIH_dissolve_office focus = KPR_founding_league }
 		ai_will_do = { factor = 5 }
@@ -287,7 +292,12 @@ focus_tree = {
 		x = 9
 		y = 2
 		cost = 5
-		allow_branch = { KOR_on_resistance_path = yes }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KOR_awaits_incident_resistance_tt
+				KOR_on_resistance_path = yes
+			}
+		}
 		prerequisite = { focus = KOR_underground_network }
 		mutually_exclusive = { focus = CHO_national_mobilization focus = YIH_dissolve_office focus = KPR_founding_league }
 		ai_will_do = { factor = 10 }
@@ -711,7 +721,12 @@ focus_tree = {
 		x = 18
 		y = 2
 		cost = 5
-		allow_branch = { KOR_on_resistance_path = yes }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KOR_awaits_incident_resistance_tt
+				KOR_on_resistance_path = yes
+			}
+		}
 		prerequisite = { focus = KOR_underground_network }
 		mutually_exclusive = { focus = CHO_national_mobilization focus = KOR_national_front_league focus = KPR_founding_league }
 		ai_will_do = { factor = 3 }
@@ -886,7 +901,12 @@ focus_tree = {
 		x = 24
 		y = 2
 		cost = 5
-		allow_branch = { KOR_on_resistance_path = yes }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KOR_awaits_incident_resistance_tt
+				KOR_on_resistance_path = yes
+			}
+		}
 		prerequisite = { focus = KOR_underground_network }
 		mutually_exclusive = { focus = CHO_national_mobilization focus = KOR_national_front_league focus = YIH_dissolve_office }
 		ai_will_do = { factor = 3 }

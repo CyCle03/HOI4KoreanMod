@@ -31,6 +31,10 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
   (‘세계 속의 조선’ 완료 후 10%).
 - **육군을 가르는 축** — 이념이 아니라 `KOR_has_government_apparatus` 스크립트 트리거.
   제도군/유격 두 계열이 `allow_branch` 로 갈리고, 사관학교에서 합류합니다.
+- **정치 5계열의 개방** — 계열 머리 넷은 1936년 1월부터 §회색으로 보이고§, 8월 25일
+  일장기 말소 사건이 어느 쪽을 풀지 결정합니다. `allow_branch` 대신 `available` +
+  `custom_trigger_tooltip` 을 쓴 이유는, 숨겨 버리면 첫 여덟 달 동안 트리에
+  갈림길이 있다는 사실 자체가 보이지 않기 때문입니다. 진짜 은닉은 경성 계획뿐입니다.
 - **은닉 분기** — `KOR_infiltrate_hq` 의 `allow_branch` 가 `KOR_uiyeoldan_done` 과
   `KOR_hq_accord_signed` 두 플래그를 동시에 요구합니다. 조건 전에는 트리에 그려지지 않습니다.
 - **좌우 저울** — `KOR_scale_right` / `KOR_scale_left` 변수와 결정. BBA 세력 균형 UI를
