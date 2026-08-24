@@ -212,8 +212,7 @@ shared_focus = {
 			limit = { country_exists = JAP NOT = { has_war_with = JAP } }
 			declare_war_on = { target = JAP type = annex_everything }
 		}
-		if = { limit = { NOT = { controls_state = 525 } } 525 = { set_state_controller = ROOT } }
-		if = { limit = { NOT = { controls_state = 527 } } 527 = { set_state_controller = ROOT } }
+		KOR_seize_the_peninsula = yes
 		KOR_restore_sovereignty = yes
 	}
 }

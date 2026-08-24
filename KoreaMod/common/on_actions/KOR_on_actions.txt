@@ -11,7 +11,7 @@ on_actions = {
 			CHO = { KOR_common_setup = yes }
 
 			# --- Governorate mode. The peninsula already belongs to CHO -
-			# --- that is declared in history/states/525 and 527, not here,
+			# --- that is declared in the six history/states files, not here,
 			# --- because the country selection screen reads history and
 			# --- nothing else. Doing it in on_startup meant Korea was
 			# --- Japanese while you were choosing and then broke away the
@@ -42,13 +42,7 @@ on_actions = {
 			# --- sees nothing different, which is the whole point of this
 			# --- option; the cost is that Korea cannot be picked at start.
 			else = {
-				JAP = {
-					transfer_state = 525
-					transfer_state = 527
-				}
-				525 = { remove_core_of = CHO }
-				527 = { remove_core_of = CHO }
-				CHO = { set_capital = { state = 525 } }
+				KOR_return_peninsula_to_japan = yes
 			}
 		}
 	}

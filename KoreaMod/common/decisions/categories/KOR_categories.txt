@@ -12,7 +12,7 @@ KOR_bandit_category = {
 	priority = 95
 	allowed = { OR = { original_tag = KOR original_tag = CHO } }
 	visible = {
-		OR = { owns_state = 527 controls_state = 527 }
+		OR = { controls_state = 527 controls_state = 1028 }
 	}
 }
 

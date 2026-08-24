@@ -129,7 +129,7 @@ KOR_restore_sovereignty = {
 	# The peace conference has a bad habit of handing over half a peninsula.
 	# Hand it over explicitly instead.
 	every_state = {
-		limit = { is_core_of = ROOT }
+		limit = { is_core_of = KOR }
 		transfer_state_to = ROOT
 	}
 }
@@ -181,5 +181,23 @@ KOR_apply_difficulty = {
 		set_division_template_cap = { division_template = "Daehanminguk Yuk-gun" division_cap = 999 }
 		add_offsite_building = { type = industrial_complex level = 8 }
 		add_offsite_building = { type = arms_factory level = 4 }
+	}
+}
+
+# The peninsula, defined once: every state the base game cores to Korea.
+# There are six of them - 525 Gyeonggi, 527 Pyongan-Hwanghae, 1028 Hamgyong,
+# 1029 Gangwon, 1030 Gyeongsang, 1031 Chungcheong-Jeolla.
+KOR_seize_the_peninsula = {
+	every_state = {
+		limit = { is_core_of = KOR }
+		set_state_controller = ROOT
+	}
+}
+
+KOR_return_peninsula_to_japan = {
+	every_state = {
+		limit = { is_core_of = KOR }
+		transfer_state_to = JAP
+		remove_core_of = CHO
 	}
 }

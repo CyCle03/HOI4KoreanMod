@@ -48,8 +48,15 @@ Hearts of Iron IV 1.19.2 (Operation Postern) 용 모드로 옮긴 것입니다.
 1. **일본 항복 게이지 문제는 이미 없습니다.** 1.19 바닐라의 `history/states/525`,
    `527` 은 `owner = JAP` 에 `add_core_of = KOR` 만 있고 **일본 핵심주가 아닙니다.**
    설계서 §태그 설계의 가장 큰 우려는 게임이 이미 해결해 둔 상태였습니다.
-2. **반도는 2개 주입니다** — 525 (경기), 527 (평안·황해). 설계서가 “설치된 버전에서
-   직접 확인할 것”이라 한 부분이며, 확인 결과 둘뿐입니다.
+2. **반도는 6개 주입니다** — 525 경기, 527 평안·황해, 1028 함경, 1029 강원,
+   1030 경상, 1031 충청·전라. 여섯 모두 `owner = JAP` 에 `add_core_of = KOR` 이고
+   일본 핵심주는 하나도 없습니다. 설계서가 “설치된 버전에서 직접 확인할 것”이라 한
+   부분입니다. 주 단위 효과를 쓰는 곳은 실제 지리에 맞췄습니다 — 흥남·무산·아오지는
+   함경(1028), 수풍·겸이포는 평안·황해(527), 조선중공업은 부산이 있는 경상(1030),
+   경성방직·경인 공업지대는 경기(525), 남면북양의 목화는 충청·전라(1031)입니다.
+   반도 전체를 가리켜야 하는 곳은 `is_core_of = KOR` 로 씁니다 — 주 번호를 두 번
+   적지 않으려고 `KOR_seize_the_peninsula` 와 `KOR_return_peninsula_to_japan` 두
+   스크립트 효과에 모아 뒀습니다.
 3. **CHO 태그는 게임 규칙으로 켜고 끕니다.** 기본값은 `GOVERNORATE` 입니다 — 반도 2개
    주가 CHO로 넘어가 일본의 통합 괴뢰국이 되고, 시작 화면에서 한반도를 클릭해 바로
    플레이할 수 있습니다. 설계서의 본래 의도이자 §태그 설계의 핵심 결정입니다.
@@ -112,7 +119,7 @@ KoreaMod/
 │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  └─ military_industrial_organization/organizations/
 ├─ events/              KOR_triggers · KOR_politics · KOR_industry
-├─ history/             countries/CHO · states/525·527 · units/KOR_1936 · units/CHO_1936
+├─ history/             countries/CHO · states/ (반도 6개 주) · units/KOR_1936 · units/CHO_1936
 └─ localisation/        korean/ · english/  (각 3파일)
 ```
 

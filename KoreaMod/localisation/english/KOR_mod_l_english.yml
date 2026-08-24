@@ -345,3 +345,4 @@
  KOR_show_scale_desc: "Right §Y[?KOR_scale_right|0]§! - left §Y[?KOR_scale_left|0]§!. They always sum to 100.\n\nIf either side passes 80 the other camp walks out and a civil war check begins. The unification talks only open between 40 and 60."
  KOR_awaits_incident_loyalist_tt: "This branch opens only if you side with the Governor-General, or say nothing, at the §Yflag-defacement incident of 25 August 1936§!."
  KOR_awaits_incident_resistance_tt: "This branch opens only if you defend the paper, or say nothing, at the §Yflag-defacement incident of 25 August 1936§!."
+ KOR_bandit_cost_tt_blocked: "Needs 10 command power (not enough)"

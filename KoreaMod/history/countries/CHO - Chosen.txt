@@ -32,3 +32,18 @@ set_popularities = {
 }
 
 recruit_character = KOR_jiro_minami
+
+# Vanilla ships Minami with his country_leader block commented out, because
+# in the base game nobody ever leads Korea. Without one the game hands the
+# Government-General a randomly generated placeholder, so give him the role
+# the character was clearly written for.
+add_country_leader_role = {
+	character = KOR_jiro_minami
+	promote_leader = yes
+	country_leader = {
+		ideology = oligarchism
+		traits = { JAP_governor_general_of_korea }
+		expire = "1965.1.1.1"
+		id = -1
+	}
+}

@@ -37,8 +37,7 @@ KOR_endgame_category = {
 			random_list = {
 				65 = {
 					modifier = { factor = 1.4 has_completed_focus = KOR_military_academy }
-					525 = { set_state_controller = ROOT }
-					527 = { set_state_controller = ROOT }
+					KOR_seize_the_peninsula = yes
 					set_variable = { KOR_recognition_delta = 25 }
 					KOR_lift_recognition_cap = yes
 					KOR_add_recognition = yes
@@ -74,11 +73,17 @@ KOR_endgame_category = {
 			if = {
 				limit = { has_country_flag = KOR_kil_path }
 				# The League loses the south instead.
+				# The south: Gyeonggi, Gangwon, Gyeongsang, Chungcheong-Jeolla.
 				525 = { set_state_controller = USA }
+				1029 = { set_state_controller = USA }
+				1030 = { set_state_controller = USA }
+				1031 = { set_state_controller = USA }
 				custom_effect_tooltip = KOR_partition_south_tt
 			}
 			else = {
+				# The north: Pyongan-Hwanghae and Hamgyong.
 				527 = { set_state_controller = SOV }
+				1028 = { set_state_controller = SOV }
 				custom_effect_tooltip = KOR_partition_north_tt
 			}
 			set_country_flag = KOR_divided_state

@@ -12,7 +12,7 @@ KOR_bandit_category = {
 		icon = generic_army_support
 		allowed = { OR = { original_tag = KOR original_tag = CHO } }
 		visible = {
-			controls_state = 527
+			OR = { controls_state = 527 controls_state = 1028 }
 			NOT = { has_country_flag = KOR_kil_path }
 		}
 		cost = 0
@@ -25,6 +25,7 @@ KOR_bandit_category = {
 		complete_effect = {
 			add_command_power = -10
 			527 = { add_resistance = -15 }
+			1028 = { add_resistance = -15 }
 			add_stability = 0.02
 			add_manpower = -1500
 			clr_country_flag = KOR_bandits_unchecked
@@ -57,15 +58,18 @@ KOR_bandit_category = {
 	KOR_bandit_neglect = {
 		icon = generic_army_support
 		allowed = { OR = { original_tag = KOR original_tag = CHO } }
-		visible = { controls_state = 527 }
+		visible = { OR = { controls_state = 527 controls_state = 1028 } }
 		available = { always = no }
 		fire_only_once = no
 		days_mission_timeout = 120
-		activation = { controls_state = 527 }
+		activation = { OR = { controls_state = 527 controls_state = 1028 } }
 		is_good = no
 
 		timeout_effect = {
-			527 = { damage_building = { type = infrastructure damage = 1 } }
+			random_state = {
+				limit = { OR = { state = 527 state = 1028 } CONTROLLER = { tag = ROOT } }
+				damage_building = { type = infrastructure damage = 1 }
+			}
 			add_political_power = -15
 			set_country_flag = KOR_bandits_unchecked
 		}
