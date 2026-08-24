@@ -5,10 +5,21 @@
 # currently hold the machinery of a state.
 KOR_has_government_apparatus = {
 	OR = {
+		# The Government-General *is* the state apparatus. It holds it from
+		# January 1936 and keeps it right up until it turns on itself.
+		AND = {
+			original_tag = CHO
+			NOT = { has_country_flag = KOR_resistance_path_taken }
+		}
+		# Whoever sided with the governorate, or restored the court, is
+		# running the machinery too - including after the silence option,
+		# which sets both path flags.
 		has_country_flag = KOR_loyalist_path_taken
 		has_completed_focus = YIH_dissolve_office
+		# And anyone who has actually taken the peninsula back.
 		has_country_flag = KOR_sovereignty_restored
 		AND = {
+			original_tag = KOR
 			is_subject = no
 			has_capitulated = no
 			NOT = { has_country_flag = KOR_guerrilla_only }
