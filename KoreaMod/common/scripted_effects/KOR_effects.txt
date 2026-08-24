@@ -22,6 +22,19 @@ KOR_recover_leakage = {
 	multiply_variable = { KOR_leak_display = -100 }
 }
 
+# The war years push the other way. Same clamp, opposite sign: the floor is a
+# floor on how much you can claw back, not on how much can be taken.
+KOR_worsen_leakage = {
+	# On the empowered rule the leak was set to zero on purpose. Leave it there.
+	if = {
+		limit = { NOT = { KOR_difficulty_empowered = yes } }
+		subtract_from_variable = { KOR_leak = 0.05 }
+		clamp_variable = { var = KOR_leak min = -1 max = KOR_leak_floor }
+		set_variable = { KOR_leak_display = KOR_leak }
+		multiply_variable = { KOR_leak_display = -100 }
+	}
+}
+
 # Every tier-1 industry focus calls this. The gate focus only reads the counter.
 KOR_count_industry_focus = {
 	add_to_variable = { KOR_ind_tier1 = 1 }
@@ -111,6 +124,67 @@ KOR_name_equipment_german = {
 	}
 	else = {
 		set_cosmetic_tag = KOR_ger
+	}
+}
+
+# ---------------------------------------------------------------------------
+# The war years. Dated events that happen to the peninsula whichever branch
+# is being played, plus the one event CHO_autonomous_assembly promises in red
+# text. Called from both daily on_actions so it runs on whichever tag is held.
+# ---------------------------------------------------------------------------
+KOR_wartime_events = {
+	if = {
+		limit = {
+			date > "1937.7.6"
+			NOT = { has_country_flag = KOR_rear_base_fired }
+		}
+		set_country_flag = KOR_rear_base_fired
+		country_event = { id = korea_triggers.3 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1941.9.30"
+			NOT = { has_country_flag = KOR_supung_fired }
+		}
+		set_country_flag = KOR_supung_fired
+		country_event = { id = korea_industry.2 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1941.12.8"
+			NOT = { has_country_flag = KOR_declaration_fired }
+		}
+		set_country_flag = KOR_declaration_fired
+		country_event = { id = korea_triggers.4 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1942.9.30"
+			NOT = { has_country_flag = KOR_language_society_fired }
+		}
+		set_country_flag = KOR_language_society_fired
+		country_event = { id = korea_triggers.5 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1944.3.31"
+			NOT = { has_country_flag = KOR_conscription_fired }
+		}
+		set_country_flag = KOR_conscription_fired
+		country_event = { id = korea_triggers.6 days = 1 }
+	}
+	# The assembly's own tooltip says this government does not outlive Japan.
+	if = {
+		limit = {
+			has_country_flag = CHO_dominion_declared
+			NOT = { has_country_flag = CHO_dominion_fallen }
+			OR = {
+				JAP = { has_capitulated = yes }
+				JAP = { surrender_progress > 0.85 }
+			}
+		}
+		set_country_flag = CHO_dominion_fallen
+		country_event = { id = korea_politics.7 days = 1 }
 	}
 }
 

@@ -32,6 +32,14 @@ change the source, the zip has to be rebuilt too.
 Focus durations fall out of `cost` exactly as the design specifies (35 days = 5,
 70 = 10, 105 = 15, 140 = 20).
 
+There are 12 events: six called from focuses and decisions, and six that simply happen
+to the peninsula — the supply-base turn of July 1937, Sup'ung going live in October 1941,
+the declaration of war on Japan in December 1941, the Korean Language Society arrests of
+October 1942, conscription in April 1944, and the collapse of the autonomous assembly on
+the day Japan surrenders. That last one is the collapse `CHO_autonomous_assembly` promises
+in red text. The dated ones are collected in the `KOR_wartime_events` scripted effect and
+called from both the KOR and CHO daily on_actions.
+
 ## Where the design's key mechanisms live
 
 - **The "five of nine" gate** — `KOR_ind_regional_specialization`. The nine tier-1

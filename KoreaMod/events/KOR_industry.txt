@@ -39,3 +39,46 @@ country_event = {
 		add_ideas = KOR_plan_aviation
 	}
 }
+
+# ---------------------------------------------------------------------------
+# korea_industry.2 - October 1941. Sup'ung on the Yalu goes live: for a few
+# years the largest dam in the world outside the Tennessee Valley, built with
+# conscripted labour, and wired so that the current can leave.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_industry.2
+	title = korea_industry.2.t
+	desc = korea_industry.2.d
+	picture = GFX_report_event_generic_factory
+
+	is_triggered_only = yes
+
+	option = { # the current goes to the metropole
+		name = korea_industry.2.a
+		ai_chance = { factor = 60 }
+		add_political_power = 75
+		KOR_worsen_leakage = yes
+		if = {
+			limit = { owns_state = 527 }
+			527 = { add_extra_state_shared_building_slots = 2 }
+		}
+	}
+
+	option = { # the current stays on the peninsula
+		name = korea_industry.2.b
+		ai_chance = { factor = 40 }
+		add_political_power = -50
+		KOR_recover_leakage = yes
+		if = {
+			limit = { owns_state = 527 }
+			527 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+		if = {
+			limit = { country_exists = JAP NOT = { tag = JAP } }
+			add_opinion_modifier = { target = JAP modifier = KOR_sponsor_strain }
+		}
+	}
+}

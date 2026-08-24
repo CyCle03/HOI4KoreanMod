@@ -11,6 +11,10 @@ opinion_modifiers = {
 		value = 30
 		decay = 0.2
 	}
+	KOR_sponsor_strain = {
+		value = -20
+		decay = 0.5
+	}
 	KOR_trusteeship_resentment = {
 		value = -30
 		decay = 0.5
