@@ -720,6 +720,12 @@ focus_tree = {
 			add_stability = 0.10
 			if = { limit = { has_idea = KOR_divided_movement } remove_ideas = KOR_divided_movement }
 			set_country_flag = KIL_factions_merged
+			# One Korean communist authority instead of two is what Moscow can
+			# actually recognise. Until this, the League had no route past 60.
+			set_variable = { KOR_recognition_delta = 20 }
+			KOR_lift_recognition_cap = yes
+			KOR_add_recognition = yes
+			custom_effect_tooltip = KOR_recognition_cap_lifted_tt
 		}
 	}
 
@@ -920,6 +926,12 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = KOR_perpetual_neutrality_idea
 			add_political_power = 100
+			# Neutrality is worth nothing until the powers guarantee it, and a
+			# guarantee is recognition under another name.
+			set_variable = { KOR_recognition_delta = 20 }
+			KOR_lift_recognition_cap = yes
+			KOR_add_recognition = yes
+			custom_effect_tooltip = KOR_recognition_cap_lifted_tt
 		}
 	}
 
@@ -1081,6 +1093,12 @@ focus_tree = {
 			if = { limit = { country_exists = USA } add_opinion_modifier = { target = USA modifier = KOR_diplomatic_contact } }
 			if = { limit = { country_exists = SOV } add_opinion_modifier = { target = SOV modifier = KOR_diplomatic_contact } }
 			add_ideas = KOR_equidistance_idea
+			# Being dealt with by both is the committees' version of being
+			# recognised by either.
+			set_variable = { KOR_recognition_delta = 20 }
+			KOR_lift_recognition_cap = yes
+			KOR_add_recognition = yes
+			custom_effect_tooltip = KOR_recognition_cap_lifted_tt
 		}
 	}
 

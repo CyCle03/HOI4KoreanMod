@@ -428,3 +428,5 @@
  KOR_fork_yanan_tt: "§Y독립동맹 계열§!이 열린다. §R임시정부 계열은 영구히 잠긴다.§!"
  KOR_awaits_chongqing_tt: "§R좌우합작 교섭에서 충칭을 택해야 한다.§!"
  KOR_awaits_yanan_tt: "§R좌우합작 교섭에서 옌안을 택해야 한다.§!"
+
+ KOR_recognition_cap_lifted_tt: "§Y연합국 승인 상한이 풀린다.§! 이제 승인 게이지가 60을 넘어설 수 있다."

@@ -427,3 +427,5 @@
  KOR_fork_yanan_tt: "Opens the §YIndependence League§! branch. §RThe Provisional Government branch closes for good.§!"
  KOR_awaits_chongqing_tt: "§RRequires choosing Chongqing at the left-right talks.§!"
  KOR_awaits_yanan_tt: "§RRequires choosing Yan'an at the left-right talks.§!"
+
+ KOR_recognition_cap_lifted_tt: "§YThe ceiling on Allied recognition is lifted.§! The gauge can now pass 60."

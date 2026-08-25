@@ -26,10 +26,14 @@ KOR_endgame_category = {
 				JAP = { surrender_progress > 0.7 }
 				JAP = { has_capitulated = yes }
 			}
+			NOT = { has_country_flag = KOR_homeland_entered }
 		}
 		cost = 75
-		fire_only_once = yes
+		# Not fire_only_once. A 35 per cent roll used to close the only route
+		# past the recognition cap permanently, on one throw, with nothing the
+		# player could do about it afterwards.
 		days_remove = 30
+		days_re_enable = 90
 
 		ai_will_do = { factor = 30 }
 
@@ -38,6 +42,7 @@ KOR_endgame_category = {
 				65 = {
 					modifier = { factor = 1.4 has_completed_focus = KOR_military_academy }
 					KOR_seize_the_peninsula = yes
+					set_country_flag = KOR_homeland_entered
 					set_variable = { KOR_recognition_delta = 25 }
 					KOR_lift_recognition_cap = yes
 					KOR_add_recognition = yes
