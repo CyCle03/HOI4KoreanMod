@@ -28,6 +28,7 @@ change the source, the zip has to be rebuilt too.
 | Characters | 14 | 8 reused from the base game + 6 new |
 | Decisions | 7 (requisition, bandits, endgame) | 15 |
 | Localisation | Korean, English | both |
+| Flags | — | 16 — 13 copied from the base game, 3 drawn (see [Flags](#flags)) |
 
 Focus durations fall out of `cost` exactly as the design specifies (35 days = 5,
 70 = 10, 105 = 15, 140 = 20).
@@ -160,6 +161,55 @@ through `KOR_ensure_supply_base` so nothing is granted twice.
 8. **Only the hulls were carried over from the tank rows.** In rows like "Ha-Go · Ke-Nu ·
    Ko-Hi", the SPG, tank-destroyer and AA variants are omitted.
 
+## Flags
+
+CHO and the eleven cosmetic tags each need their own flag file — the game looks up
+`gfx/flags/<tag>.tga` and draws a blank where the country's identity should be when it is
+not there. Sixteen names, three sizes each (82×52, 41×26, 10×7): forty-eight files.
+
+Thirteen of the sixteen needed no new art. The base game already ships the
+Government-General's flag (`KOR_chousen_tag_*`, from Graveyard of Empires) and Korea's four
+ideology flags, so those are copied under the names this mod's tags expect.
+
+| Flag | What it is | Art |
+|---|---|---|
+| `CHO` (+ four ideology variants), `KOR_jap` | Government-General of Chosen | base game, `KOR_chousen_tag_*` |
+| `KOR_dominion`, `KOR_dominion_ger` | Chosen Dominion | base game, `KOR_chousen_tag_fascism` — the gold-bordered palgwae, the empire's own subordinate |
+| `KOR_ger`, `KOR_empire`, `KOR_empire_ger` | Great Korean Empire | base game, `KOR_fascism` — the eight-trigram taegukgi of the imperial period |
+| `KOR_chi`, `KOR_usa` | Korean Provisional Government | base game, `KOR_democratic` — the taegukgi |
+| `KOR_csr`, `KOR_sov` | Korean Independence League | **drawn**, `tools/make-league-flag.ps1` |
+| `KOR_peoples_republic` | People's Republic of Korea | **drawn**, `tools/make-prk-flag.ps1` |
+
+Two designs are new, and for the same reason: the only communist Korean flag the base game
+has is the DPRK's, which is 1948 and the wrong organisation for either of these.
+
+**The Korean Independence League** (조선독립동맹, Yan'an, 1942) was communist in alignment
+and nationalist in symbol — the Korean Volunteer Army it fielded is photographed under the
+taegeuk. So the flag keeps the taegeuk, on a white disc, and sets a gold star beside it
+rather than over it. The field is deeper than the DPRK's scarlet so the two do not read as
+one flag at 41×26, and the white ring is wide on purpose: the taegeuk's red and the field's
+red are both red, and a thin ring closes up at 10×7 and turns the whole thing into a blob.
+
+**The People's Republic of Korea** (조선인민공화국, Seoul, September 1945) actually flew the
+taegukgi, so this is the taegukgi. The one change is the upper hoist: geon (☰), the trigram
+for heaven and the sovereign, is the corner the star takes — the first corner the eye
+reaches, and the one whose meaning the change is about. Ri, gam and gon keep theirs. The
+star is a shade deeper than the taegeuk's red so it is not read as part of it.
+
+Both are drawn at eight times size and filtered down; the taegeuk's S does not survive being
+drawn at 82×52 directly. Both scripts are deterministic — re-running one reproduces the
+committed files byte for byte:
+
+```bash
+pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
+```
+
+That is why they are kept. A `.tga` is binary: without the script, the colours, the width of
+the white ring and the star's position are unreachable.
+
+The thirteen copied flags are Paradox's own art, redistributed inside the mod folder. That
+is ordinary for Hearts of Iron IV mods, but it is worth knowing that is what those files are.
+
 ## What has been checked, and what has not
 
 Static validation is done — brace balance, 106 focus prerequisite/exclusivity/relative-position
@@ -195,10 +245,12 @@ in the console and look at the tree first.
 │  │  ├─ dynamic_modifiers/ · game_rules/ · on_actions/
 │  │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  │  └─ military_industrial_organization/organizations/
-│  ├─ events/              KOR_triggers · KOR_politics · KOR_industry
+│  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
+│  ├─ gfx/flags/           16 flags, each at 82×52 · medium/ 41×26 · small/ 10×7
 │  ├─ history/             countries/CHO · states/ (the six peninsula states) · units/KOR_1936 · units/CHO_1936
 │  └─ localisation/        korean/ · english/  (3 files each)
 ├─ docs/                the three design documents (the game does not read these)
+├─ tools/               the two flag renderers (the game does not read these either)
 ├─ KoreaMod.zip         KoreaMod/ zipped up for distribution
 ├─ README.md            English (this file)
 └─ README.ko.md         Korean
