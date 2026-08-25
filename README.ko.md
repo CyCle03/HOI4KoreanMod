@@ -26,7 +26,7 @@
 | 인물 | 14 | 바닐라 8인 재사용 + 신규 6인 |
 | 결정 | 청구·비적·종전 7 | 15 |
 | 로컬라이제이션 | 한국어·영어 | 두 벌 모두 |
-| 국기 | — | 16종 — 13종은 바닐라에서 옮겨 담고, 3종은 직접 그림 ([국기](#국기) 참조) |
+| 국기 | — | 17종 — 14종은 바닐라에서 옮겨 담고, 3종은 직접 그림 ([국기](#국기) 참조) |
 
 중점 소요일은 설계서대로 `cost` 로 떨어집니다 (35일=5, 70일=10, 105일=15, 140일=20).
 
@@ -146,15 +146,15 @@ on_action 에서 부릅니다. 승인 게이지의 자연 감소도 여기로 �
 
 CHO 태그와 코스메틱 태그 11개는 각각 국기 파일이 있어야 합니다 — 게임은
 `gfx/flags/<태그>.tga` 를 찾고, 없으면 국가의 정체성이 들어갈 자리를 빈칸으로 그립니다.
-이름 16개 × 세 크기(82×52, 41×26, 10×7) = 48개 파일입니다.
+이름 17개 × 세 크기(82×52, 41×26, 10×7) = 51개 파일입니다.
 
-이 중 13개는 새로 그릴 필요가 없었습니다. 바닐라가 총독부 기(`KOR_chousen_tag_*`,
+이 중 14개는 새로 그릴 필요가 없었습니다. 바닐라가 총독부 기(`KOR_chousen_tag_*`,
 Graveyard of Empires)와 한국의 이념별 국기 4종을 이미 갖고 있어서, 이 모드의 태그가
 요구하는 이름으로 옮겨 담았습니다.
 
 | 국기 | 무엇인가 | 그림 |
 |---|---|---|
-| `CHO` (+이념 변형 4종), `KOR_jap` | 조선총독부 | 바닐라 `KOR_chousen_tag_*` |
+| `CHO` (+이념 변형 4종), `KOR_gg`, `KOR_jap` | 조선총독부, 그리고 아직 제 이름이 없는 조선 | 바닐라 `KOR_chousen_tag_*` |
 | `KOR_dominion`, `KOR_dominion_ger` | 조선 자치령 | 바닐라 `KOR_chousen_tag_fascism` — 금테 팔괘, 제국에 속한 조선 |
 | `KOR_ger`, `KOR_empire`, `KOR_empire_ger` | 대한제국 | 바닐라 `KOR_fascism` — 제국기의 팔괘 태극기 |
 | `KOR_chi`, `KOR_usa` | 대한민국 임시정부 | 바닐라 `KOR_democratic` — 태극기 |
@@ -188,7 +188,7 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 스크립트를 남겨 두는 이유가 이것입니다. `.tga` 는 바이너리라, 스크립트가 없으면 색도,
 흰 테두리의 두께도, 별의 위치도 손댈 수 없습니다.
 
-옮겨 담은 13개는 Paradox의 그림을 모드 폴더 안에 재배포하는 것입니다. HOI4 모드에서는
+옮겨 담은 14개는 Paradox의 그림을 모드 폴더 안에 재배포하는 것입니다. HOI4 모드에서는
 통상적인 방식이지만, 그 파일들의 정체가 무엇인지는 알고 계시는 편이 좋습니다.
 
 **썸네일**(`KoreaMod/thumbnail.png`, 512×512, `descriptor.mod` 의 `picture=` 가 가리킴)은
@@ -237,7 +237,7 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 │  │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  │  └─ military_industrial_organization/organizations/
 │  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
-│  ├─ gfx/flags/           국기 16종, 각각 82×52 · medium/ 41×26 · small/ 10×7
+│  ├─ gfx/flags/           국기 17종, 각각 82×52 · medium/ 41×26 · small/ 10×7
 │  ├─ history/             countries/CHO · states/ (반도 6개 주) · units/KOR_1936 · units/CHO_1936
 │  ├─ localisation/        korean/ · english/  (각 3파일)
 │  └─ thumbnail.png        512×512, descriptor.mod 의 picture= 가 가리키는 것

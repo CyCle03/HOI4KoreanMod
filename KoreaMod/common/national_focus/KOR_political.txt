@@ -109,7 +109,7 @@ focus_tree = {
 			add_stability = 0.10
 			add_political_power = 50
 			add_ideas = KOR_governorate_police
-			KOR_name_equipment_japanese = yes
+			KOR_name_equipment_governorate = yes
 		}
 	}
 

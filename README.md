@@ -28,7 +28,7 @@ change the source, the zip has to be rebuilt too.
 | Characters | 14 | 8 reused from the base game + 6 new |
 | Decisions | 7 (requisition, bandits, endgame) | 15 |
 | Localisation | Korean, English | both |
-| Flags | — | 16 — 13 copied from the base game, 3 drawn (see [Flags](#flags)) |
+| Flags | — | 17 — 14 copied from the base game, 3 drawn (see [Flags](#flags)) |
 
 Focus durations fall out of `cost` exactly as the design specifies (35 days = 5,
 70 = 10, 105 = 15, 140 = 20).
@@ -165,15 +165,15 @@ through `KOR_ensure_supply_base` so nothing is granted twice.
 
 CHO and the eleven cosmetic tags each need their own flag file — the game looks up
 `gfx/flags/<tag>.tga` and draws a blank where the country's identity should be when it is
-not there. Sixteen names, three sizes each (82×52, 41×26, 10×7): forty-eight files.
+not there. Seventeen names, three sizes each (82×52, 41×26, 10×7): fifty-one files.
 
-Thirteen of the sixteen needed no new art. The base game already ships the
+Fourteen of the seventeen needed no new art. The base game already ships the
 Government-General's flag (`KOR_chousen_tag_*`, from Graveyard of Empires) and Korea's four
 ideology flags, so those are copied under the names this mod's tags expect.
 
 | Flag | What it is | Art |
 |---|---|---|
-| `CHO` (+ four ideology variants), `KOR_jap` | Government-General of Chosen | base game, `KOR_chousen_tag_*` |
+| `CHO` (+ four ideology variants), `KOR_gg`, `KOR_jap` | Government-General of Chosen, and Korea before it has a name of its own | base game, `KOR_chousen_tag_*` |
 | `KOR_dominion`, `KOR_dominion_ger` | Chosen Dominion | base game, `KOR_chousen_tag_fascism` — the gold-bordered palgwae, the empire's own subordinate |
 | `KOR_ger`, `KOR_empire`, `KOR_empire_ger` | Great Korean Empire | base game, `KOR_fascism` — the eight-trigram taegukgi of the imperial period |
 | `KOR_chi`, `KOR_usa` | Korean Provisional Government | base game, `KOR_democratic` — the taegukgi |
@@ -207,7 +207,7 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 That is why they are kept. A `.tga` is binary: without the script, the colours, the width of
 the white ring and the star's position are unreachable.
 
-The thirteen copied flags are Paradox's own art, redistributed inside the mod folder. That
+The fourteen copied flags are Paradox's own art, redistributed inside the mod folder. That
 is ordinary for Hearts of Iron IV mods, but it is worth knowing that is what those files are.
 
 **The thumbnail** (`KoreaMod/thumbnail.png`, 512×512, pointed at by `picture=` in
@@ -259,7 +259,7 @@ in the console and look at the tree first.
 │  │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  │  └─ military_industrial_organization/organizations/
 │  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
-│  ├─ gfx/flags/           16 flags, each at 82×52 · medium/ 41×26 · small/ 10×7
+│  ├─ gfx/flags/           17 flags, each at 82×52 · medium/ 41×26 · small/ 10×7
 │  ├─ history/             countries/CHO · states/ (the six peninsula states) · units/KOR_1936 · units/CHO_1936
 │  ├─ localisation/        korean/ · english/  (3 files each)
 │  └─ thumbnail.png        512×512, what descriptor.mod's picture= points at

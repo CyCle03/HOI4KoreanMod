@@ -417,3 +417,7 @@
  KIL_88th_brigade_units_tt: "Raises 3 divisions of the 88th Separate Rifle Brigade in the capital"
  YIH_imperial_guard_units_tt: "Raises 2 Imperial Guard divisions in the capital"
  KPR_security_corps_units_tt: "Raises 4 Constabulary divisions in the capital"
+
+ KOR_gg: "Government-General of Chosen"
+ KOR_gg_DEF: "the Government-General of Chosen"
+ KOR_gg_ADJ: "Chosen"

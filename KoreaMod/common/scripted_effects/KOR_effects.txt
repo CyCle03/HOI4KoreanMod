@@ -119,6 +119,11 @@ KOR_officer_stage_3 = {
 # live on the same tag, and its equipment list is a copy of the sponsor's
 # in localisation/*/KOR_equipment_l_*.yml.
 # ---------------------------------------------------------------------------
+# The governorate names itself. KOR_jap stays "조선" because the People's
+# Republic uses it for its own captured-Japanese arsenal, and the committees
+# are not the Government-General.
+KOR_name_equipment_governorate = { set_cosmetic_tag = KOR_gg }
+
 KOR_name_equipment_japanese = { set_cosmetic_tag = KOR_jap }
 KOR_name_equipment_china    = { set_cosmetic_tag = KOR_chi }
 KOR_name_equipment_usa      = { set_cosmetic_tag = KOR_usa }
