@@ -430,3 +430,13 @@
  KOR_awaits_yanan_tt: "§R좌우합작 교섭에서 옌안을 택해야 한다.§!"
 
  KOR_recognition_cap_lifted_tt: "§Y연합국 승인 상한이 풀린다.§! 이제 승인 게이지가 60을 넘어설 수 있다."
+
+ # 정치 고문. 이 자리가 비어 있으면 게임이 스스로 채우고, 채워 넣는 사람은 조선인이 아니다.
+ KOR_kim_kyu_sik: "김규식"
+ KOR_kim_kyu_sik_desc: "1919년 파리강화회의에 갔다가 발언권을 얻지 못하고 돌아왔다. 그 뒤로도 계속 가운데 서 있었다."
+ KOR_pak_hon_yong_advisor: "박헌영"
+ KOR_pak_hon_yong_advisor_desc: "1925년부터 1945년까지 지하에 있었다. 망명하지 않은 채로 이십 년."
+ KOR_choe_rin: "최린"
+ KOR_choe_rin_desc: "1919년 독립선언서에 서명한 서른세 명 중 하나. 삼십년대에는 다른 명부에 이름이 올라 있었다."
+ KOR_cho_so_ang: "조소앙"
+ KOR_cho_so_ang_desc: "삼균주의. 나라가 생기기 전에 그 나라의 토지제도를 먼저 적어 둔 사람."

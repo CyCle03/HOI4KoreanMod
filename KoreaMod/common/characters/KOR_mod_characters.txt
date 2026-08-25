@@ -124,6 +124,72 @@ characters = {
 		}
 	}
 
+	# The three ideology advisors. Without Koreans in these slots HOI4
+	# generates its own - which is why the Provisional Government was being
+	# advised by Peter White and Jim Wilson.
+
+	# Kim Kyu-sik. Paris 1919, and the man who kept trying to hold the
+	# centre until both sides had called him a traitor.
+	KOR_kim_kyu_sik = {
+		name = KOR_kim_kyu_sik
+		portraits = {
+			civilian = { small = GFX_idea_generic_political_advisor_asian_2d }
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = KOR_kim_kyu_sik
+			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			traits = { democratic_reformer }
+			cost = 100
+		}
+	}
+
+	# Pak Hon-yong. Underground from 1925 to 1945 and never once abroad.
+	KOR_pak_hon_yong_advisor = {
+		name = KOR_pak_hon_yong
+		portraits = {
+			civilian = { small = GFX_idea_generic_communist_revolutionary_asian_2d }
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = KOR_pak_hon_yong_advisor
+			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			traits = { communist_revolutionary }
+			cost = 100
+		}
+	}
+
+	# Choe Rin. One of the thirty-three who signed the declaration in 1919,
+	# and on the collaboration rolls by the thirties.
+	KOR_choe_rin = {
+		name = KOR_choe_rin
+		portraits = {
+			civilian = { small = GFX_idea_generic_fascist_demagogue_asian_2d }
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = KOR_choe_rin
+			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			traits = { fascist_demagogue }
+			cost = 100
+		}
+	}
+
+	# Cho So-ang, who wrote the programme the government would have governed by.
+	KOR_cho_so_ang = {
+		name = KOR_cho_so_ang
+		portraits = {
+			civilian = { small = GFX_idea_generic_political_advisor_asian_2d }
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = KOR_cho_so_ang
+			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			traits = { ideological_crusader }
+			cost = 150
+		}
+	}
+
 	KOR_minami_jiro_advisor = {
 		name = KOR_jiro_minami
 		portraits = {

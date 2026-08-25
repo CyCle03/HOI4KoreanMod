@@ -429,3 +429,13 @@
  KOR_awaits_yanan_tt: "§RRequires choosing Yan'an at the left-right talks.§!"
 
  KOR_recognition_cap_lifted_tt: "§YThe ceiling on Allied recognition is lifted.§! The gauge can now pass 60."
+
+ # Political advisors. Leave the slots empty and the game fills them itself, with people who are not Korean.
+ KOR_kim_kyu_sik: "Kim Kyu-sik"
+ KOR_kim_kyu_sik_desc: "Went to the Paris peace conference in 1919 and came back without having been given the floor. He went on standing in the middle regardless."
+ KOR_pak_hon_yong_advisor: "Pak Hon-yong"
+ KOR_pak_hon_yong_advisor_desc: "Underground from 1925 to 1945. Twenty years of it, without once going into exile."
+ KOR_choe_rin: "Choe Rin"
+ KOR_choe_rin_desc: "One of the thirty-three who signed the declaration of independence in 1919. By the thirties his name was on a different list."
+ KOR_cho_so_ang: "Cho So-ang"
+ KOR_cho_so_ang_desc: "The Three Equalities. The man who wrote down a country's land law before the country existed."

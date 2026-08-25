@@ -37,6 +37,15 @@ set_popularities = {
 
 recruit_character = KOR_jiro_minami
 
+# The governorate is advised by Koreans too. Without these the game supplies
+# its own, and they are not Korean.
+recruit_character = KOR_kim_kyu_sik
+recruit_character = KOR_pak_hon_yong_advisor
+recruit_character = KOR_choe_rin
+recruit_character = KOR_cho_so_ang
+recruit_character = KOR_pak_heung_sik
+recruit_character = KOR_minami_jiro_advisor
+
 # Vanilla ships Minami with his country_leader block commented out, because
 # in the base game nobody ever leads Korea. Without one the game hands the
 # Government-General a randomly generated placeholder, so give him the role
