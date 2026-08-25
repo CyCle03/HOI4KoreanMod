@@ -210,6 +210,19 @@ the white ring and the star's position are unreachable.
 The thirteen copied flags are Paradox's own art, redistributed inside the mod folder. That
 is ordinary for Hearts of Iron IV mods, but it is worth knowing that is what those files are.
 
+**The thumbnail** (`KoreaMod/thumbnail.png`, 512×512, pointed at by `picture=` in
+`descriptor.mod`) is drawn by `tools/make-thumbnail.ps1` out of the same taegeuk and the
+same palette, so the launcher entry and the flags are one thing rather than two. The emblem
+takes the upper two thirds and the title the lower third; the title block is flowed from the
+measured height of each line rather than fixed offsets, because the font's leading is
+generous and guessing at it put the first version's title straight through the bottom
+trigrams. The rule under the title is 5px for a reason — at 3px it vanished by the time the
+launcher had scaled the image down to list size.
+
+If you install by pointing a `.mod` file in `Documents/Paradox Interactive/Hearts of Iron IV/mod/`
+at this repository, that file needs its own `picture="thumbnail.png"` line for the launcher
+to show it. `descriptor.mod` covers the zip and the Workshop copy, not the local pointer.
+
 ## What has been checked, and what has not
 
 Static validation is done — brace balance, 106 focus prerequisite/exclusivity/relative-position
@@ -248,9 +261,10 @@ in the console and look at the tree first.
 │  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
 │  ├─ gfx/flags/           16 flags, each at 82×52 · medium/ 41×26 · small/ 10×7
 │  ├─ history/             countries/CHO · states/ (the six peninsula states) · units/KOR_1936 · units/CHO_1936
-│  └─ localisation/        korean/ · english/  (3 files each)
+│  ├─ localisation/        korean/ · english/  (3 files each)
+│  └─ thumbnail.png        512×512, what descriptor.mod's picture= points at
 ├─ docs/                the three design documents (the game does not read these)
-├─ tools/               the two flag renderers (the game does not read these either)
+├─ tools/               the flag and thumbnail renderers (not read by the game either)
 ├─ KoreaMod.zip         KoreaMod/ zipped up for distribution
 ├─ README.md            English (this file)
 └─ README.ko.md         Korean

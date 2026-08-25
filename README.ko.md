@@ -191,6 +191,18 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 옮겨 담은 13개는 Paradox의 그림을 모드 폴더 안에 재배포하는 것입니다. HOI4 모드에서는
 통상적인 방식이지만, 그 파일들의 정체가 무엇인지는 알고 계시는 편이 좋습니다.
 
+**썸네일**(`KoreaMod/thumbnail.png`, 512×512, `descriptor.mod` 의 `picture=` 가 가리킴)은
+`tools/make-thumbnail.ps1` 이 같은 태극과 같은 색으로 그립니다. 런처 항목과 국기가 따로
+놀지 않게 하기 위해서입니다. 문장은 위쪽 2/3, 제목은 아래 1/3을 쓰고, 제목 블록은 고정
+좌표가 아니라 각 줄의 실제 높이를 재서 아래로 흘립니다 — 글꼴 자체 행간이 넉넉해서
+눈대중으로 잡았더니 첫 판은 제목이 아래쪽 괘를 뚫고 지나갔습니다. 제목 밑 금색 선이
+5px인 것도 이유가 있습니다. 3px일 때는 런처가 목록 크기로 줄이는 순간 사라졌습니다.
+
+`Documents/Paradox Interactive/Hearts of Iron IV/mod/` 의 `.mod` 파일로 이 저장소를
+가리켜 설치하신다면, 런처에 썸네일이 뜨려면 **그 파일에도** `picture="thumbnail.png"`
+줄이 있어야 합니다. `descriptor.mod` 가 담당하는 것은 zip과 Workshop 사본이지 로컬
+포인터가 아닙니다.
+
 ## 확인된 것과 확인되지 않은 것
 
 정적 검증은 끝냈습니다 — 중괄호 균형, 중점 선행/배타/상대좌표 참조 106개, 국민정신
@@ -227,9 +239,10 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 │  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
 │  ├─ gfx/flags/           국기 16종, 각각 82×52 · medium/ 41×26 · small/ 10×7
 │  ├─ history/             countries/CHO · states/ (반도 6개 주) · units/KOR_1936 · units/CHO_1936
-│  └─ localisation/        korean/ · english/  (각 3파일)
+│  ├─ localisation/        korean/ · english/  (각 3파일)
+│  └─ thumbnail.png        512×512, descriptor.mod 의 picture= 가 가리키는 것
 ├─ docs/                설계 문서 3부 (게임이 읽지 않습니다)
-├─ tools/               국기 렌더러 2개 (이것도 게임이 읽지 않습니다)
+├─ tools/               국기·썸네일 렌더러 (이것도 게임이 읽지 않습니다)
 ├─ KoreaMod.zip         KoreaMod/ 를 그대로 압축한 배포본
 ├─ README.md            영어
 └─ README.ko.md         한국어 (이 파일)
