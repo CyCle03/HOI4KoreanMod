@@ -8,8 +8,9 @@ KOR_has_government_apparatus = {
 		# The Government-General *is* the state apparatus. It holds it from
 		# January 1936 and keeps it right up until it turns on itself.
 		AND = {
-			original_tag = CHO
+			has_global_flag = KOR_governorate_active
 			NOT = { has_country_flag = KOR_resistance_path_taken }
+			NOT = { has_country_flag = KOR_sovereignty_restored }
 		}
 		# Whoever sided with the governorate, or restored the court, is
 		# running the machinery too - including after the silence option,
@@ -56,7 +57,7 @@ KOR_foreign_army_on_peninsula = {
 	OR = {
 		any_state = {
 			is_core_of = KOR
-			NOT = { CONTROLLER = { OR = { tag = ROOT tag = JAP tag = CHO } } }
+			NOT = { CONTROLLER = { OR = { tag = ROOT tag = JAP } } }
 		}
 		has_country_flag = KOR_trusteeship_declared
 	}

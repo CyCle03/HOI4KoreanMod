@@ -26,7 +26,7 @@
 | 인물 | 14 | 바닐라 8인 재사용 + 신규 6인 |
 | 결정 | 청구·비적·종전 7 | 15 |
 | 로컬라이제이션 | 한국어·영어 | 두 벌 모두 |
-| 국기 | — | 17종 — 14종은 바닐라에서 옮겨 담고, 3종은 직접 그림 ([국기](#국기) 참조) |
+| 국기 | — | 12종 — 9종은 바닐라에서 옮겨 담고, 3종은 직접 그림 ([국기](#국기) 참조) |
 
 중점 소요일은 설계서대로 `cost` 로 떨어집니다 (35일=5, 70일=10, 105일=15, 140일=20).
 
@@ -35,7 +35,7 @@
 1942년 10월 조선어학회 사건, 1944년 4월 징병제, 그리고 일본이 항복하는 날
 자치의회가 무너지는 이벤트입니다. 마지막 것은 `CHO_autonomous_assembly` 의 툴팁이
 붉은 글씨로 약속하던 바로 그 붕괴입니다. 날짜 이벤트는
-`KOR_wartime_events` 스크립트 효과 한 곳에 모여 있고 KOR·CHO 양쪽 일일
+`KOR_wartime_events` 스크립트 효과 한 곳에 모여 있고 일일
 on_action 에서 부릅니다.
 
 ## 설계서의 핵심 장치가 어디에 있는지
@@ -74,7 +74,7 @@ on_action 에서 부릅니다.
 | `KOR_recognition` | `KOR_allied_standing` | 정치력·전쟁 지지도 (0에서 0, 상한 60에서 정치력 +15%) |
 | `KOR_scale_right` | `KOR_united_front_strain` | 50에서 멀어질수록 안정도 하락, 남은 절반의 열의 상승 |
 
-파생 변수는 `KOR_refresh_gauges` 가 하루 한 번 계산하며 KOR·CHO 양쪽 일일
+파생 변수는 `KOR_refresh_gauges` 가 하루 한 번 계산하며 일일
 on_action 에서 부릅니다. 승인 게이지의 자연 감소도 여기로 옮겨, 두 태그가 같은
 규칙을 따릅니다. 쓰이기만 하고 읽히지 않던 `KOR_scale_left` 도 여기서 갱신됩니다.
 
@@ -105,20 +105,23 @@ on_action 에서 부릅니다. 승인 게이지의 자연 감소도 여기로 �
    반도 전체를 가리켜야 하는 곳은 `is_core_of = KOR` 로 씁니다 — 주 번호를 두 번
    적지 않으려고 `KOR_seize_the_peninsula` 와 `KOR_return_peninsula_to_japan` 두
    스크립트 효과에 모아 뒀습니다.
-3. **CHO 태그는 게임 규칙으로 켜고 끕니다.** 기본값은 `GOVERNORATE` 입니다 — 반도 2개
-   주가 CHO로 넘어가 일본의 통합 괴뢰국이 되고, 시작 화면에서 한반도를 클릭해 바로
-   플레이할 수 있습니다. 설계서의 본래 의도이자 §태그 설계의 핵심 결정입니다.
-   소유권 자체는 `KoreaMod/history/states/525`, `527` 에서 선언합니다 — 국가 선택 화면은
-   history 파일만 읽으므로, on_startup 에서 옮기면 선택 화면에서는 반도가 일본령이다가
-   시작하는 순간 갈라져 나오고 CHO를 고를 수도 없습니다. startup 에 남은 것은 종속
-   관계뿐이라 다시 그릴 지도가 없습니다.
+3. **태그는 하나이고, 그 태그가 무엇을 들고 있는지를 게임 규칙이 정합니다.** 기본값은
+   `GOVERNORATE` 입니다. 반도 6개 주가 KOR 소유로 시작하고, KOR은 일본의 통합 괴뢰국이며
+   화면에는 조선총독부로 나옵니다. 설계서의 본래 의도이자 §태그 설계의 핵심 결정입니다.
+   소유권은 `KoreaMod/history/states` 여섯 파일에서 선언합니다 — 국가 선택 화면은 history
+   파일만 읽으므로, on_startup 에서 옮기면 선택 화면에서는 반도가 일본령이다가 시작하는
+   순간 갈라져 나옵니다. startup 에 남은 것은 종속 관계와 이름뿐이고, 둘 다 지도를 다시
+   그리지 않습니다.
    대신 설계서가 `가장 큰 위험`으로 꼽은 일본 AI 문제가 이 경로에 있습니다 —
-   `LIBERATION` 으로 바꾸면 1936년 지도를 전혀 건드리지 않고 조선은 해방 가능
-   국가로만 남습니다 (일본 AI 무영향, 대신 시작 선택 불가).
+   `LIBERATION` 으로 바꾸면 반도를 일본에 돌려주고 망명 운동의 정치 상태로 되돌려
+   1936년 지도를 전혀 건드리지 않습니다 (일본 AI 무영향, 대신 시작 선택 불가).
 
-   **아직 태그 교체는 없습니다.** 설계서는 저항을 택하면 CHO→KOR로 갈아탄다고 했지만,
-   지금은 코스메틱 태그만 바뀝니다. 망명 상태의 KOR이 무엇을 소유하는가를 설계서가
-   정하지 않았고, HOI4에서 영토 없는 나라는 즉시 항복 처리되기 때문입니다.
+   **전에는 태그가 둘이었습니다.** 총독부는 이 모드가 만든 CHO 태그였고, 모드의 모든
+   트리거·결정·카테고리가 `OR = { original_tag = KOR original_tag = CHO }` 를 달고
+   있었습니다 — 서른여섯 곳입니다. 그러면서 CHO는 히스토리·편제·사단명·국기 다섯 장·
+   지도자를 따로 가져야 했는데, 그 전부를 바닐라가 KOR에 이미 주고 있었습니다. 설계서가
+   요구한 CHO→KOR 교체도 구현된 적이 없고, 이제는 교체할 것이 없습니다. 둘은 한 태그이고,
+   바뀌는 것은 코스메틱 태그입니다. 원래 바뀌던 것도 그것이었습니다.
 4. **장비 명명 키는 접미사가 아니라 접두사입니다.** 설계서 예시는
    `infantry_equipment_1_KOR_usa` 였으나 실제 형식은 `KOR_usa_infantry_equipment_1`
    입니다 (바닐라 `GER_infantry_equipment_1` 로 확인). 접두사로 구현했습니다.
@@ -144,17 +147,17 @@ on_action 에서 부릅니다. 승인 게이지의 자연 감소도 여기로 �
 
 ## 국기
 
-CHO 태그와 코스메틱 태그 11개는 각각 국기 파일이 있어야 합니다 — 게임은
+코스메틱 태그 12개는 각각 국기 파일이 있어야 합니다 — 게임은
 `gfx/flags/<태그>.tga` 를 찾고, 없으면 국가의 정체성이 들어갈 자리를 빈칸으로 그립니다.
-이름 17개 × 세 크기(82×52, 41×26, 10×7) = 51개 파일입니다.
+이름 12개 × 세 크기(82×52, 41×26, 10×7) = 36개 파일입니다.
 
-이 중 14개는 새로 그릴 필요가 없었습니다. 바닐라가 총독부 기(`KOR_chousen_tag_*`,
+이 중 9개는 새로 그릴 필요가 없었습니다. 바닐라가 총독부 기(`KOR_chousen_tag_*`,
 Graveyard of Empires)와 한국의 이념별 국기 4종을 이미 갖고 있어서, 이 모드의 태그가
 요구하는 이름으로 옮겨 담았습니다.
 
 | 국기 | 무엇인가 | 그림 |
 |---|---|---|
-| `CHO` (+이념 변형 4종), `KOR_gg`, `KOR_jap` | 조선총독부, 그리고 아직 제 이름이 없는 조선 | 바닐라 `KOR_chousen_tag_*` |
+| `KOR_gg`, `KOR_jap` | 조선총독부, 그리고 아직 제 이름이 없는 조선 | 바닐라 `KOR_chousen_tag_neutrality` |
 | `KOR_dominion`, `KOR_dominion_ger` | 조선 자치령 | 바닐라 `KOR_chousen_tag_fascism` — 금테 팔괘, 제국에 속한 조선 |
 | `KOR_ger`, `KOR_empire`, `KOR_empire_ger` | 대한제국 | 바닐라 `KOR_fascism` — 제국기의 팔괘 태극기 |
 | `KOR_chi`, `KOR_usa` | 대한민국 임시정부 | 바닐라 `KOR_democratic` — 태극기 |
@@ -188,7 +191,7 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 스크립트를 남겨 두는 이유가 이것입니다. `.tga` 는 바이너리라, 스크립트가 없으면 색도,
 흰 테두리의 두께도, 별의 위치도 손댈 수 없습니다.
 
-옮겨 담은 14개는 Paradox의 그림을 모드 폴더 안에 재배포하는 것입니다. HOI4 모드에서는
+옮겨 담은 9개는 Paradox의 그림을 모드 폴더 안에 재배포하는 것입니다. HOI4 모드에서는
 통상적인 방식이지만, 그 파일들의 정체가 무엇인지는 알고 계시는 편이 좋습니다.
 
 **썸네일**(`KoreaMod/thumbnail.png`, 512×512, `descriptor.mod` 의 `picture=` 가 가리킴)은
@@ -237,8 +240,8 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 │  │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  │  └─ military_industrial_organization/organizations/
 │  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
-│  ├─ gfx/flags/           국기 17종, 각각 82×52 · medium/ 41×26 · small/ 10×7
-│  ├─ history/             countries/CHO · states/ (반도 6개 주) · units/KOR_1936 · units/CHO_1936
+│  ├─ gfx/flags/           국기 12종, 각각 82×52 · medium/ 41×26 · small/ 10×7
+│  ├─ history/             countries/KOR · states/ (반도 6개 주) · units/KOR_1936
 │  ├─ localisation/        korean/ · english/  (각 3파일)
 │  └─ thumbnail.png        512×512, descriptor.mod 의 picture= 가 가리키는 것
 ├─ docs/                설계 문서 3부 (게임이 읽지 않습니다)
@@ -249,5 +252,5 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 ```
 
 정치 계열만 `focus_tree` 블록 안에 있고 산업·군사·후반은 `shared_focus` 입니다.
-설계서가 파일을 다섯으로 쪼갠 이유 그대로이며, 트리 하나(`korea_focus`)를 KOR과 CHO
-두 태그가 공유합니다.
+설계서가 파일을 다섯으로 쪼갠 이유 그대로이며, 트리 하나(`korea_focus`)는 KOR의 것입니다.
+이제 이 모드가 중점을 붙이는 태그는 그것 하나뿐입니다.

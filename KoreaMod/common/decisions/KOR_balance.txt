@@ -7,7 +7,7 @@ KOR_balance_category = {
 
 	KOR_show_scale = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		available = { always = no }
 		visible = { always = yes }
 		fire_only_once = no
@@ -16,7 +16,7 @@ KOR_balance_category = {
 
 	KOR_tilt_right = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = { NOT = { has_country_flag = KOR_scale_locked } }
 		available = { check_variable = { KOR_scale_right < 80 } }
 		cost = 30
@@ -37,7 +37,7 @@ KOR_balance_category = {
 
 	KOR_tilt_left = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = { NOT = { has_country_flag = KOR_scale_locked } }
 		available = { check_variable = { KOR_scale_right > 20 } }
 		cost = 30
@@ -59,7 +59,7 @@ KOR_balance_category = {
 	# Past eighty in either direction the other camp walks out.
 	KOR_scale_breakdown = {
 		icon = generic_army_support
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = {
 			OR = {
 				check_variable = { KOR_scale_right > 79 }
@@ -86,7 +86,7 @@ KOR_balance_category = {
 	# Contact abroad - opened by the underground network.
 	KOR_foreign_contact = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = { has_country_flag = KOR_underground_built }
 		cost = 40
 		days_re_enable = 120

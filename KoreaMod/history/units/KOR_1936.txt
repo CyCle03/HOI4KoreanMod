@@ -59,8 +59,11 @@ division_template = {
 }
 
 ### OOB ###
+# The governorate garrison. In LIBERATION mode on_startup hands the peninsula
+# back to Japan and these two go with the states they are standing in.
 units = {
-	# Releasable only - see history/countries/KOR - Korea.txt
+	division = { name = "1. Keijo Division" location = 7125 division_template = "Daehanminguk Yuk-gun" start_experience_factor = 0.1 start_equipment_factor = 0.6 }
+	division = { name = "2. Heijo Division" location = 4052 division_template = "Daehanminguk Yuk-gun" start_experience_factor = 0.1 start_equipment_factor = 0.6 }
 }
 
 ### STARTING PRODUCTION ###

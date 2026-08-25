@@ -1,11 +1,6 @@
 ﻿l_korean:
 
  ### 국가명 · 코스메틱 태그 ###
- CHO: "조선총독부"
- CHO_DEF: "조선총독부"
- CHO_ADJ: "조선"
- CHO_neutrality: "조선총독부"
- CHO_fascism: "조선총독부"
  KOR_jap: "조선"
  KOR_jap_DEF: "조선"
  KOR_jap_ADJ: "조선"
@@ -197,7 +192,6 @@
  KOR_governor_general_desc: "반도의 모든 결재가 이 책상을 지난다."
 
  ### 사단 명명 ###
- CHO_INF_01: "보병 사단"
 
  ### 여론 수정자 ###
  KOR_loyal_service: "충실한 봉사"
@@ -234,7 +228,7 @@
  RULE_KOR_START_MODE_LIBERATION: "해방국 전용 (안전)"
  RULE_KOR_START_MODE_LIBERATION_DESC: "지도를 그대로 둔다. 반도는 일본령이고 조선은 해방 가능 국가로 남으며, 중점 트리는 해방된 뒤부터 돌아간다. 일본의 AI는 전혀 영향받지 않는다."
  RULE_KOR_START_MODE_GOVERNORATE: "조선총독부 (기본)"
- RULE_KOR_START_MODE_GOVERNORATE_DESC: "설계서의 본래 의도. 반도 2개 주를 CHO 태그로 떼어 일본의 통합 괴뢰국으로 만든다. 일본은 보정 국민정신을 받지만, 중일전쟁 수행이 흔들릴 수 있다."
+ RULE_KOR_START_MODE_GOVERNORATE_DESC: "설계서의 본래 의도. 반도 6개 주가 조선 소유로 시작하고, 조선은 일본의 통합 괴뢰국이 된다. 시작 화면에서 바로 고를 수 있다. 일본은 보정 국민정신을 받지만, 중일전쟁 수행이 흔들릴 수 있다."
 
  ### 결정 ###
  KOR_requisition_category: "종주국 장비 청구"

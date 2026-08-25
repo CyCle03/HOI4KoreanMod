@@ -1,11 +1,6 @@
 ﻿l_english:
 
  ### country and cosmetic tags ###
- CHO: "Government-General of Chosen"
- CHO_DEF: "the Government-General of Chosen"
- CHO_ADJ: "Chosen"
- CHO_neutrality: "Government-General of Chosen"
- CHO_fascism: "Government-General of Chosen"
  KOR_jap: "Chosen"
  KOR_jap_DEF: "Chosen"
  KOR_jap_ADJ: "Chosen"
@@ -197,7 +192,6 @@
  KOR_governor_general_desc: "Every signature on the peninsula passes this desk."
 
  ### division names ###
- CHO_INF_01: "Infantry Divisions"
 
  ### opinion modifiers ###
  KOR_loyal_service: "Loyal Service"
@@ -234,7 +228,7 @@
  RULE_KOR_START_MODE_LIBERATION: "Releasable Only (safe)"
  RULE_KOR_START_MODE_LIBERATION_DESC: "The map is left alone. The peninsula stays Japanese, Korea stays a releasable nation, and the focus tree runs once Korea exists. Japan's AI is untouched."
  RULE_KOR_START_MODE_GOVERNORATE: "Government-General (default)"
- RULE_KOR_START_MODE_GOVERNORATE_DESC: "The design's original intent. Both Korean states are split off to the CHO tag as an integrated puppet of Japan. Japan is compensated with a national spirit, but its conduct of the war in China may suffer."
+ RULE_KOR_START_MODE_GOVERNORATE_DESC: "The design's original intent. All six peninsula states start owned by Korea, and Korea starts as an integrated puppet of Japan, playable from the selection screen. Japan is compensated with a national spirit, but its conduct of the war in China may suffer."
 
  ### decisions ###
  KOR_requisition_category: "Requisition from the Overlord"

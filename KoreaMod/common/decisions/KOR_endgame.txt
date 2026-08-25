@@ -6,7 +6,7 @@ KOR_endgame_category = {
 
 	KOR_show_recognition = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		available = { always = no }
 		visible = { has_country_flag = KOR_underground_built }
 		fire_only_once = no
@@ -18,7 +18,7 @@ KOR_endgame_category = {
 
 	KOR_homeland_entry = {
 		icon = generic_operation
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = { has_country_flag = KOR_eagle_ready }
 		available = {
 			has_country_flag = KOR_eagle_ready
@@ -61,7 +61,7 @@ KOR_endgame_category = {
 
 	KOR_38th_parallel = {
 		icon = generic_army_support
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = {
 			OR = { JAP = { has_capitulated = yes } has_global_flag = KOR_japan_collapsing }
 			check_variable = { KOR_recognition < 60 }
@@ -100,7 +100,7 @@ KOR_endgame_category = {
 
 	KOR_accept_trusteeship = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = {
 			has_country_flag = KOR_cairo_promise
 			check_variable = { KOR_recognition > 39 }
@@ -122,7 +122,7 @@ KOR_endgame_category = {
 
 	KOR_reject_trusteeship = {
 		icon = generic_army_support
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = {
 			has_country_flag = KOR_cairo_promise
 			check_variable = { KOR_recognition > 39 }
@@ -149,7 +149,7 @@ KOR_endgame_category = {
 
 	KOR_asset_race = {
 		icon = generic_industry
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = { JAP = { surrender_progress > 0.5 } }
 		available = { always = no }
 		activation = { JAP = { surrender_progress > 0.5 } }
@@ -175,7 +175,7 @@ KOR_endgame_category = {
 
 	KOR_unification_talks = {
 		icon = generic_political_actions
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		visible = {
 			has_country_flag = KOR_divided_state
 			OR = { has_country_flag = KOR_kpg_path has_country_flag = KOR_kpr_path }

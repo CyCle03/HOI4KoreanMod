@@ -118,7 +118,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = KOR_pak_heung_sik
-			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			allowed = { original_tag = KOR }
 			traits = { captain_of_industry }
 			cost = 100
 		}
@@ -138,7 +138,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = KOR_kim_kyu_sik
-			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			allowed = { original_tag = KOR }
 			traits = { democratic_reformer }
 			cost = 100
 		}
@@ -153,7 +153,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = KOR_pak_hon_yong_advisor
-			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			allowed = { original_tag = KOR }
 			traits = { communist_revolutionary }
 			cost = 100
 		}
@@ -169,7 +169,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = KOR_choe_rin
-			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			allowed = { original_tag = KOR }
 			traits = { fascist_demagogue }
 			cost = 100
 		}
@@ -184,7 +184,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = KOR_cho_so_ang
-			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			allowed = { original_tag = KOR }
 			traits = { ideological_crusader }
 			cost = 150
 		}
@@ -198,7 +198,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = KOR_minami_jiro_advisor
-			allowed = { OR = { original_tag = KOR original_tag = CHO } }
+			allowed = { original_tag = KOR }
 			available = { has_country_flag = KOR_naisen_ittai_committed }
 			traits = { KOR_governor_general }
 			cost = 150

@@ -4,7 +4,7 @@ KOR_requisition_category = {
 	# raises the odds; three refusals in a row cost you autonomy.
 	KOR_requisition_infantry = {
 		icon = generic_operation
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		available = { is_subject = yes }
 		visible = { is_subject = yes }
 		cost = 25
@@ -42,7 +42,7 @@ KOR_requisition_category = {
 
 	KOR_requisition_artillery = {
 		icon = generic_operation
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		available = { is_subject = yes }
 		visible = { is_subject = yes }
 		cost = 35
@@ -78,7 +78,7 @@ KOR_requisition_category = {
 
 	KOR_requisition_aircraft = {
 		icon = generic_operation
-		allowed = { OR = { original_tag = KOR original_tag = CHO } }
+		allowed = { original_tag = KOR }
 		available = { is_subject = yes }
 		visible = { is_subject = yes }
 		cost = 50

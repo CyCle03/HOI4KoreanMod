@@ -2,32 +2,29 @@ on_actions = {
 
 	on_startup = {
 		effect = {
-			# --- Korea's starting condition. Applied to both tags, because
-			# --- either one can be the tag the player is holding: KOR when
-			# --- the peninsula is only releasable, CHO when it is split off.
-			# --- Everything the tree and the decisions read has to exist on
-			# --- whichever one you are actually playing.
+			# One tag. The peninsula and the government sitting on it are the
+			# same country in the game's eyes; which of the two it is at any
+			# moment is a matter of who holds it and what it calls itself, and
+			# both of those are things the mod already tracks.
 			KOR = { KOR_common_setup = yes }
-			CHO = { KOR_common_setup = yes }
 
-			# --- Governorate mode. The peninsula already belongs to CHO -
-			# --- that is declared in the six history/states files, not here,
-			# --- because the country selection screen reads history and
-			# --- nothing else. Doing it in on_startup meant Korea was
-			# --- Japanese while you were choosing and then broke away the
-			# --- instant the game began, and CHO was not selectable at all.
-			# --- What is left for startup is the diplomacy, which has no
-			# --- map to redraw.
+			# --- Governorate mode. The peninsula already belongs to Korea in
+			# --- the six history/states files, not here, because the country
+			# --- selection screen reads history and nothing else. Doing it in
+			# --- on_startup meant the peninsula was Japanese while you were
+			# --- choosing and then broke away the instant the game began.
+			# --- What is left for startup is the diplomacy, which has no map
+			# --- to redraw, and the name.
 			if = {
 				limit = { has_game_rule = { rule = KOR_start_mode option = GOVERNORATE } }
 
-				CHO = {
+				KOR = {
 					add_ideas = KOR_governorate_police
 					set_cosmetic_tag = KOR_gg
 				}
 
 				JAP = {
-					set_autonomy = { target = CHO autonomy_state = autonomy_integrated_puppet }
+					set_autonomy = { target = KOR autonomy_state = autonomy_integrated_puppet }
 					# The metropole loses direct use of Korean manpower and
 					# industry; the integrated-puppet share plus this spirit
 					# is what puts it back.
@@ -43,12 +40,34 @@ on_actions = {
 			# --- option; the cost is that Korea cannot be picked at start.
 			else = {
 				KOR_return_peninsula_to_japan = yes
+
+				# history/countries/KOR - Korea.txt is written for the
+				# governorate, because that is the default. A Korea that is
+				# only releasable is the exile movement instead, and starts
+				# where the base game starts it.
+				KOR = {
+					set_politics = {
+						ruling_party = democratic
+						last_election = "1936.1.1"
+						election_frequency = 48
+						elections_allowed = yes
+					}
+					set_popularities = {
+						democratic = 35
+						fascism = 25
+						communism = 30
+						neutrality = 10
+					}
+					if = {
+						limit = { has_idea = KOR_governorate_police }
+						remove_ideas = KOR_governorate_police
+					}
+				}
 			}
 		}
 	}
 
-	# The flag-defacement incident, and Cairo, are fired from here so that
-	# they work whichever tag the player is holding.
+	# The flag-defacement incident, and Cairo, are fired from here.
 	on_daily_KOR = {
 		effect = {
 			if = {
@@ -68,30 +87,6 @@ on_actions = {
 				set_country_flag = KOR_cairo_fired
 				country_event = { id = korea_triggers.2 days = 1 }
 			}
-			KOR_wartime_events = yes
-			KOR_refresh_gauges = yes
-		}
-	}
-
-	on_daily_CHO = {
-		effect = {
-			if = {
-				limit = {
-					date > "1936.8.24"
-					NOT = { has_country_flag = KOR_trigger_event_fired }
-				}
-				set_country_flag = KOR_trigger_event_fired
-				country_event = { id = korea_triggers.1 days = 1 }
-			}
-			if = {
-				limit = {
-					date > "1943.11.30"
-					NOT = { has_country_flag = KOR_cairo_fired }
-				}
-				set_country_flag = KOR_cairo_fired
-				country_event = { id = korea_triggers.2 days = 1 }
-			}
-
 			KOR_wartime_events = yes
 			KOR_refresh_gauges = yes
 		}

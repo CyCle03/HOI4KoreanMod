@@ -28,7 +28,7 @@ change the source, the zip has to be rebuilt too.
 | Characters | 14 | 8 reused from the base game + 6 new |
 | Decisions | 7 (requisition, bandits, endgame) | 15 |
 | Localisation | Korean, English | both |
-| Flags | — | 17 — 14 copied from the base game, 3 drawn (see [Flags](#flags)) |
+| Flags | — | 12 — 9 copied from the base game, 3 drawn (see [Flags](#flags)) |
 
 Focus durations fall out of `cost` exactly as the design specifies (35 days = 5,
 70 = 10, 105 = 15, 140 = 20).
@@ -39,7 +39,7 @@ the declaration of war on Japan in December 1941, the Korean Language Society ar
 October 1942, conscription in April 1944, and the collapse of the autonomous assembly on
 the day Japan surrenders. That last one is the collapse `CHO_autonomous_assembly` promises
 in red text. The dated ones are collected in the `KOR_wartime_events` scripted effect and
-called from both the KOR and CHO daily on_actions.
+called from the daily on_action.
 
 ## Where the design's key mechanisms live
 
@@ -82,7 +82,7 @@ All three now work the same way.
 | `KOR_scale_right` | `KOR_united_front_strain` | the further from 50, the lower the stability and the higher the zeal of the half that remains |
 
 The derived variables are computed once a day by `KOR_refresh_gauges`, called from both
-the KOR and CHO daily on_actions. Recognition's natural decay moved in there too, so both
+the daily on_action. Recognition's natural decay moved in there too, so both
 tags follow the same rule, and `KOR_scale_left` — written in five places and read in none —
 is refreshed there as well.
 
@@ -117,23 +117,28 @@ through `KOR_ensure_supply_base` so nothing is granted twice.
    as `is_core_of = KOR` — the two scripted effects `KOR_seize_the_peninsula` and
    `KOR_return_peninsula_to_japan` collect those so the state numbers are not written
    out twice.
-3. **The CHO tag is switched on and off by game rule.** The default is `GOVERNORATE` —
-   two of the peninsula's states go to CHO as an integrated puppet of Japan, and you can
-   click Korea on the start screen and play it. That was the design's original intent and
-   the central decision of §Tag design. Ownership itself is declared in
-   `KoreaMod/history/states/525` and `527`, not in on_startup: the country selection
-   screen reads history files and nothing else, so moving the states in on_startup left
-   the peninsula Japanese while you were choosing, broke it away the instant the game
-   began, and made CHO unselectable. What stays in startup is the diplomacy, which has
-   no map to redraw.
+3. **There is one tag, and a game rule decides what it is holding.** The default is
+   `GOVERNORATE`: all six peninsula states start owned by KOR, which starts as an
+   integrated puppet of Japan and is called the Government-General on screen. That was
+   the design's original intent and the central decision of §Tag design. Ownership is
+   declared in the six `KoreaMod/history/states` files, not in on_startup: the country
+   selection screen reads history files and nothing else, so moving the states in
+   on_startup left the peninsula Japanese while you were choosing and broke it away the
+   instant the game began. What stays in startup is the diplomacy and the name, neither
+   of which redraws a map.
    The flip side is that Japan's AI — what the design called `the biggest risk` — is on
-   this path. Switching to `LIBERATION` leaves the 1936 map completely untouched and
-   Korea stays a releasable nation (no effect on Japan's AI, but you cannot pick it at
-   start).
+   this path. Switching to `LIBERATION` hands the peninsula back, restores the exile
+   movement's politics and leaves the 1936 map exactly as the base game draws it (no
+   effect on Japan's AI, but you cannot pick Korea at start).
 
-   **There is still no tag switch.** The design said choosing resistance swaps CHO→KOR;
-   for now only the cosmetic tag changes. The design never settled what a KOR in exile
-   would own, and in HOI4 a country with no territory capitulates immediately.
+   **There used to be a second tag.** The Government-General was CHO, a tag of this
+   mod's own, and every trigger, decision and category in the mod carried
+   `OR = { original_tag = KOR original_tag = CHO }` — thirty-six of them — while CHO
+   needed its own history, order of battle, division names, five flags and a country
+   leader, all of which the base game already provides for KOR. The design also wanted
+   CHO→KOR to swap on choosing resistance, which was never implemented and now has
+   nothing to swap. The two are one tag; what changes is the cosmetic tag, which is what
+   was changing anyway.
 4. **Equipment naming keys are a prefix, not a suffix.** The design's example was
    `infantry_equipment_1_KOR_usa`; the real format is `KOR_usa_infantry_equipment_1`
    (confirmed against the base game's `GER_infantry_equipment_1`). Implemented as a prefix.
@@ -163,17 +168,17 @@ through `KOR_ensure_supply_base` so nothing is granted twice.
 
 ## Flags
 
-CHO and the eleven cosmetic tags each need their own flag file — the game looks up
+The twelve cosmetic tags each need their own flag file — the game looks up
 `gfx/flags/<tag>.tga` and draws a blank where the country's identity should be when it is
-not there. Seventeen names, three sizes each (82×52, 41×26, 10×7): fifty-one files.
+not there. Twelve names, three sizes each (82×52, 41×26, 10×7): thirty-six files.
 
-Fourteen of the seventeen needed no new art. The base game already ships the
+Nine of the twelve needed no new art. The base game already ships the
 Government-General's flag (`KOR_chousen_tag_*`, from Graveyard of Empires) and Korea's four
 ideology flags, so those are copied under the names this mod's tags expect.
 
 | Flag | What it is | Art |
 |---|---|---|
-| `CHO` (+ four ideology variants), `KOR_gg`, `KOR_jap` | Government-General of Chosen, and Korea before it has a name of its own | base game, `KOR_chousen_tag_*` |
+| `KOR_gg`, `KOR_jap` | The Government-General, and Korea before it has a name of its own | base game, `KOR_chousen_tag_neutrality` |
 | `KOR_dominion`, `KOR_dominion_ger` | Chosen Dominion | base game, `KOR_chousen_tag_fascism` — the gold-bordered palgwae, the empire's own subordinate |
 | `KOR_ger`, `KOR_empire`, `KOR_empire_ger` | Great Korean Empire | base game, `KOR_fascism` — the eight-trigram taegukgi of the imperial period |
 | `KOR_chi`, `KOR_usa` | Korean Provisional Government | base game, `KOR_democratic` — the taegukgi |
@@ -207,7 +212,7 @@ pwsh tools/make-league-flag.ps1 KoreaMod/gfx/flags
 That is why they are kept. A `.tga` is binary: without the script, the colours, the width of
 the white ring and the star's position are unreachable.
 
-The fourteen copied flags are Paradox's own art, redistributed inside the mod folder. That
+The nine copied flags are Paradox's own art, redistributed inside the mod folder. That
 is ordinary for Hearts of Iron IV mods, but it is worth knowing that is what those files are.
 
 **The thumbnail** (`KoreaMod/thumbnail.png`, 512×512, pointed at by `picture=` in
@@ -259,8 +264,8 @@ in the console and look at the tree first.
 │  │  ├─ country_tags/ · countries/ · units/names_divisions/
 │  │  └─ military_industrial_organization/organizations/
 │  ├─ events/              KOR_timeline · KOR_politics · KOR_industry
-│  ├─ gfx/flags/           17 flags, each at 82×52 · medium/ 41×26 · small/ 10×7
-│  ├─ history/             countries/CHO · states/ (the six peninsula states) · units/KOR_1936 · units/CHO_1936
+│  ├─ gfx/flags/           12 flags, each at 82×52 · medium/ 41×26 · small/ 10×7
+│  ├─ history/             countries/KOR · states/ (the six peninsula states) · units/KOR_1936
 │  ├─ localisation/        korean/ · english/  (3 files each)
 │  └─ thumbnail.png        512×512, what descriptor.mod's picture= points at
 ├─ docs/                the three design documents (the game does not read these)
@@ -272,4 +277,5 @@ in the console and look at the tree first.
 
 Only the political branch sits inside a `focus_tree` block; industry, military and late
 are `shared_focus`. That is the same reason the design split the files five ways, and a
-single tree (`korea_focus`) is shared by the KOR and CHO tags.
+single tree (`korea_focus`) belongs to KOR, which is now the only tag this mod adds
+focuses to.

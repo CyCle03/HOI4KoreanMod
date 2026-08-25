@@ -269,7 +269,7 @@ KOR_restore_sovereignty = {
 }
 
 # ---------------------------------------------------------------------------
-# Startup. Called for KOR and for CHO, because either of them can be the tag
+# Startup.
 # the player is actually holding depending on the start-mode game rule.
 # Everything the tree, the decisions and the tooltips read must exist on both.
 # ---------------------------------------------------------------------------
@@ -381,6 +381,5 @@ KOR_return_peninsula_to_japan = {
 	every_state = {
 		limit = { is_core_of = KOR }
 		transfer_state_to = JAP
-		remove_core_of = CHO
 	}
 }
