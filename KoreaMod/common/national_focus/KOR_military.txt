@@ -70,11 +70,14 @@ shared_focus = {
 	prerequisite = { focus = KOR_japanese_trained_officers }
 	completion_reward = {
 		add_ideas = KOR_standing_army
-		capital_scope = {
-			create_unit = {
-				division = "name = \"Chosen Line Division\" division_template = \"Daehanminguk Yuk-gun\" start_experience_factor = 0.3 start_equipment_factor = 0.7"
-				owner = ROOT
-				count = 4
+		custom_effect_tooltip = KOR_standing_divisions_units_tt
+		hidden_effect = {
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Chosen Line Division\" division_template = \"Daehanminguk Yuk-gun\" start_experience_factor = 0.3 start_equipment_factor = 0.7"
+					owner = ROOT
+					count = 4
+				}
 			}
 		}
 		KOR_count_army_focus = yes
@@ -112,6 +115,8 @@ shared_focus = {
 	allow_branch = { KOR_lacks_government_apparatus = yes }
 	ai_will_do = { factor = 10 }
 	completion_reward = {
+		# Ji Cheong-cheon taught here before he commanded anything.
+		recruit_character = KOR_ji_cheong_cheon
 		army_experience = 50
 		KOR_officer_stage_2 = yes
 		KOR_count_army_focus = yes
@@ -159,11 +164,14 @@ shared_focus = {
 	prerequisite = { focus = KOR_uiyeoldan_legacy }
 	completion_reward = {
 		add_ideas = KOR_manchurian_bases_idea
-		capital_scope = {
-			create_unit = {
-				division = "name = \"Border Partisan Detachment\" division_template = \"Yugyeokdae\" start_experience_factor = 0.5 start_equipment_factor = 0.4"
-				owner = ROOT
-				count = 3
+		custom_effect_tooltip = KOR_manchurian_bases_units_tt
+		hidden_effect = {
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Border Partisan Detachment\" division_template = \"Yugyeokdae\" start_experience_factor = 0.5 start_equipment_factor = 0.4"
+					owner = ROOT
+					count = 3
+				}
 			}
 		}
 		KOR_count_army_focus = yes

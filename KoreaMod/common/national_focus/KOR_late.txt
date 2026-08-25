@@ -38,11 +38,14 @@ shared_focus = {
 	prerequisite = { focus = KOR_seize_the_moment }
 	completion_reward = {
 		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 5000 producer = JAP }
-		capital_scope = {
-			create_unit = {
-				division = "name = \"Constabulary Division\" division_template = \"Chiandae\" start_experience_factor = 0.2 start_equipment_factor = 0.8"
-				owner = ROOT
-				count = 4
+		custom_effect_tooltip = KOR_disarm_governorate_units_tt
+		hidden_effect = {
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Constabulary Division\" division_template = \"Chiandae\" start_experience_factor = 0.2 start_equipment_factor = 0.8"
+					owner = ROOT
+					count = 4
+				}
 			}
 		}
 		set_country_flag = KOR_governorate_disarmed
@@ -96,11 +99,14 @@ shared_focus = {
 	ai_will_do = { factor = 10 }
 	completion_reward = {
 		add_manpower = -20000
-		capital_scope = {
-			create_unit = {
-				division = "name = \"Self-Defence Corps\" division_template = \"Chiandae\" start_experience_factor = 0 start_equipment_factor = 0.25"
-				owner = ROOT
-				count = 6
+		custom_effect_tooltip = KOR_self_defense_corps_units_tt
+		hidden_effect = {
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Self-Defence Corps\" division_template = \"Chiandae\" start_experience_factor = 0 start_equipment_factor = 0.25"
+					owner = ROOT
+					count = 6
+				}
 			}
 		}
 		add_ideas = KOR_hasty_levies

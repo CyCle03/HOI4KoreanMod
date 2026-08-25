@@ -186,11 +186,14 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 25
 			add_manpower = 25000
-			capital_scope = {
-				create_unit = {
-					division = "name = \"Chosen Special Volunteer Regiment\" division_template = \"Daehanminguk Yuk-gun\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
-					owner = ROOT
-					count = 3
+			custom_effect_tooltip = CHO_army_volunteer_ordinance_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"Chosen Special Volunteer Regiment\" division_template = \"Daehanminguk Yuk-gun\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+						owner = ROOT
+						count = 3
+					}
 				}
 			}
 			if = { limit = { is_subject = yes } add_autonomy_ratio = { value = 0.02 } }
@@ -316,12 +319,16 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = KOR_national_front_league }
 		completion_reward = {
+			recruit_character = KOR_kim_won_bong
 			army_experience = 25
-			capital_scope = {
-				create_unit = {
-					division = "name = \"Joseon Uiyongdae\" division_template = \"Yugyeokdae\" start_experience_factor = 0.4 start_equipment_factor = 0.5"
-					owner = ROOT
-					count = 2
+			custom_effect_tooltip = KOR_volunteer_corps_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"Joseon Uiyongdae\" division_template = \"Yugyeokdae\" start_experience_factor = 0.4 start_equipment_factor = 0.5"
+						owner = ROOT
+						count = 2
+					}
 				}
 			}
 			set_country_flag = KOR_china_front_open
@@ -407,13 +414,17 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = KPG_samgyun }
 		completion_reward = {
+			recruit_character = KOR_yi_beom_seok
 			army_experience = 50
 			add_tech_bonus = { bonus = 1.0 uses = 1 category = cat_mass_assault }
-			capital_scope = {
-				create_unit = {
-					division = "name = \"Han'guk Kwangbokkun 1st Detachment\" division_template = \"Gwangbokgun Jidae\" start_experience_factor = 0.5 start_equipment_factor = 0.45"
-					owner = ROOT
-					count = 1
+			custom_effect_tooltip = KPG_restoration_army_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"Han'guk Kwangbokkun 1st Detachment\" division_template = \"Gwangbokgun Jidae\" start_experience_factor = 0.5 start_equipment_factor = 0.45"
+						owner = ROOT
+						count = 1
+					}
 				}
 			}
 			add_ideas = KOR_restoration_army_spirit
@@ -582,13 +593,17 @@ focus_tree = {
 		cost = 15
 		prerequisite = { focus = KIL_youth_school }
 		completion_reward = {
+			recruit_character = KOR_mu_jeong
 			add_tech_bonus = { bonus = 1.0 uses = 1 category = infantry_weapons }
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 3000 producer = PRC }
-			capital_scope = {
-				create_unit = {
-					division = "name = \"Joseon Uiyonggun\" division_template = \"Yugyeokdae\" start_experience_factor = 0.5 start_equipment_factor = 0.5"
-					owner = ROOT
-					count = 3
+			custom_effect_tooltip = KIL_volunteer_army_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"Joseon Uiyonggun\" division_template = \"Yugyeokdae\" start_experience_factor = 0.5 start_equipment_factor = 0.5"
+						owner = ROOT
+						count = 3
+					}
 				}
 			}
 		}
@@ -652,11 +667,14 @@ focus_tree = {
 		prerequisite = { focus = KIL_pochonbo_raid }
 		completion_reward = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 3000 producer = SOV }
-			capital_scope = {
-				create_unit = {
-					division = "name = \"88th Separate Rifle Brigade\" division_template = \"Yugyeokdae\" start_experience_factor = 0.6 start_equipment_factor = 0.6"
-					owner = ROOT
-					count = 3
+			custom_effect_tooltip = KIL_88th_brigade_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"88th Separate Rifle Brigade\" division_template = \"Yugyeokdae\" start_experience_factor = 0.6 start_equipment_factor = 0.6"
+						owner = ROOT
+						count = 3
+					}
 				}
 			}
 		}
@@ -866,11 +884,14 @@ focus_tree = {
 		prerequisite = { focus = YIH_german_advisors }
 		completion_reward = {
 			add_command_power = 25
-			capital_scope = {
-				create_unit = {
-					division = "name = \"Hwangsil Geunwidae\" division_template = \"Hwangsil Geunwidae\" start_experience_factor = 0.7 start_equipment_factor = 0.9"
-					owner = ROOT
-					count = 2
+			custom_effect_tooltip = YIH_imperial_guard_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"Hwangsil Geunwidae\" division_template = \"Hwangsil Geunwidae\" start_experience_factor = 0.7 start_equipment_factor = 0.9"
+						owner = ROOT
+						count = 2
+					}
 				}
 			}
 		}
@@ -978,11 +999,14 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = KPR_coalition_line }
 		completion_reward = {
-			capital_scope = {
-				create_unit = {
-					division = "name = \"Chiandae\" division_template = \"Chiandae\" start_experience_factor = 0.1 start_equipment_factor = 0.4"
-					owner = ROOT
-					count = 4
+			custom_effect_tooltip = KPR_security_corps_units_tt
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "name = \"Chiandae\" division_template = \"Chiandae\" start_experience_factor = 0.1 start_equipment_factor = 0.4"
+						owner = ROOT
+						count = 4
+					}
 				}
 			}
 		}
