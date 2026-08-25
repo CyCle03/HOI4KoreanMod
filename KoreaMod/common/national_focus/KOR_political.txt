@@ -363,6 +363,12 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = KOR_left_right_negotiation }
 		mutually_exclusive = { focus = KIL_found_league }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KOR_awaits_chongqing_tt
+				has_country_flag = KOR_chongqing_chosen
+			}
+		}
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_political_power = 100
@@ -544,6 +550,12 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = KOR_left_right_negotiation }
 		mutually_exclusive = { focus = KPG_unify_kip }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KOR_awaits_yanan_tt
+				has_country_flag = KOR_yanan_chosen
+			}
+		}
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_popularity = { ideology = communism popularity = 0.10 }

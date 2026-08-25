@@ -315,7 +315,6 @@
  KOR_asset_race_halved_tt: "The asset-stripping countdown is halved."
  KOR_separate_government_tt: "§RIndependence over half the peninsula. The other camp gains a claim to unify.§!"
  KOR_cache_at_risk_tt: "§RIf discovered, the whole cache is lost.§!"
- KOR_fork_tt: "The Provisional Government and the Independence League split here. Choosing one locks the other permanently."
  YIH_dominion_tt: "What Prince Yi Un builds is not an independent state but the §YChosen Dominion§!."
  YIH_succession_tt: "Prince Yi Kang's line goes non-aligned."
 
@@ -332,7 +331,7 @@
 
  korea_politics.3.t: "The Left-Right Talks"
  korea_politics.3.d: "Chongqing and Yan'an are in the same room. They have the same enemy and are drawing different countries."
- korea_politics.3.a: "One of them has to be chosen."
+ korea_politics.3.a: "We go to Chongqing"
  korea_politics.4.t: "Chairman of the Provisional Government"
  korea_politics.4.d: "Rhee is in Washington and Kim Ku is in Chongqing. The first is better at winning recognition; the second is better at gathering people."
  korea_politics.4.a: "Keep Rhee."
@@ -421,3 +420,10 @@
  KOR_gg: "Government-General of Chosen"
  KOR_gg_DEF: "the Government-General of Chosen"
  KOR_gg_ADJ: "Chosen"
+
+ # The talks decide the branch. Not which focus you click - who stands up first.
+ korea_politics.3.b: "We go to Yan'an"
+ KOR_fork_chongqing_tt: "Opens the §YProvisional Government§! branch. §RThe Independence League branch closes for good.§!"
+ KOR_fork_yanan_tt: "Opens the §YIndependence League§! branch. §RThe Provisional Government branch closes for good.§!"
+ KOR_awaits_chongqing_tt: "§RRequires choosing Chongqing at the left-right talks.§!"
+ KOR_awaits_yanan_tt: "§RRequires choosing Yan'an at the left-right talks.§!"

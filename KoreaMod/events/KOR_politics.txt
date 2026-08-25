@@ -11,11 +11,24 @@ country_event = {
 
 	is_triggered_only = yes
 
-	option = {
+	# The tree used to fork on whichever of the two focuses you clicked, and
+	# the talks themselves only printed a warning that it was about to. The
+	# talks decide it now. The branch you lose is not one you declined to
+	# take - it is the one that walked out of the room.
+	option = { # Chongqing
 		name = korea_politics.3.a
-		ai_chance = { factor = 50 }
+		ai_chance = { factor = 65 }
 		add_political_power = 25
-		custom_effect_tooltip = KOR_fork_tt
+		set_country_flag = KOR_chongqing_chosen
+		custom_effect_tooltip = KOR_fork_chongqing_tt
+	}
+
+	option = { # Yan'an
+		name = korea_politics.3.b
+		ai_chance = { factor = 35 }
+		add_political_power = 25
+		set_country_flag = KOR_yanan_chosen
+		custom_effect_tooltip = KOR_fork_yanan_tt
 	}
 }
 
