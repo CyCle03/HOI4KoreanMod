@@ -231,6 +231,23 @@ KOR_shift_left = {
 KOR_restore_sovereignty = {
 	set_country_flag = KOR_sovereignty_restored
 	if = { limit = { is_subject = yes } OVERLORD = { end_puppet = ROOT } }
+
+	# end_puppet ends the subject relation and nothing else. The wars Japan
+	# dragged the peninsula into stay, and HOI4 will not let a country leave a
+	# faction while it is at war - so independence used to arrive with every
+	# enemy Japan had and no way out of the faction either.
+	if = {
+		limit = { is_in_faction_with = JAP }
+		leave_faction = yes
+	}
+	every_country = {
+		limit = {
+			has_war_with = ROOT
+			has_war_with = JAP
+			NOT = { tag = JAP }
+		}
+		white_peace = ROOT
+	}
 	if = {
 		limit = { has_idea = KOR_governorate_police }
 		remove_ideas = KOR_governorate_police

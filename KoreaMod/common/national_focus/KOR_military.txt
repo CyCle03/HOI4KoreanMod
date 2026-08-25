@@ -31,10 +31,14 @@ shared_focus = {
 	relative_position_id = KOR_officer_census
 	cost = 5
 	prerequisite = { focus = KOR_officer_census }
-	allow_branch = { KOR_has_government_apparatus = yes }
+	allow_branch = { OR = { KOR_has_government_apparatus = yes has_country_flag = KOR_army_regular_open } }
 	available = { KOR_has_government_apparatus = yes }
 	ai_will_do = { factor = 10 }
 	completion_reward = {
+		# Latch the branch. allow_branch is re-checked every day, so without
+		# this the whole line vanishes the moment the government form changes
+		# under a player already standing in it.
+		set_country_flag = KOR_army_regular_open
 		if = { limit = { has_idea = KOR_army_hq_veto } remove_ideas = KOR_army_hq_veto }
 		add_tech_bonus = { bonus = 0.5 uses = 2 category = land_doctrine }
 		if = { limit = { country_exists = JAP } add_opinion_modifier = { target = JAP modifier = KOR_loyal_service } }
@@ -112,9 +116,10 @@ shared_focus = {
 	relative_position_id = KOR_officer_census
 	cost = 5
 	prerequisite = { focus = KOR_officer_census }
-	allow_branch = { KOR_lacks_government_apparatus = yes }
+	allow_branch = { OR = { KOR_lacks_government_apparatus = yes has_country_flag = KOR_army_guerrilla_open } }
 	ai_will_do = { factor = 10 }
 	completion_reward = {
+		set_country_flag = KOR_army_guerrilla_open
 		# Ji Cheong-cheon taught here before he commanded anything.
 		recruit_character = KOR_ji_cheong_cheon
 		army_experience = 50
