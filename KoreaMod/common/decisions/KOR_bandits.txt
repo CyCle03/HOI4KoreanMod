@@ -29,6 +29,10 @@ KOR_bandit_category = {
 			add_stability = 0.02
 			add_manpower = -1500
 			clr_country_flag = KOR_bandits_unchecked
+			# 130, not 120: the reprieve has to outlast the mission cycle it is
+			# meant to cover, or the timeout lands in the gap and the decision
+			# does nothing at all - which is what it did before.
+			set_country_flag = { flag = KOR_bandits_handled days = 130 }
 		}
 	}
 
@@ -66,12 +70,19 @@ KOR_bandit_category = {
 		is_good = no
 
 		timeout_effect = {
-			random_state = {
-				limit = { OR = { state = 527 state = 1028 } CONTROLLER = { tag = ROOT } }
-				damage_building = { type = infrastructure damage = 1 }
+			# Only the ones nobody answered do damage. Suppression sets
+			# KOR_bandits_handled for 130 days and this reads it; before, the
+			# decision cleared a flag that nothing anywhere read, so paying ten
+			# command power bought exactly nothing.
+			if = {
+				limit = { NOT = { has_country_flag = KOR_bandits_handled } }
+				random_state = {
+					limit = { OR = { state = 527 state = 1028 } CONTROLLER = { tag = ROOT } }
+					damage_building = { type = infrastructure damage = 1 }
+				}
+				add_political_power = -15
+				set_country_flag = KOR_bandits_unchecked
 			}
-			add_political_power = -15
-			set_country_flag = KOR_bandits_unchecked
 		}
 	}
 }
