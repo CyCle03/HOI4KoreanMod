@@ -404,3 +404,16 @@
  KOR_awaits_incident_loyalist_tt: "This branch opens only if you side with the Governor-General, or say nothing, at the §Yflag-defacement incident of 25 August 1936§!."
  KOR_awaits_incident_resistance_tt: "This branch opens only if you defend the paper, or say nothing, at the §Yflag-defacement incident of 25 August 1936§!."
  KOR_bandit_cost_tt_blocked: "Needs 10 command power (not enough)"
+
+ # HOI4's own tooltip for these prints the state name twice and never says how many.
+ KOR_disarm_governorate_units_tt: "Raises 4 Constabulary divisions in the capital"
+ KOR_self_defense_corps_units_tt: "Raises 6 Self-Defence Corps divisions in the capital"
+ KOR_standing_divisions_units_tt: "Raises 4 Chosen Line divisions in the capital"
+ KOR_manchurian_bases_units_tt: "Raises 3 Border Partisan detachments in the capital"
+ CHO_army_volunteer_ordinance_units_tt: "Raises 3 Special Volunteer regiments in the capital"
+ KOR_volunteer_corps_units_tt: "Raises 2 Korean Volunteer Corps divisions in the capital"
+ KPG_restoration_army_units_tt: "Raises the Restoration Army's 1st Detachment in the capital"
+ KIL_volunteer_army_units_tt: "Raises 3 Korean Volunteer Army divisions in the capital"
+ KIL_88th_brigade_units_tt: "Raises 3 divisions of the 88th Separate Rifle Brigade in the capital"
+ YIH_imperial_guard_units_tt: "Raises 2 Imperial Guard divisions in the capital"
+ KPR_security_corps_units_tt: "Raises 4 Constabulary divisions in the capital"

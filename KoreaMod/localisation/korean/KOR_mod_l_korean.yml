@@ -404,3 +404,16 @@
  KOR_awaits_incident_loyalist_tt: "§Y1936년 8월 25일 · 일장기 말소 사건§!에서 총독부 편에 서거나 침묵해야 이 계열이 열립니다."
  KOR_awaits_incident_resistance_tt: "§Y1936년 8월 25일 · 일장기 말소 사건§!에서 신문을 옹호하거나 침묵해야 이 계열이 열립니다."
  KOR_bandit_cost_tt_blocked: "지휘력 10 필요 (부족)"
+
+ # 중점이 부대를 줄 때 HOI4가 붙이는 자동 툴팁은 주 이름을 두 번 찍고 수를 말하지 않는다.
+ KOR_disarm_governorate_units_tt: "수도에 치안대 4개 사단 편성"
+ KOR_self_defense_corps_units_tt: "수도에 자위대 6개 사단 편성"
+ KOR_standing_divisions_units_tt: "수도에 조선 정규사단 4개 편성"
+ KOR_manchurian_bases_units_tt: "수도에 국경 유격대 3개 사단 편성"
+ CHO_army_volunteer_ordinance_units_tt: "수도에 조선특별지원병 3개 사단 편성"
+ KOR_volunteer_corps_units_tt: "수도에 조선의용대 2개 사단 편성"
+ KPG_restoration_army_units_tt: "수도에 한국광복군 제1지대 편성"
+ KIL_volunteer_army_units_tt: "수도에 조선의용군 3개 사단 편성"
+ KIL_88th_brigade_units_tt: "수도에 제88독립보병여단 3개 사단 편성"
+ YIH_imperial_guard_units_tt: "수도에 황실 근위대 2개 사단 편성"
+ KPR_security_corps_units_tt: "수도에 치안대 4개 사단 편성"
