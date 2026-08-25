@@ -112,3 +112,44 @@ country_event = {
 		add_stability = 0.05
 	}
 }
+
+# ---------------------------------------------------------------------------
+# korea_politics.7 - the dominion falls. CHO_autonomous_assembly promises in
+# red text that this government does not outlive Japan; this is that promise
+# being kept. In August 1945 the thing that actually held the peninsula was
+# the People's Committees, which had been assembling for weeks.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_politics.7
+	title = korea_politics.7.t
+	desc = korea_politics.7.d
+	picture = GFX_report_event_generic_rally
+
+	is_triggered_only = yes
+
+	option = { # hand it to the committees
+		name = korea_politics.7.a
+		ai_chance = { factor = 60 }
+		if = {
+			limit = { has_idea = KOR_imperial_dominion }
+			remove_ideas = KOR_imperial_dominion
+		}
+		add_stability = -0.10
+		add_political_power = -50
+		add_popularity = { ideology = neutrality popularity = 0.15 }
+		set_country_flag = KOR_committees_hold_the_streets
+		custom_effect_tooltip = KOR_dominion_fallen_tt
+	}
+
+	option = { # hold with what is left
+		name = korea_politics.7.b
+		ai_chance = { factor = 40 }
+		add_stability = -0.20
+		add_war_support = 0.05
+		add_ideas = KOR_bayonet_authority
+		if = {
+			limit = { any_owned_state = { is_core_of = ROOT } }
+			every_owned_state = { add_resistance = 25 }
+		}
+	}
+}

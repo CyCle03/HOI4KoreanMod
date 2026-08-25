@@ -75,3 +75,167 @@ country_event = {
 		set_country_flag = KOR_cairo_promise
 	}
 }
+
+# ---------------------------------------------------------------------------
+# korea_triggers.3 - 7 July 1937. A shot at a bridge outside Beijing, and the
+# peninsula stops being a colony and becomes a rear area. Everything built
+# here from now on is built to be shipped out of here.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_triggers.3
+	title = korea_triggers.3.t
+	desc = korea_triggers.3.d
+	picture = GFX_report_event_generic_factory
+
+	is_triggered_only = yes
+
+	option = { # serve the rear
+		name = korea_triggers.3.a
+		trigger = { KOR_on_loyalist_path = yes }
+		ai_chance = { factor = 60 }
+		add_ideas = KOR_rear_base_mobilisation
+		add_stability = 0.05
+		KOR_worsen_leakage = yes
+	}
+
+	option = { # the war is the opening
+		name = korea_triggers.3.b
+		trigger = { KOR_on_resistance_path = yes }
+		ai_chance = { factor = 60 }
+		add_war_support = 0.10
+		add_political_power = -50
+		set_country_flag = KOR_rear_base_contested
+		if = {
+			limit = { any_owned_state = { is_core_of = ROOT } }
+			every_owned_state = { add_resistance = 10 }
+		}
+	}
+
+	option = { # neither
+		name = korea_triggers.3.c
+		ai_chance = { factor = 10 }
+		add_political_power = 25
+		KOR_worsen_leakage = yes
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_triggers.4 - 9 December 1941. The day after Pearl Harbor the
+# Provisional Government in Chongqing declared war on Japan. Nobody was
+# obliged to notice, and the declaration is what makes the notice possible.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_triggers.4
+	title = korea_triggers.4.t
+	desc = korea_triggers.4.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+
+	option = { # the KPG declares war
+		name = korea_triggers.4.a
+		trigger = { has_country_flag = KOR_kpg_path }
+		ai_chance = { factor = 100 }
+		set_variable = { KOR_recognition_delta = 10 }
+		KOR_add_recognition = yes
+		add_war_support = 0.10
+		set_country_flag = KOR_declared_war_on_japan
+	}
+
+	option = { # the empire's war is our war
+		name = korea_triggers.4.b
+		trigger = { has_country_flag = KOR_naisen_ittai_committed }
+		ai_chance = { factor = 100 }
+		add_stability = 0.05
+		add_war_support = 0.10
+		KOR_worsen_leakage = yes
+	}
+
+	option = { # the war is coming here either way
+		name = korea_triggers.4.c
+		ai_chance = { factor = 50 }
+		add_political_power = 50
+		army_experience = 25
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_triggers.5 - October 1942. The Korean Language Society is arrested
+# for compiling a dictionary. The charge is sedition, and on the terms of
+# 1942 the charge is correct: the dictionary assumes there will be someone
+# left to read it.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_triggers.5
+	title = korea_triggers.5.t
+	desc = korea_triggers.5.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = { # hide the manuscript
+		name = korea_triggers.5.a
+		ai_chance = { factor = 60 }
+		add_political_power = -25
+		add_stability = -0.05
+		set_country_flag = KOR_dictionary_hidden
+		if = {
+			limit = { any_owned_state = { is_core_of = ROOT } }
+			every_owned_state = { add_resistance = 10 }
+		}
+	}
+
+	option = { # hand the society over
+		name = korea_triggers.5.b
+		ai_chance = { factor = 40 }
+		add_stability = 0.05
+		add_political_power = 25
+		if = {
+			limit = { any_owned_state = { is_core_of = ROOT } }
+			every_owned_state = { add_compliance = 10 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# korea_triggers.6 - April 1944. Conscription, which the Government-General
+# had put off for thirty years because arming the colony is the one thing a
+# colonial government cannot take back. It is out of choices.
+# ---------------------------------------------------------------------------
+country_event = {
+	id = korea_triggers.6
+	title = korea_triggers.6.t
+	desc = korea_triggers.6.d
+	picture = GFX_report_event_generic_rally
+
+	is_triggered_only = yes
+
+	option = { # fill the quota
+		name = korea_triggers.6.a
+		trigger = { KOR_on_loyalist_path = yes }
+		ai_chance = { factor = 60 }
+		add_ideas = KOR_conscripted_class
+		add_manpower = 25000
+		if = {
+			limit = { any_owned_state = { is_core_of = ROOT } }
+			every_owned_state = { add_resistance = 15 }
+		}
+	}
+
+	option = { # they go to the hills instead
+		name = korea_triggers.6.b
+		trigger = { KOR_on_resistance_path = yes }
+		ai_chance = { factor = 60 }
+		army_experience = 50
+		add_war_support = 0.10
+		add_manpower = -5000
+		set_country_flag = KOR_draft_evaders_armed
+	}
+
+	option = { # let the quota fall where it falls
+		name = korea_triggers.6.c
+		ai_chance = { factor = 10 }
+		add_political_power = -25
+		add_manpower = 10000
+	}
+}

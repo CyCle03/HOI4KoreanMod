@@ -15,11 +15,39 @@ KOR_setup_leakage = {
 	multiply_variable = { KOR_leak_display = -100 }
 }
 
+# The spirit and the modifier that reads the variable have to travel
+# together, and both have to be safe to grant twice: startup hands them out,
+# and the logistics focus asks for them again. add_dynamic_modifier stacks if
+# it is called twice, so the guard is not decoration.
+KOR_ensure_supply_base = {
+	if = {
+		limit = { NOT = { has_idea = KOR_colonial_supply_base } }
+		add_ideas = KOR_colonial_supply_base
+	}
+	if = {
+		limit = { NOT = { has_dynamic_modifier = { modifier = KOR_supply_base_leak } } }
+		add_dynamic_modifier = { modifier = KOR_supply_base_leak }
+	}
+}
+
 KOR_recover_leakage = {
 	add_to_variable = { KOR_leak = 0.05 }
 	clamp_variable = { var = KOR_leak min = -1 max = KOR_leak_floor }
 	set_variable = { KOR_leak_display = KOR_leak }
 	multiply_variable = { KOR_leak_display = -100 }
+}
+
+# The war years push the other way. Same clamp, opposite sign: the floor is a
+# floor on how much you can claw back, not on how much can be taken.
+KOR_worsen_leakage = {
+	# On the empowered rule the leak was set to zero on purpose. Leave it there.
+	if = {
+		limit = { NOT = { KOR_difficulty_empowered = yes } }
+		subtract_from_variable = { KOR_leak = 0.05 }
+		clamp_variable = { var = KOR_leak min = -1 max = KOR_leak_floor }
+		set_variable = { KOR_leak_display = KOR_leak }
+		multiply_variable = { KOR_leak_display = -100 }
+	}
 }
 
 # Every tier-1 industry focus calls this. The gate focus only reads the counter.
@@ -115,6 +143,67 @@ KOR_name_equipment_german = {
 }
 
 # ---------------------------------------------------------------------------
+# The war years. Dated events that happen to the peninsula whichever branch
+# is being played, plus the one event CHO_autonomous_assembly promises in red
+# text. Called from both daily on_actions so it runs on whichever tag is held.
+# ---------------------------------------------------------------------------
+KOR_wartime_events = {
+	if = {
+		limit = {
+			date > "1937.7.6"
+			NOT = { has_country_flag = KOR_rear_base_fired }
+		}
+		set_country_flag = KOR_rear_base_fired
+		country_event = { id = korea_triggers.3 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1941.9.30"
+			NOT = { has_country_flag = KOR_supung_fired }
+		}
+		set_country_flag = KOR_supung_fired
+		country_event = { id = korea_industry.2 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1941.12.8"
+			NOT = { has_country_flag = KOR_declaration_fired }
+		}
+		set_country_flag = KOR_declaration_fired
+		country_event = { id = korea_triggers.4 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1942.9.30"
+			NOT = { has_country_flag = KOR_language_society_fired }
+		}
+		set_country_flag = KOR_language_society_fired
+		country_event = { id = korea_triggers.5 days = 1 }
+	}
+	if = {
+		limit = {
+			date > "1944.3.31"
+			NOT = { has_country_flag = KOR_conscription_fired }
+		}
+		set_country_flag = KOR_conscription_fired
+		country_event = { id = korea_triggers.6 days = 1 }
+	}
+	# The assembly's own tooltip says this government does not outlive Japan.
+	if = {
+		limit = {
+			has_country_flag = CHO_dominion_declared
+			NOT = { has_country_flag = CHO_dominion_fallen }
+			OR = {
+				JAP = { has_capitulated = yes }
+				JAP = { surrender_progress > 0.85 }
+			}
+		}
+		set_country_flag = CHO_dominion_fallen
+		country_event = { id = korea_politics.7 days = 1 }
+	}
+}
+
+# ---------------------------------------------------------------------------
 # Left/right balance. Sum is always 100.
 # ---------------------------------------------------------------------------
 KOR_shift_right = {
@@ -162,6 +251,44 @@ KOR_restore_sovereignty = {
 # the player is actually holding depending on the start-mode game rule.
 # Everything the tree, the decisions and the tooltips read must exist on both.
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# The gauges, once a day. A number the player can move is only a system if
+# something reads it while the game is running; recognition and the left-right
+# scale were being read at decision time and nowhere else. These lines are what
+# the two dynamic modifiers below consume, so the gauges press on the game the
+# way the leak rate already did.
+# ---------------------------------------------------------------------------
+KOR_refresh_gauges = {
+	# Recognition decays if nothing is being done about it. Both tags, so the
+	# governorate cannot bank standing it is not working for.
+	if = {
+		limit = { check_variable = { KOR_recognition > 0 } }
+		subtract_from_variable = { KOR_recognition = 0.02 }
+	}
+
+	# 0-100 standing -> political weight and the war support that comes with
+	# being a government somebody has heard of.
+	set_variable = { KOR_recog_weight = KOR_recognition }
+	divide_variable = { KOR_recog_weight = 400 }
+	set_variable = { KOR_recog_support = KOR_recognition }
+	divide_variable = { KOR_recog_support = 1000 }
+
+	# The scale is two numbers summing to 100, so how far it leans is the
+	# distance from the middle. Leaning buys zeal and costs the united front.
+	set_variable = { KOR_scale_left = 100 }
+	subtract_from_variable = { KOR_scale_left = KOR_scale_right }
+	set_variable = { KOR_scale_gap = KOR_scale_right }
+	subtract_from_variable = { KOR_scale_gap = 50 }
+	if = {
+		limit = { check_variable = { KOR_scale_gap < 0 } }
+		multiply_variable = { KOR_scale_gap = -1 }
+	}
+	set_variable = { KOR_front_cohesion = KOR_scale_gap }
+	divide_variable = { KOR_front_cohesion = -200 }
+	set_variable = { KOR_front_zeal = KOR_scale_gap }
+	divide_variable = { KOR_front_zeal = 500 }
+}
+
 KOR_common_setup = {
 	KOR_setup_leakage = yes
 
@@ -183,6 +310,17 @@ KOR_common_setup = {
 		KOR_officer_shortage_1
 		KOR_colonial_education
 	}
+
+	# The peninsula is a supply base on 1 January 1936, not from whenever the
+	# player happens to take the logistics focus. Until this moved here the
+	# spirit arrived with that focus, so KOR_setup_leakage was computing a
+	# leak rate that nothing read and the industry focuses were clawing back
+	# points off a modifier that was not attached yet.
+	KOR_ensure_supply_base = yes
+
+	KOR_refresh_gauges = yes
+	add_dynamic_modifier = { modifier = KOR_allied_standing }
+	add_dynamic_modifier = { modifier = KOR_united_front_strain }
 
 	KOR_apply_difficulty = yes
 }
